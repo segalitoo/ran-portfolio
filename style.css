@@ -1,0 +1,183 @@
+:root {
+  --color-bg: #FAF8F5;
+  --color-text: #2C2C2C;
+  --color-text-light: #6B6560;
+  --color-accent: #C4896E;
+  --color-divider: #E8E4E0;
+  --font-heading: 'DM Serif Display', serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --spacing-section: 6rem;
+  --max-width: 1100px;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Header --- */
+.header {
+  padding: 5rem 2rem 4rem;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.header__name {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.header__tagline {
+  font-size: 1.125rem;
+  color: var(--color-text-light);
+  margin-top: 0.75rem;
+  font-weight: 400;
+}
+
+/* --- Projects --- */
+.projects {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.project {
+  padding: var(--spacing-section) 0;
+  border-top: 1px solid var(--color-divider);
+}
+
+.project:last-child {
+  padding-bottom: 4rem;
+}
+
+.project__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 400;
+  margin-bottom: 0.75rem;
+}
+
+.project__description {
+  font-size: 1.0625rem;
+  color: var(--color-text-light);
+  max-width: 600px;
+  margin-bottom: 2.5rem;
+}
+
+/* Details grid */
+.project__details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.project__detail h3 {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+}
+
+.project__detail p {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+/* Image strip */
+.project__images {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  scrollbar-width: none;
+  margin: 0 -2rem;
+  padding: 0 2rem;
+}
+
+.project__images::-webkit-scrollbar {
+  display: none;
+}
+
+.project__images-track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+}
+
+.project__images-track img {
+  height: 320px;
+  width: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .header {
+    padding: 3rem 1.5rem 2.5rem;
+  }
+
+  .projects {
+    padding: 0 1.5rem;
+  }
+
+  .project {
+    padding: calc(var(--spacing-section) * 0.6) 0;
+  }
+
+  .project__details {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .project__images {
+    margin: 0 -1.5rem;
+    padding: 0 1.5rem;
+  }
+
+  .project__images-track img {
+    height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 2rem 1.25rem 2rem;
+  }
+
+  .projects {
+    padding: 0 1.25rem;
+  }
+
+  .project__images {
+    margin: 0 -1.25rem;
+    padding: 0 1.25rem;
+  }
+
+  .project__images-track img {
+    height: 200px;
+  }
+}
