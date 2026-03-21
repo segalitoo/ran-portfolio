@@ -4,7 +4,7 @@
   --color-text-light: #6B6560;
   --color-accent: #C4896E;
   --color-divider: #E8E4E0;
-  --font-heading: 'DM Serif Display', serif;
+  --font-heading: 'Source Serif Pro', serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --spacing-section: 6rem;
   --max-width: 1100px;
@@ -29,11 +29,77 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* --- Side Nav --- */
+.sidenav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 180px;
+  padding: 2rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  justify-content: center;
+  z-index: 10;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.sidenav::-webkit-scrollbar {
+  display: none;
+}
+
+.sidenav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.sidenav__item:hover {
+  background-color: var(--color-divider);
+}
+
+.sidenav__item.active {
+  background-color: var(--color-divider);
+}
+
+.sidenav__thumb {
+  width: 100px;
+  height: 68px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.sidenav__label {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.sidenav__item:hover .sidenav__label,
+.sidenav__item.active .sidenav__label {
+  color: var(--color-text);
+}
+
+/* --- Mobile Nav --- */
+.mobilenav {
+  display: none;
+}
+
 /* --- Header --- */
 .header {
   padding: 5rem 2rem 4rem;
   max-width: var(--max-width);
   margin: 0 auto;
+  margin-left: calc(180px + ((100vw - 180px - var(--max-width)) / 2));
 }
 
 .header__name {
@@ -55,6 +121,7 @@ body {
 .projects {
   max-width: var(--max-width);
   margin: 0 auto;
+  margin-left: calc(180px + ((100vw - 180px - var(--max-width)) / 2));
   padding: 0 2rem;
 }
 
@@ -78,6 +145,12 @@ body {
   font-size: 1.0625rem;
   color: var(--color-text-light);
   max-width: 600px;
+  margin-bottom: 0.5rem;
+}
+
+.project__role {
+  font-size: 0.875rem;
+  color: var(--color-text-light);
   margin-bottom: 2.5rem;
 }
 
@@ -90,12 +163,12 @@ body {
 }
 
 .project__detail h3 {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0;
+  color: var(--color-text);
   margin-bottom: 0.5rem;
 }
 
@@ -104,7 +177,42 @@ body {
   line-height: 1.65;
 }
 
+.project__detail ul {
+  list-style: none;
+  padding: 0;
+}
+
+.project__detail ul li {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.project__detail ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+}
+
 /* Image strip */
+.project__images-wrapper {
+  position: relative;
+}
+
+.project__images-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 4rem;
+  background: linear-gradient(to right, transparent, var(--color-bg));
+  pointer-events: none;
+  z-index: 1;
+}
+
 .project__images {
   overflow-x: auto;
   overflow-y: hidden;
@@ -126,15 +234,158 @@ body {
 }
 
 .project__images-track img {
-  height: 320px;
+  height: 420px;
   width: auto;
   border-radius: 8px;
   object-fit: cover;
   user-select: none;
   -webkit-user-drag: none;
+  transition: brightness 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.project__images-track img:hover {
+  filter: brightness(1.05);
+  transform: scale(1.02);
+}
+
+/* --- Lightbox --- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox__img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  transition: opacity 0.2s ease;
+  border-radius: 8px;
+}
+
+.lightbox__close,
+.lightbox__prev,
+.lightbox__next {
+  position: absolute;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 2rem;
+  padding: 0.5rem;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.lightbox__close:hover,
+.lightbox__prev:hover,
+.lightbox__next:hover {
+  opacity: 1;
+}
+
+.lightbox__close {
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.lightbox__prev {
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3rem;
+}
+
+.lightbox__next {
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3rem;
+}
+
+/* --- Footer --- */
+.footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  margin-left: calc(180px + ((100vw - 180px - var(--max-width)) / 2));
+  padding: 3rem 2rem;
+  border-top: 1px solid var(--color-divider);
+}
+
+.footer__text {
+  font-size: 0.8125rem;
+  color: var(--color-text-light);
 }
 
 /* --- Responsive --- */
+@media (max-width: 1024px) {
+  .sidenav {
+    display: none;
+  }
+
+  .mobilenav {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-divider);
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 0.25rem;
+    padding: 0.75rem 1.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobilenav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobilenav__item {
+    flex-shrink: 0;
+    padding: 0.4rem 0.875rem;
+    border-radius: 100px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text-light);
+    text-decoration: none;
+    background: transparent;
+    border: 1px solid var(--color-divider);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .mobilenav__item:hover {
+    border-color: var(--color-text-light);
+  }
+
+  .mobilenav__item.active {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+  }
+
+  .header,
+  .projects,
+  .footer {
+    margin-left: auto;
+  }
+}
+
 @media (max-width: 768px) {
   .header {
     padding: 3rem 1.5rem 2.5rem;
@@ -159,7 +410,7 @@ body {
   }
 
   .project__images-track img {
-    height: 240px;
+    height: 300px;
   }
 }
 
@@ -178,6 +429,6 @@ body {
   }
 
   .project__images-track img {
-    height: 200px;
+    height: 240px;
   }
 }
