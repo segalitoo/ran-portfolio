@@ -6,24 +6,28 @@
    ============================================================ */
 
 :root {
-  --color-bg:         #FFFFFF;
-  --color-text:       #111111;
-  --color-text-mid:   #555555;
+  --color-bg: #FFFFFF;
+  --color-text: #111111;
+  --color-text-mid: #555555;
   --color-text-light: #999999;
-  --color-accent:     #C4896E;
-  --color-ai:         #7C6FA0;
-  --color-rule:       #E2E2E2;
+  --color-accent: #C4896E;
+  --color-ai: #7C6FA0;
+  --color-rule: #E2E2E2;
   --color-rule-heavy: #CCCCCC;
-  --color-nav-bg:     #FFFFFF;
+  --color-nav-bg: #FFFFFF;
 
   --font-heading: 'DM Serif Display', Georgia, serif;
-  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 
   /* Type scale */
-  --text-xs:   0.6875rem;  /* 11px */
-  --text-sm:   0.8125rem;  /* 13px */
-  --text-base: 0.9375rem;  /* 15px */
-  --text-md:   1.0625rem;  /* 17px */
+  --text-xs: 0.6875rem;
+  /* 11px */
+  --text-sm: 0.8125rem;
+  /* 13px */
+  --text-base: 0.9375rem;
+  /* 15px */
+  --text-md: 1.0625rem;
+  /* 17px */
 
   /* Spacing */
   --spacing-section: 7rem;
@@ -32,7 +36,9 @@
 }
 
 /* ---- Reset ---- */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -50,6 +56,26 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   PEAR LOTTIE ANIMATION - decorative top-right corner
+   ============================================================ */
+.pear-animation {
+  position: fixed;
+  top: 0;
+  right: 15px;
+  width: 80px;
+  height: 300px;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.45;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.pear-animation:hover {
+  opacity: 0.8;
 }
 
 /* ============================================================
@@ -90,7 +116,8 @@ body {
   position: relative;
   /* Active indicator: 2px left bar */
   border-left: 2px solid transparent;
-  margin-left: -1px; /* overlap the container border */
+  margin-left: -1px;
+  /* overlap the container border */
   transition: border-color 0.15s ease;
 }
 
@@ -142,10 +169,21 @@ body {
 }
 
 /* AI nav items - purple active state */
-.sidenav__item--ai:hover { border-left-color: rgba(124, 111, 160, 0.4); }
-.sidenav__item--ai.active { border-left-color: var(--color-ai); }
-.sidenav__item--ai.active .sidenav__label { color: var(--color-ai); }
-.sidenav__item--ai.active::before { color: var(--color-ai); }
+.sidenav__item--ai:hover {
+  border-left-color: rgba(124, 111, 160, 0.4);
+}
+
+.sidenav__item--ai.active {
+  border-left-color: var(--color-ai);
+}
+
+.sidenav__item--ai.active .sidenav__label {
+  color: var(--color-ai);
+}
+
+.sidenav__item--ai.active::before {
+  color: var(--color-ai);
+}
 
 /* Section label inside sidenav */
 .sidenav__section {
@@ -343,10 +381,12 @@ body {
 .project__gallery img {
   width: 100%;
   aspect-ratio: 16 / 9;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
+  background: #F4F4F4;
   display: block;
-  border-radius: 0; /* Flat - no softening */
+  border-radius: 0;
+  /* Flat - no softening */
   cursor: pointer;
   /* No transform on hover - editorial, not interactive toy */
   transition: opacity 0.2s ease;
@@ -516,6 +556,10 @@ body {
    ============================================================ */
 @media (max-width: 1024px) {
   .sidenav {
+    display: none;
+  }
+
+  .pear-animation {
     display: none;
   }
 
