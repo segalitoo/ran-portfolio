@@ -380,10 +380,7 @@ body {
 
 .project__gallery img {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: contain;
-  object-position: center;
-  background: #F4F4F4;
+  height: auto;
   display: block;
   border-radius: 0;
   /* Flat - no softening */
