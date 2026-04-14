@@ -61,22 +61,6 @@ body {
 /* ============================================================
    PEAR LOTTIE ANIMATION - decorative top-right corner
    ============================================================ */
-.pear-animation {
-  position: fixed;
-  top: 0;
-  right: 15px;
-  width: 80px;
-  height: 300px;
-  z-index: 10;
-  pointer-events: none;
-  opacity: 0.45;
-  overflow: hidden;
-  transition: opacity 0.3s ease;
-}
-
-.pear-animation:hover {
-  opacity: 0.8;
-}
 
 /* ============================================================
    SIDE NAV - text-only, architectural, numbered
@@ -556,9 +540,6 @@ body {
     display: none;
   }
 
-  .pear-animation {
-    display: none;
-  }
 
   .mobilenav {
     display: flex;
