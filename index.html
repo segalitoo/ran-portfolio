@@ -556,6 +556,45 @@
       if (e.key === 'ArrowLeft') showPrev();
       if (e.key === 'ArrowRight') showNext();
     });
+
+    // ── GA4 Click Tracking ──────────────────────────────
+    // Side nav clicks
+    document.querySelectorAll('.sidenav__item').forEach(item => {
+      item.addEventListener('click', () => {
+        const label = item.querySelector('.sidenav__label')?.textContent.trim() || item.getAttribute('href');
+        gtag('event', 'nav_click', {
+          event_category: 'navigation',
+          event_label: label,
+          nav_type: 'sidenav'
+        });
+      });
+    });
+
+    // Mobile nav clicks
+    document.querySelectorAll('.mobilenav__item').forEach(item => {
+      item.addEventListener('click', () => {
+        const label = item.textContent.trim();
+        gtag('event', 'nav_click', {
+          event_category: 'navigation',
+          event_label: label,
+          nav_type: 'mobilenav'
+        });
+      });
+    });
+
+    // "Visit project" and "Case Study" CTA clicks
+    document.querySelectorAll('.project__cta').forEach(cta => {
+      cta.addEventListener('click', () => {
+        const project = cta.closest('.project');
+        const projectName = project?.querySelector('.project__title')?.textContent.trim() || 'unknown';
+        const buttonText = cta.textContent.trim();
+        gtag('event', 'cta_click', {
+          event_category: 'engagement',
+          event_label: `${buttonText} – ${projectName}`,
+          link_url: cta.href
+        });
+      });
+    });
   </script>
 
 </body>
