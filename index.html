@@ -586,14 +586,30 @@
     });
 
     // ── GA4 Click Tracking ──────────────────────────────
+
+    // Helper: immediately set active on nav items on click (don't wait for scroll observer)
+    function setNavActive(href) {
+      sidenavItems.forEach(item => item.classList.remove('active'));
+      mobilenavItems.forEach(item => item.classList.remove('active'));
+      const activeSide = document.querySelector(`.sidenav__item[href="${href}"]`);
+      if (activeSide) activeSide.classList.add('active');
+      const activeMobile = document.querySelector(`.mobilenav__item[href="${href}"]`);
+      if (activeMobile) {
+        activeMobile.classList.add('active');
+        activeMobile.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    }
+
     // Side nav clicks
     document.querySelectorAll('.sidenav__item').forEach(item => {
       item.addEventListener('click', () => {
-        const label = item.querySelector('.sidenav__label')?.textContent.trim() || item.getAttribute('href');
+        setNavActive(item.getAttribute('href'));
+        const project_name = item.querySelector('.sidenav__label')?.textContent.trim() || item.getAttribute('href');
+        const project_type = item.classList.contains('sidenav__item--ai') ? 'ai' : 'design';
         gtag('event', 'nav_click', {
-          event_category: 'navigation',
-          event_label: label,
-          nav_type: 'sidenav'
+          project_name,
+          project_type,
+          nav_surface: 'sidenav'
         });
       });
     });
@@ -601,11 +617,16 @@
     // Mobile nav clicks
     document.querySelectorAll('.mobilenav__item').forEach(item => {
       item.addEventListener('click', () => {
-        const label = item.textContent.trim();
+        setNavActive(item.getAttribute('href'));
+        const href = item.getAttribute('href');
+        const project_name = item.textContent.trim();
+        // Determine type by checking if the matching sidenav item has --ai class
+        const matchingSide = document.querySelector(`.sidenav__item[href="${href}"]`);
+        const project_type = matchingSide?.classList.contains('sidenav__item--ai') ? 'ai' : 'design';
         gtag('event', 'nav_click', {
-          event_category: 'navigation',
-          event_label: label,
-          nav_type: 'mobilenav'
+          project_name,
+          project_type,
+          nav_surface: 'mobilenav'
         });
       });
     });
@@ -623,6 +644,76 @@
         });
       });
     });
+
+    // ── High-Value Analytics ──────────────────────────────
+
+    // 1. Time on each project
+    const projectTimers = {};
+    const projectTimeObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const id = entry.target.id;
+        if (entry.isIntersecting) {
+          projectTimers[id] = Date.now();
+        } else if (projectTimers[id]) {
+          const seconds = Math.round((Date.now() - projectTimers[id]) / 1000);
+          if (seconds >= 3) {
+            const projectName = entry.target.querySelector('.project__title')?.textContent.trim() || id;
+            gtag('event', 'project_time_spent', {
+              event_category: 'engagement',
+              project_name: projectName,
+              seconds_spent: seconds
+            });
+          }
+          delete projectTimers[id];
+        }
+      });
+    }, { threshold: 0.3 });
+
+    projects.forEach(p => projectTimeObserver.observe(p));
+
+    // Flush timers on page unload
+    window.addEventListener('pagehide', () => {
+      Object.entries(projectTimers).forEach(([id, startTime]) => {
+        const seconds = Math.round((Date.now() - startTime) / 1000);
+        if (seconds >= 3) {
+          const el = document.getElementById(id);
+          const projectName = el?.querySelector('.project__title')?.textContent.trim() || id;
+          gtag('event', 'project_time_spent', {
+            event_category: 'engagement',
+            project_name: projectName,
+            seconds_spent: seconds
+          });
+        }
+      });
+    });
+
+    // 2. Lightbox opens — project name + image index
+    document.querySelectorAll('.project__gallery img').forEach(img => {
+      img.addEventListener('click', () => {
+        const projectName = img.closest('.project')?.querySelector('.project__title')?.textContent.trim() || 'unknown';
+        const galleryImgs = Array.from(img.closest('.project__gallery').querySelectorAll('img'));
+        const imageIndex = galleryImgs.indexOf(img) + 1;
+        gtag('event', 'lightbox_open', {
+          event_category: 'engagement',
+          project_name: projectName,
+          image_index: imageIndex
+        });
+      });
+    });
+
+    // 3. AI section viewed (fires once)
+    const aiDivider = document.querySelector('.section-divider');
+    if (aiDivider) {
+      const aiObserver = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          gtag('event', 'ai_section_viewed', {
+            event_category: 'engagement'
+          });
+          aiObserver.disconnect();
+        }
+      }, { threshold: 0.5 });
+      aiObserver.observe(aiDivider);
+    }
   </script>
 
 </body>

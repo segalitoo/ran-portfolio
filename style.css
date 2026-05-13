@@ -98,19 +98,21 @@ body {
   padding: 0.65rem 1.5rem 0.65rem 1.75rem;
   text-decoration: none;
   position: relative;
-  /* Active indicator: 2px left bar */
-  border-left: 2px solid transparent;
+  /* Active indicator: 3px left bar */
+  border-left: 3px solid transparent;
   margin-left: -1px;
   /* overlap the container border */
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s ease, background 0.15s ease;
 }
 
 .sidenav__item:hover {
   border-left-color: var(--color-rule-heavy);
+  background: rgba(0, 0, 0, 0.03);
 }
 
 .sidenav__item.active {
   border-left-color: var(--color-text);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 /* Counter numbers - each item gets its number via data-index or CSS counters */
@@ -144,25 +146,32 @@ body {
   color: var(--color-text-light);
   letter-spacing: 0.01em;
   line-height: 1.3;
-  transition: color 0.15s ease;
+  transition: color 0.15s ease, font-weight 0.15s ease;
 }
 
-.sidenav__item:hover .sidenav__label,
+.sidenav__item:hover .sidenav__label {
+  color: var(--color-text);
+}
+
 .sidenav__item.active .sidenav__label {
   color: var(--color-text);
+  font-weight: 700;
 }
 
 /* AI nav items - purple active state */
 .sidenav__item--ai:hover {
   border-left-color: rgba(124, 111, 160, 0.4);
+  background: rgba(124, 111, 160, 0.04);
 }
 
 .sidenav__item--ai.active {
   border-left-color: var(--color-ai);
+  background: rgba(124, 111, 160, 0.07);
 }
 
 .sidenav__item--ai.active .sidenav__label {
   color: var(--color-ai);
+  font-weight: 700;
 }
 
 .sidenav__item--ai.active::before {
@@ -589,7 +598,9 @@ body {
 
   .mobilenav__item.active {
     color: var(--color-text);
+    font-weight: 700;
     border-bottom-color: var(--color-text);
+    border-bottom-width: 3px;
   }
 
   /* Reset main content margins to full-width auto */
