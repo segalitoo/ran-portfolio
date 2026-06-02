@@ -638,7 +638,6 @@
         const projectName = project?.querySelector('.project__title')?.textContent.trim() || 'unknown';
         const buttonText = cta.textContent.trim();
         gtag('event', 'cta_click', {
-          event_category: 'engagement',
           event_label: `${buttonText} – ${projectName}`,
           link_url: cta.href
         });
@@ -659,7 +658,6 @@
           if (seconds >= 3) {
             const projectName = entry.target.querySelector('.project__title')?.textContent.trim() || id;
             gtag('event', 'project_time_spent', {
-              event_category: 'engagement',
               project_name: projectName,
               seconds_spent: seconds
             });
@@ -679,7 +677,6 @@
           const el = document.getElementById(id);
           const projectName = el?.querySelector('.project__title')?.textContent.trim() || id;
           gtag('event', 'project_time_spent', {
-            event_category: 'engagement',
             project_name: projectName,
             seconds_spent: seconds
           });
@@ -694,7 +691,6 @@
         const galleryImgs = Array.from(img.closest('.project__gallery').querySelectorAll('img'));
         const imageIndex = galleryImgs.indexOf(img) + 1;
         gtag('event', 'lightbox_open', {
-          event_category: 'engagement',
           project_name: projectName,
           image_index: imageIndex
         });
