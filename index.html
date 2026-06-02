@@ -603,8 +603,10 @@
     // Side nav clicks
     document.querySelectorAll('.sidenav__item').forEach(item => {
       item.addEventListener('click', () => {
-        setNavActive(item.getAttribute('href'));
-        const project_name = item.querySelector('.sidenav__label')?.textContent.trim() || item.getAttribute('href')?.replace('#', '') || 'unknown';
+        const href = item.getAttribute('href');
+        setNavActive(href);
+        const projectEl = document.querySelector(href);
+        const project_name = projectEl?.querySelector('.project__title')?.textContent.trim() || item.querySelector('.sidenav__label')?.textContent.trim() || href?.replace('#', '') || 'unknown';
         const project_type = item.classList.contains('sidenav__item--ai') ? 'ai' : 'design';
         gtag('event', 'nav_click', {
           project_name,
@@ -617,10 +619,10 @@
     // Mobile nav clicks
     document.querySelectorAll('.mobilenav__item').forEach(item => {
       item.addEventListener('click', () => {
-        setNavActive(item.getAttribute('href'));
         const href = item.getAttribute('href');
-        const project_name = item.textContent.trim();
-        // Determine type by checking if the matching sidenav item has --ai class
+        setNavActive(href);
+        const projectEl = document.querySelector(href);
+        const project_name = projectEl?.querySelector('.project__title')?.textContent.trim() || item.textContent.trim();
         const matchingSide = document.querySelector(`.sidenav__item[href="${href}"]`);
         const project_type = matchingSide?.classList.contains('sidenav__item--ai') ? 'ai' : 'design';
         gtag('event', 'nav_click', {
@@ -679,7 +681,8 @@
           const projectName = el?.querySelector('.project__title')?.textContent.trim() || id;
           gtag('event', 'project_time_spent', {
             project_name: projectName,
-            seconds_spent: seconds
+            seconds_spent: seconds,
+            transport_type: 'beacon'
           });
         }
       });
