@@ -604,7 +604,7 @@
     document.querySelectorAll('.sidenav__item').forEach(item => {
       item.addEventListener('click', () => {
         setNavActive(item.getAttribute('href'));
-        const project_name = item.querySelector('.sidenav__label')?.textContent.trim() || item.getAttribute('href');
+        const project_name = item.querySelector('.sidenav__label')?.textContent.trim() || item.getAttribute('href')?.replace('#', '') || 'unknown';
         const project_type = item.classList.contains('sidenav__item--ai') ? 'ai' : 'design';
         gtag('event', 'nav_click', {
           project_name,
@@ -638,7 +638,8 @@
         const projectName = project?.querySelector('.project__title')?.textContent.trim() || 'unknown';
         const buttonText = cta.textContent.trim();
         gtag('event', 'cta_click', {
-          event_label: `${buttonText} – ${projectName}`,
+          project_name: projectName,
+          button_text: buttonText,
           link_url: cta.href
         });
       });
