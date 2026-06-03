@@ -539,6 +539,86 @@
 
     projects.forEach(project => observer.observe(project));
 
+    // ── Project galleries → Split Edge carousel ──────────
+    const PG_PREV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+    const PG_NEXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+
+    document.querySelectorAll('.project__gallery').forEach(gallery => {
+      const imgs = Array.from(gallery.querySelectorAll('img'));
+      if (imgs.length < 2) return;
+
+      const viewport = document.createElement('div');
+      viewport.className = 'pgal__viewport';
+      const track = document.createElement('div');
+      track.className = 'pgal__track';
+      imgs.forEach(img => track.appendChild(img));
+      viewport.appendChild(track);
+
+      const prev = document.createElement('button');
+      prev.className = 'pgal__arrow pgal__arrow--prev';
+      prev.setAttribute('aria-label', 'Previous image');
+      prev.innerHTML = PG_PREV;
+
+      const next = document.createElement('button');
+      next.className = 'pgal__arrow pgal__arrow--next';
+      next.setAttribute('aria-label', 'Next image');
+      next.innerHTML = PG_NEXT;
+
+      const dots = document.createElement('div');
+      dots.className = 'pgal__dots';
+      imgs.forEach((_, i) => {
+        const d = document.createElement('span');
+        d.className = 'pgal__dot' + (i === 0 ? ' is-active' : '');
+        dots.appendChild(d);
+      });
+      const dotEls = Array.from(dots.children);
+
+      gallery.append(viewport, prev, next, dots);
+
+      let index = 0;
+      const total = imgs.length;
+      const DUR = 5000;
+      let timer = null, inView = false, hovering = false;
+
+      function setHeight() {
+        const h = imgs[index].clientHeight;
+        if (h) viewport.style.height = h + 'px';
+      }
+
+      function render() {
+        track.style.transform = `translateX(-${index * 100}%)`;
+        dotEls.forEach((d, i) => d.classList.toggle('is-active', i === index));
+        setHeight();
+      }
+
+      function go(i) { index = (i + total) % total; render(); }
+
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      function play() {
+        stop();
+        if (inView && !hovering) timer = setInterval(() => go(index + 1), DUR);
+      }
+
+      prev.addEventListener('click', () => { go(index - 1); play(); });
+      next.addEventListener('click', () => { go(index + 1); play(); });
+      dotEls.forEach((d, i) => d.addEventListener('click', () => { go(i); play(); }));
+
+      gallery.addEventListener('mouseenter', () => { hovering = true; stop(); });
+      gallery.addEventListener('mouseleave', () => { hovering = false; play(); });
+
+      const io = new IntersectionObserver(entries => {
+        inView = entries[0].isIntersecting;
+        play();
+      }, { threshold: 0.4 });
+      io.observe(gallery);
+
+      imgs.forEach(img => img.addEventListener('load', () => { if (imgs[index] === img) setHeight(); }));
+      window.addEventListener('resize', setHeight);
+
+      render();
+      if (imgs[index].complete) setHeight();
+    });
+
     // Lightbox
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -688,7 +768,7 @@
       });
     });
 
-    // 2. Lightbox opens — project name + image index
+    // 2. Lightbox opens - project name + image index
     document.querySelectorAll('.project__gallery img').forEach(img => {
       img.addEventListener('click', () => {
         const projectName = img.closest('.project')?.querySelector('.project__title')?.textContent.trim() || 'unknown';

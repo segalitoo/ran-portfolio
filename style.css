@@ -362,28 +362,109 @@ body {
 }
 
 /* ============================================================
-   GALLERY - 2x2 flat grid, no radius, editorial
+   GALLERY - Split Edge carousel (auto-advance, glass arrows)
    ============================================================ */
 .project__gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  /* Subtle left offset to visually align with body text */
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f0ece7;
+  box-shadow: 0 2px 8px rgba(44, 40, 36, 0.06), 0 18px 44px rgba(44, 40, 36, 0.12);
+}
+
+.pgal__viewport {
+  overflow: hidden;
+  transition: height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pgal__track {
+  display: flex;
+  align-items: flex-start;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .project__gallery img {
+  flex: 0 0 100%;
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 0;
-  /* Flat - no softening */
-  cursor: pointer;
-  /* No transform on hover - editorial, not interactive toy */
-  transition: opacity 0.2s ease;
+  cursor: zoom-in;
 }
 
-.project__gallery img:hover {
-  opacity: 0.88;
+/* Glass arrow buttons hugging the sides */
+.pgal__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(28, 25, 22, 0.42);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+  transition: background 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, opacity 0.25s ease;
+  z-index: 2;
+}
+
+.pgal__arrow:hover {
+  background: rgba(28, 25, 22, 0.62);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-50%) scale(1.07);
+}
+
+.pgal__arrow:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.pgal__arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+.pgal__arrow--prev {
+  left: 1rem;
+}
+
+.pgal__arrow--next {
+  right: 1rem;
+}
+
+/* Centered pill dots */
+.pgal__dots {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(20, 18, 16, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.45rem 0.7rem;
+  border-radius: 100px;
+  z-index: 2;
+}
+
+.pgal__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.5);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+  cursor: pointer;
+}
+
+.pgal__dot.is-active {
+  width: 20px;
+  background: #fff;
 }
 
 /* Placeholder for projects without images */
@@ -644,9 +725,17 @@ body {
     border-left: none;
   }
 
-  .project__gallery {
-    grid-template-columns: 1fr;
-    gap: 3px;
+  .pgal__arrow {
+    width: 38px;
+    height: 38px;
+  }
+
+  .pgal__arrow--prev {
+    left: 0.6rem;
+  }
+
+  .pgal__arrow--next {
+    right: 0.6rem;
   }
 
   .footer {

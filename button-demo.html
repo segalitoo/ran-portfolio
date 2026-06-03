@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control Bar - 4 options</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FAF8F5;
+      --text: #2C2C2C;
+      --text-mid: #6B6560;
+      --accent: #C4896E;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --font-heading: 'Source Serif Pro', serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap { max-width: 760px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .sub { color: var(--text-mid); margin-bottom: 3rem; }
+
+    .demo { margin-bottom: 3.5rem; }
+
+    .demo__label {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .demo__num { font-family: var(--font-heading); font-weight: 600; color: var(--accent); }
+    .demo__name { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; }
+    .demo__note { color: var(--text-mid); font-size: 0.88rem; margin-left: auto; }
+
+    .stage {
+      position: relative;
+      height: 300px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #2f3324;
+    }
+
+    .stage img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.5s var(--ease);
+    }
+
+    .stage img.on { opacity: 1; }
+
+    .ico { width: 16px; height: 16px; }
+    button { font-family: inherit; cursor: pointer; border: none; }
+
+    /* ========== 1 · UNIFIED CAPSULE (frosted light) ========== */
+    .c1 {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(14px);
+      border-radius: 100px;
+      padding: 0.4rem 0.55rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.16);
+      z-index: 2;
+    }
+
+    .c1 button {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text);
+      transition: background 0.2s var(--ease);
+    }
+
+    .c1 button:hover { background: rgba(0, 0, 0, 0.07); }
+
+    .c1 .dots { display: flex; align-items: center; gap: 0.35rem; padding: 0 0.3rem; }
+
+    .c1 .dot {
+      width: 6px; height: 6px; border-radius: 100px;
+      background: rgba(44, 44, 44, 0.25);
+      transition: width 0.4s var(--ease-out), background 0.3s var(--ease);
+      cursor: pointer;
+    }
+
+    .c1 .dot.on { width: 20px; background: var(--accent); }
+
+    /* ========== 2 · GHOST MINIMAL (dark glass, no chrome) ========== */
+    .c2 {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      z-index: 2;
+    }
+
+    .c2 button {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(20, 18, 16, 0.4);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+    }
+
+    .c2 button:hover { background: rgba(20, 18, 16, 0.65); transform: scale(1.06); }
+
+    .c2 .dots { display: flex; align-items: center; gap: 0.4rem; }
+
+    .c2 .dot {
+      width: 7px; height: 7px; border-radius: 100px;
+      background: rgba(255, 255, 255, 0.45);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+      transition: width 0.4s var(--ease-out), background 0.3s var(--ease);
+      cursor: pointer;
+    }
+
+    .c2 .dot.on { width: 22px; background: #fff; }
+
+    /* ========== 3 · SEGMENTED TRACK (dots become a progress rail) ========== */
+    .c3 {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      background: rgba(20, 18, 16, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 100px;
+      padding: 0.45rem 0.75rem;
+      z-index: 2;
+    }
+
+    .c3 button {
+      width: 26px; height: 26px;
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255, 255, 255, 0.85);
+      transition: color 0.2s var(--ease);
+    }
+
+    .c3 button:hover { color: #fff; }
+
+    .c3 .track { display: flex; align-items: center; gap: 5px; }
+
+    .c3 .seg {
+      width: 18px; height: 3px; border-radius: 100px;
+      background: rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .c3 .seg i {
+      display: block; height: 100%; width: 0;
+      background: var(--accent);
+      transition: width 0.3s var(--ease);
+    }
+
+    .c3 .seg.done i { width: 100%; }
+    .c3 .seg.on i { width: 100%; }
+
+    /* ========== 4 · SPLIT EDGE (arrows on sides, pill centered) ========== */
+    .c4-side {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(16px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+      transition: background 0.25s var(--ease), transform 0.25s var(--ease-out), border-color 0.25s var(--ease);
+      z-index: 2;
+    }
+
+    .c4-side:hover {
+      background: rgba(255, 255, 255, 0.28);
+      border-color: rgba(255, 255, 255, 0.55);
+      transform: translateY(-50%) scale(1.07);
+    }
+
+    .c4-side:active { transform: translateY(-50%) scale(0.96); }
+    .c4-side .ico { width: 18px; height: 18px; }
+    .c4-prev { left: 1.1rem; }
+    .c4-next { right: 1.1rem; }
+
+    .c4-dots {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(20, 18, 16, 0.45);
+      backdrop-filter: blur(10px);
+      padding: 0.45rem 0.7rem;
+      border-radius: 100px;
+      z-index: 2;
+    }
+
+    .c4-dots .dot {
+      width: 6px; height: 6px; border-radius: 100px;
+      background: rgba(255, 255, 255, 0.5);
+      transition: width 0.4s var(--ease-out), background 0.3s var(--ease);
+      cursor: pointer;
+    }
+
+    .c4-dots .dot.on { width: 20px; background: #fff; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>Control bar, four ways</h1>
+    <p class="sub">Refined treatments of the prev / pill / next cluster. All live - click to try.</p>
+
+    <!-- 1 -->
+    <div class="demo">
+      <div class="demo__label">
+        <span class="demo__num">01</span>
+        <span class="demo__name">Unified Capsule</span>
+        <span class="demo__note">everything inside one frosted-light pill</span>
+      </div>
+      <div class="stage" data-stage>
+        <img src="images/zeph_1.png" class="on" alt=""><img src="images/zeph_2.png" alt=""><img src="images/zeph_3.png" alt=""><img src="images/zeph_4.png" alt="">
+        <div class="c1">
+          <button data-prev aria-label="Previous"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <div class="dots" data-dots><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <button data-next aria-label="Next"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="demo">
+      <div class="demo__label">
+        <span class="demo__num">02</span>
+        <span class="demo__name">Ghost Minimal</span>
+        <span class="demo__note">dark glass buttons, no container</span>
+      </div>
+      <div class="stage" data-stage>
+        <img src="images/zeph_1.png" class="on" alt=""><img src="images/zeph_2.png" alt=""><img src="images/zeph_3.png" alt=""><img src="images/zeph_4.png" alt="">
+        <div class="c2">
+          <button data-prev aria-label="Previous"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <div class="dots" data-dots><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <button data-next aria-label="Next"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="demo">
+      <div class="demo__label">
+        <span class="demo__num">03</span>
+        <span class="demo__name">Segmented Track</span>
+        <span class="demo__note">dots become a progress rail</span>
+      </div>
+      <div class="stage" data-stage>
+        <img src="images/zeph_1.png" class="on" alt=""><img src="images/zeph_2.png" alt=""><img src="images/zeph_3.png" alt=""><img src="images/zeph_4.png" alt="">
+        <div class="c3">
+          <button data-prev aria-label="Previous"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <div class="track" data-segs><span class="seg on"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span></div>
+          <button data-next aria-label="Next"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="demo">
+      <div class="demo__label">
+        <span class="demo__num">04</span>
+        <span class="demo__name">Split Edge</span>
+        <span class="demo__note">arrows hug the sides, pill floats center</span>
+      </div>
+      <div class="stage" data-stage>
+        <img src="images/zeph_1.png" class="on" alt=""><img src="images/zeph_2.png" alt=""><img src="images/zeph_3.png" alt=""><img src="images/zeph_4.png" alt="">
+        <button class="c4-side c4-prev" data-prev aria-label="Previous"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <button class="c4-side c4-next" data-next aria-label="Next"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        <div class="c4-dots" data-dots><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('[data-stage]').forEach(stage => {
+      const imgs = stage.querySelectorAll('img');
+      const dots = stage.querySelectorAll('[data-dots] .dot');
+      const segs = stage.querySelectorAll('[data-segs] .seg');
+      const total = imgs.length;
+      let index = 0, elapsed = 0, last = performance.now();
+      const DUR = 4500;
+
+      function render() {
+        imgs.forEach((im, i) => im.classList.toggle('on', i === index));
+        dots.forEach((d, i) => d.classList.toggle('on', i === index));
+        segs.forEach((s, i) => {
+          s.classList.toggle('done', i < index);
+          s.classList.toggle('on', i === index);
+          if (i !== index) s.querySelector('i').style.width = i < index ? '100%' : '0%';
+        });
+      }
+
+      function go(i) { index = (i + total) % total; elapsed = 0; render(); }
+
+      stage.querySelector('[data-prev]').addEventListener('click', () => { go(index - 1); last = performance.now(); });
+      stage.querySelector('[data-next]').addEventListener('click', () => { go(index + 1); last = performance.now(); });
+      dots.forEach((d, i) => d.addEventListener('click', () => { go(i); last = performance.now(); }));
+      segs.forEach((s, i) => s.addEventListener('click', () => { go(i); last = performance.now(); }));
+
+      render();
+
+      function tick(now) {
+        const dt = now - last; last = now; elapsed += dt;
+        if (segs[index]) segs[index].querySelector('i').style.width = Math.min(elapsed / DUR, 1) * 100 + '%';
+        if (elapsed >= DUR) go(index + 1);
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  </script>
+</body>
+
+</html>

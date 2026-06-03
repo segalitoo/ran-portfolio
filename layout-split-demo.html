@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout · Split Spread - ran-portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="layout-shared.css">
+  <style>
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; align-items: baseline; gap: 1rem;
+      padding: 1.25rem 2.5rem;
+      background: rgba(250, 248, 245, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .topbar h1 { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; }
+    .topbar span { color: var(--text-light); font-size: 0.85rem; }
+    .topbar em { margin-left: auto; font-style: normal; color: var(--accent); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; }
+
+    .hero { padding: 6rem 2.5rem 4rem; max-width: 1200px; margin: 0 auto; }
+    .hero h2 { font-family: var(--font-heading); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
+    .hero p { color: var(--text-mid); font-size: 1.2rem; margin-top: 1rem; max-width: 30rem; }
+
+    .spreads { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem 6rem; }
+
+    .spread {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 3.5rem;
+      align-items: start;
+      padding: 4.5rem 0;
+      border-top: 1px solid var(--rule);
+    }
+    .spread:nth-child(even) .spread__text { order: 2; }
+    .spread:nth-child(even) .spread__media { order: 1; }
+
+    .spread__text { position: sticky; top: 6rem; }
+    .spread__num {
+      font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;
+      color: var(--accent); letter-spacing: 0.05em;
+    }
+    .spread.is-ai .spread__num { color: var(--ai); }
+    .spread__title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 600;
+      letter-spacing: -0.02em; line-height: 1.1; margin: 0.75rem 0 0.875rem;
+    }
+    .spread__desc { color: var(--text-mid); font-size: 1.05rem; line-height: 1.6; }
+    .spread__role {
+      font-size: 0.78rem; color: var(--text-light); text-transform: uppercase;
+      letter-spacing: 0.06em; font-weight: 500; margin-top: 1rem;
+    }
+    .spread__facts { margin-top: 1.75rem; display: grid; gap: 1.1rem; }
+    .spread__fact h4 {
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-light); font-weight: 600; margin-bottom: 0.3rem;
+    }
+    .spread__fact p { font-size: 0.92rem; color: var(--text-mid); line-height: 1.55; }
+    .spread__results { margin-top: 1.5rem; display: grid; gap: 0.4rem; }
+    .spread__results li {
+      list-style: none; font-size: 0.9rem; color: var(--text-mid);
+      padding-left: 1.1rem; position: relative;
+    }
+    .spread__results li::before { content: '-'; position: absolute; left: 0; color: var(--accent); }
+    .spread.is-ai .spread__results li::before { color: var(--ai); }
+    .spread__cta {
+      display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.5rem;
+      font-size: 0.9rem; font-weight: 600; color: var(--ai); text-decoration: none;
+      border-bottom: 1px solid currentColor; padding-bottom: 2px;
+    }
+
+    @media (max-width: 860px) {
+      .spread { grid-template-columns: 1fr; gap: 1.75rem; }
+      .spread:nth-child(even) .spread__text { order: 1; }
+      .spread:nth-child(even) .spread__media { order: 2; }
+      .spread__text { position: static; }
+      .hero { padding: 4rem 1.5rem 2.5rem; }
+      .spreads { padding: 0 1.5rem 4rem; }
+      .topbar { padding: 1rem 1.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <h1>Ran Segal</h1>
+    <span>Designing experiences that feel right.</span>
+    <em>LAYOUT 1 · SPLIT SPREAD</em>
+  </div>
+
+  <section class="hero">
+    <h2>Selected work,<br>2022-2025.</h2>
+    <p>Design systems, brand platforms, and a handful of AI side projects.</p>
+  </section>
+
+  <main class="spreads" id="spreads"></main>
+
+  <script src="layout-data.js"></script>
+  <script>
+    const root = document.getElementById('spreads');
+    PROJECTS.forEach(p => {
+      const sec = document.createElement('section');
+      sec.className = 'spread' + (p.ai ? ' is-ai' : '');
+
+      const text = document.createElement('div');
+      text.className = 'spread__text';
+      let facts = '';
+      if (!p.ai) {
+        facts = `
+          <div class="spread__facts">
+            <div class="spread__fact"><h4>Overview</h4><p>${p.overview}</p></div>
+            <div class="spread__fact"><h4>Challenge</h4><p>${p.challenge}</p></div>
+            <div class="spread__fact"><h4>Solution</h4><p>${p.solution}</p></div>
+          </div>
+          <ul class="spread__results">${p.results.map(r => `<li>${r}</li>`).join('')}</ul>`;
+      } else {
+        facts = `<a class="spread__cta" href="${p.cta}" target="_blank" rel="noopener">Visit project →</a>`;
+      }
+      text.innerHTML = `
+        <div class="spread__num">${p.num}${p.ai ? ' · AI' : ''}</div>
+        <h3 class="spread__title">${p.title}</h3>
+        <p class="spread__desc">${p.desc}</p>
+        <p class="spread__role">${p.role}</p>
+        ${facts}`;
+
+      const media = document.createElement('div');
+      media.className = 'spread__media';
+      const gal = buildGallery(p.images);
+      media.appendChild(gal);
+
+      sec.append(text, media);
+      root.appendChild(sec);
+      initGallery(gal);
+    });
+  </script>
+</body>
+
+</html>
