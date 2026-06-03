@@ -786,9 +786,7 @@
     if (aiDivider) {
       const aiObserver = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
-          gtag('event', 'ai_section_viewed', {
-            event_category: 'engagement'
-          });
+          gtag('event', 'ai_section_viewed');
           aiObserver.disconnect();
         }
       }, { threshold: 0.5 });
