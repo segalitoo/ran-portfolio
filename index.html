@@ -28,481 +28,199 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- DM Serif Display replaces Source Serif Pro: more editorial contrast, stronger typographic personality -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --bg: #FFFFFF;
+      --text: #111111;
+      --text-mid: #555555;
+      --text-light: #999999;
+      --accent: #C4896E;
+      --ai: #7C6FA0;
+      --rule: #E2E2E2;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --font-heading: 'DM Serif Display', Georgia, serif;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+      overflow: hidden;
+    }
+
+    img { display: block; }
+
+    .app { display: grid; grid-template-columns: 300px 1fr; height: 100vh; }
+
+    /* ---- Left index rail ---- */
+    .rail {
+      border-right: 1px solid var(--rule);
+      padding: 2.25rem 0 1.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .rail__brand { padding: 0 2rem 1.25rem; }
+    .rail__name { font-family: var(--font-heading); font-size: 1.6rem; line-height: 1.1; }
+    .rail__tag { color: var(--text-light); font-size: 0.85rem; margin-top: 0.35rem; }
+
+    .rail__group {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--text-light); font-weight: 600; padding: 1.5rem 2rem 0.5rem;
+    }
+    .rail__item {
+      display: flex; align-items: baseline; gap: 0.7rem;
+      padding: 0.6rem 2rem; cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: background 0.15s var(--ease), border-color 0.15s var(--ease);
+    }
+    .rail__item:hover { background: rgba(0, 0, 0, 0.03); }
+    .rail__item.is-active { background: rgba(0, 0, 0, 0.05); border-left-color: var(--text); }
+    .rail__item.is-active.is-ai { border-left-color: var(--ai); }
+    .rail__n { font-size: 0.72rem; color: var(--text-light); font-weight: 500; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+    .rail__label { font-size: 0.85rem; color: var(--text-mid); font-weight: 500; line-height: 1.3; }
+    .rail__item.is-active .rail__label { color: var(--text); }
+    .rail__item.is-active.is-ai .rail__label { color: var(--ai); }
+    .rail__foot { margin-top: auto; padding: 1.5rem 2rem 0; color: var(--text-light); font-size: 0.75rem; }
+
+    /* ---- Right detail pane ---- */
+    .pane { overflow-y: auto; padding: 2.25rem clamp(2rem, 5vw, 5rem) 5rem; }
+    .pane__inner { max-width: 760px; margin: 0 auto; animation: fade 0.45s var(--ease-out); }
+    @keyframes fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+    .pane__title {
+      font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400; letter-spacing: -0.015em; line-height: 1.08; margin: 0 0 0.75rem;
+    }
+    .pane__desc { font-size: 1.15rem; color: var(--text-mid); line-height: 1.6; max-width: 36rem; }
+    .pane__role {
+      font-size: 0.75rem; color: var(--text-light); text-transform: uppercase;
+      letter-spacing: 0.06em; font-weight: 500; margin-top: 1rem;
+    }
+
+    .pane__gal { margin: 2.5rem 0; }
+
+    .pane__facts { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2.5rem; border-top: 1px solid var(--rule); }
+    .pane__fact { padding: 1.5rem 0; border-bottom: 1px solid var(--rule); }
+    .pane__fact h4 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-light); font-weight: 600; margin-bottom: 0.4rem; }
+    .pane__fact p { font-size: 0.95rem; color: var(--text-mid); line-height: 1.6; }
+    .pane__fact ul { list-style: none; display: grid; gap: 0.4rem; }
+    .pane__fact li { font-size: 0.92rem; color: var(--text-mid); padding-left: 1.1rem; position: relative; }
+    .pane__fact li::before { content: '-'; position: absolute; left: 0; color: var(--accent); }
+
+    .pane__ctas { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .pane__cta {
+      display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 2rem;
+      font-size: 0.95rem; font-weight: 500; color: var(--ai); text-decoration: none;
+      border-bottom: 1px solid transparent; padding-bottom: 2px; transition: border-color 0.15s var(--ease);
+    }
+    .pane__cta:hover { border-bottom-color: var(--ai); }
+
+    /* ---- Split Edge carousel ---- */
+    .gal { position: relative; border-radius: 12px; overflow: hidden; background: #f2f1ef;
+      box-shadow: 0 2px 8px rgba(20, 18, 16, 0.05), 0 18px 44px rgba(20, 18, 16, 0.1); }
+    .gal__vp { overflow: hidden; transition: height 0.5s var(--ease-out); }
+    .gal__track { display: flex; align-items: flex-start; transition: transform 0.6s var(--ease-out); }
+    .gal__track img { flex: 0 0 100%; width: 100%; height: auto; cursor: zoom-in; }
+
+    .gal__arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(28, 25, 22, 0.42);
+      backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; cursor: pointer; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+      transition: background 0.25s var(--ease), transform 0.25s var(--ease-out), border-color 0.25s var(--ease);
+      z-index: 2;
+    }
+    .gal__arrow:hover { background: rgba(28, 25, 22, 0.62); border-color: rgba(255, 255, 255, 0.4); transform: translateY(-50%) scale(1.07); }
+    .gal__arrow:active { transform: translateY(-50%) scale(0.96); }
+    .gal__arrow svg { width: 18px; height: 18px; }
+    .gal__arrow--prev { left: 1rem; }
+    .gal__arrow--next { right: 1rem; }
+
+    .gal__dots {
+      position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 0.45rem;
+      background: rgba(20, 18, 16, 0.45); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      padding: 0.45rem 0.7rem; border-radius: 100px; z-index: 2;
+    }
+    .gal__dot { width: 6px; height: 6px; border-radius: 100px; background: rgba(255, 255, 255, 0.5);
+      transition: width 0.4s var(--ease-out), background 0.3s var(--ease); cursor: pointer; }
+    .gal__dot.is-active { width: 20px; background: #fff; }
+
+    /* ---- Lightbox ---- */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(10, 10, 10, 0.96);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .lightbox.active { opacity: 1; visibility: visible; }
+    .lightbox__img { max-width: 88vw; max-height: 88vh; object-fit: contain; }
+    .lightbox__close, .lightbox__prev, .lightbox__next {
+      position: absolute; background: none; border: none; color: rgba(255, 255, 255, 0.5);
+      cursor: pointer; padding: 0.75rem; display: flex; align-items: center; justify-content: center;
+      transition: color 0.15s ease;
+    }
+    .lightbox__close:hover, .lightbox__prev:hover, .lightbox__next:hover { color: #fff; }
+    .lightbox__close { top: 1.5rem; right: 1.5rem; }
+    .lightbox__prev { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+    .lightbox__next { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+
+    @media (max-width: 760px) {
+      body { overflow: auto; }
+      .app { grid-template-columns: 1fr; height: auto; }
+      .rail { border-right: none; border-bottom: 1px solid var(--rule); padding-bottom: 1rem; }
+      .rail__foot { display: none; }
+      .pane { padding: 2rem 1.5rem 4rem; }
+      .pane__facts { grid-template-columns: 1fr; }
+      .gal__arrow { width: 38px; height: 38px; }
+      .gal__arrow--prev { left: 0.6rem; }
+      .gal__arrow--next { right: 0.6rem; }
+    }
+  </style>
 </head>
 
 <body>
-
-  <!-- SIDE NAV -->
-  <nav class="sidenav" aria-label="Project navigation">
-    <a href="#payoneer-website" class="sidenav__item">
-      <span class="sidenav__label">Website Redesign</span>
-    </a>
-    <a href="#email-design-system" class="sidenav__item">
-      <span class="sidenav__label">Email System</span>
-    </a>
-    <a href="#brand-portal" class="sidenav__item">
-      <span class="sidenav__label">Brand Portal</span>
-    </a>
-    <a href="#image-library" class="sidenav__item">
-      <span class="sidenav__label">Image Library</span>
-    </a>
-    <a href="#icon-packages" class="sidenav__item">
-      <span class="sidenav__label">Icon Packages</span>
-    </a>
-    <div class="sidenav__section">AI Projects</div>
-    <a href="#ai-project-1" class="sidenav__item sidenav__item--ai">
-      <span class="sidenav__label">Zeph</span>
-    </a>
-    <a href="#ai-project-2" class="sidenav__item sidenav__item--ai">
-      <span class="sidenav__label">Zoomi</span>
-    </a>
-    <a href="#ai-project-3" class="sidenav__item sidenav__item--ai">
-      <span class="sidenav__label">Mint</span>
-    </a>
-    <a href="#ai-project-4" class="sidenav__item sidenav__item--ai">
-      <span class="sidenav__label">Shhh</span>
-    </a>
-  </nav>
-
-  <!-- MOBILE NAV -->
-  <nav class="mobilenav" aria-label="Project navigation">
-    <a href="#payoneer-website" class="mobilenav__item">Website Redesign</a>
-    <a href="#email-design-system" class="mobilenav__item">Email System</a>
-    <a href="#brand-portal" class="mobilenav__item">Brand Portal</a>
-    <a href="#image-library" class="mobilenav__item">Image Library</a>
-    <a href="#icon-packages" class="mobilenav__item">Icon Packages</a>
-    <a href="#ai-project-1" class="mobilenav__item">Zeph</a>
-    <a href="#ai-project-2" class="mobilenav__item">Zoomi</a>
-    <a href="#ai-project-3" class="mobilenav__item">Mint</a>
-    <a href="#ai-project-4" class="mobilenav__item">Shhh</a>
-  </nav>
-
-  <!-- HEADER -->
-  <header class="header">
-    <h1 class="header__name">Ran Segal</h1>
-    <p class="header__tagline">Designing experiences that feel right.</p>
-  </header>
-
-  <!-- PROJECTS -->
-  <main class="projects">
-
-    <!-- PROJECT: Payoneer Website Redesign -->
-    <article class="project" id="payoneer-website">
-      <div class="project__info">
-        <h2 class="project__title">Payoneer Website Redesign</h2>
-        <p class="project__description">Translating Payoneer's "For Everyone" promise into a cohesive and scalable web
-          experience.</p>
-        <p class="project__role">Design Manager, Payoneer &middot; 2023</p>
-
-        <div class="project__details">
-          <div class="project__detail">
-            <h3>Overview</h3>
-            <p>After a major rebrand, Payoneer needed its website to match the refreshed identity - communicating trust,
-              simplicity, and inclusivity across diverse global markets.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Challenge</h3>
-            <p>Modernizing a legacy interface into a cohesive platform that scales across markets while staying true to
-              the "For Everyone" brand promise.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Solution</h3>
-            <p>Built a modular design system with intuitive user flows that balanced visual consistency with regional
-              flexibility - every page distinctly Payoneer, yet adaptable to local needs.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Results</h3>
-            <ul>
-              <li>Unified global brand identity established</li>
-              <li>Simplified complex user journey flows</li>
-              <li>Streamlined navigation for better conversion</li>
-              <li>Enhanced cross-platform visual consistency</li>
-            </ul>
-          </div>
-        </div>
+  <div class="app">
+    <aside class="rail">
+      <div class="rail__brand">
+        <div class="rail__name">Ran Segal</div>
+        <div class="rail__tag">Designing experiences that feel right.</div>
       </div>
-
-      <div class="project__gallery">
-        <img src="images/website_1.png" alt="Payoneer website redesign - hero and navigation">
-        <img src="images/website_2.png" alt="Payoneer website - key features section">
-        <img src="images/website_3.png" alt="Payoneer website - customer stories">
-        <img src="images/website_4.png" alt="Payoneer website - footer and CTA sections">
-      </div>
-    </article>
-    <!-- /PROJECT: Payoneer Website Redesign -->
-
-    <!-- PROJECT: Scalable Email Design System -->
-    <article class="project" id="email-design-system">
-      <div class="project__info">
-        <h2 class="project__title">Scalable Email Design System</h2>
-        <p class="project__description">A smart Figma template system designed to accelerate the production of on-brand
-          operational and marketing emails.</p>
-        <p class="project__role">Design Manager, Payoneer &middot; 2023</p>
-
-        <div class="project__details">
-          <div class="project__detail">
-            <h3>Overview</h3>
-            <p>A centralized Figma template system enabling designers and marketers to produce on-brand emails rapidly -
-              without starting from scratch each time.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Challenge</h3>
-            <p>Email production was fragmented across teams and regions - inconsistent branding, duplicated effort, and
-              no single source of truth for design.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Solution</h3>
-            <p>A modular template library with pre-approved components and layout patterns, empowering non-designers to
-              assemble on-brand emails independently.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Results</h3>
-            <ul>
-              <li>Accelerated design-to-delivery timeline</li>
-              <li>Standardized visual language across teams</li>
-              <li>Eliminated design bottlenecks</li>
-              <li>Simplified editing for rapid iteration</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="project__gallery">
-        <img src="images/email_template_1.png" alt="Email design system - template overview">
-        <img src="images/email_template_2.png" alt="Email design system - component library">
-        <img src="images/email_template_3.png" alt="Email design system - layout variations">
-        <img src="images/email_template_4.png" alt="Email design system - brand guidelines applied">
-      </div>
-    </article>
-    <!-- /PROJECT: Scalable Email Design System -->
-
-    <!-- PROJECT: Payoneer Brand Portal -->
-    <article class="project" id="brand-portal">
-      <div class="project__info">
-        <h2 class="project__title">Payoneer Brand Portal</h2>
-        <p class="project__description">A centralized digital hub for our global brand guidelines, accessible to every
-          employee and partner.</p>
-        <p class="project__role">Design Manager, Payoneer &middot; 2022–2025</p>
-
-        <div class="project__details">
-          <div class="project__detail">
-            <h3>Overview</h3>
-            <p>A single, authoritative source for Payoneer's brand guidelines - always current, always accessible to
-              every employee and partner worldwide.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Challenge</h3>
-            <p>Guidelines were scattered across PDFs and shared drives. Different offices interpreted the brand
-              differently, diluting Payoneer's identity.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Solution</h3>
-            <p>An interactive web portal with searchable guidelines, downloadable assets, and usage examples - covering
-              logo, typography, color, photography, and tone of voice.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Results</h3>
-            <ul>
-              <li>Single source of brand truth</li>
-              <li>Unified global visual consistency</li>
-              <li>Streamlined internal and external access</li>
-              <li>Reduced asset mismanagement errors</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="project__gallery">
-        <img src="images/brand_portal_1.png" alt="Payoneer brand portal - overview and guidelines">
-        <img src="images/brand_portal_2.png" alt="Payoneer brand portal - icon library">
-        <img src="images/brand_portal_3.png" alt="Payoneer brand portal - PowerPoint templates">
-        <img src="images/brand_portal_4.png" alt="Payoneer brand portal - asset library and resources">
-      </div>
-    </article>
-    <!-- /PROJECT: Payoneer Brand Portal -->
-
-    <!-- PROJECT: Custom Customers' Image Library -->
-    <article class="project" id="image-library">
-      <div class="project__info">
-        <h2 class="project__title">Custom Customers' Image Library</h2>
-        <p class="project__description">Moving beyond stock photography: creating a bespoke asset library to truly
-          represent our global user base.</p>
-        <p class="project__role">Design Manager, Payoneer &middot; 2022</p>
-
-        <div class="project__details">
-          <div class="project__detail">
-            <h3>Overview</h3>
-            <p>Replacing generic stock with a custom photography library featuring real users and scenarios from around
-              the globe.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Challenge</h3>
-            <p>Stock imagery felt inauthentic and interchangeable with competitors - a disconnect from Payoneer's
-              promise of global inclusion.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Solution</h3>
-            <p>Organized photo shoots across multiple regions, building a library organized by region, use case, and
-              theme for easy cross-team access.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Results</h3>
-            <ul>
-              <li>Owned library of diverse assets</li>
-              <li>Scalable cross-channel visual language</li>
-              <li>Unified, authentic brand identity</li>
-              <li>Eliminated reliance on generic stock</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="project__gallery">
-        <img src="images/photoshoot_1.png" alt="Custom photography - diverse global customers">
-        <img src="images/photoshoot_2.png" alt="Regional photo shoot samples">
-        <img src="images/photoshoot_3.png" alt="Customer portrait photography">
-        <img src="images/photoshoot_4.png" alt="Image library organized by theme and region">
-      </div>
-    </article>
-    <!-- /PROJECT: Custom Customers' Image Library -->
-
-    <!-- PROJECT: Icon Packages -->
-    <article class="project" id="icon-packages">
-      <div class="project__info">
-        <h2 class="project__title">Icon Packages</h2>
-        <p class="project__description">A scalable icon ecosystem designed to bridge the gap between functional UI and
-          expressive brand storytelling.</p>
-        <p class="project__role">Design Manager, Payoneer &middot; 2022–2025</p>
-
-        <div class="project__details">
-          <div class="project__detail">
-            <h3>Overview</h3>
-            <p>A comprehensive icon system spanning functional UI, illustrative brand, and animated motion icons - all
-              working as one cohesive visual language.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Challenge</h3>
-            <p>Icons were created ad-hoc with no shared standards, causing visual fragmentation and bottlenecks for
-              every new feature or campaign.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Solution</h3>
-            <p>A tiered system with clear usage guidelines - functional, illustrative, and animated - sharing consistent
-              stroke weights, proportions, and style.</p>
-          </div>
-          <div class="project__detail">
-            <h3>Results</h3>
-            <ul>
-              <li>Unified brand visual language globally</li>
-              <li>Streamlined internal design team workflows</li>
-              <li>Scalable assets for diverse needs</li>
-              <li>Enhanced user engagement through motion</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="project__gallery">
-        <img src="images/icon_packages_1.png"
-          alt="Icon ecosystem overview - functional, illustrative, and animated icons">
-        <img src="images/icon_packages_2.png" alt="Icon library structure and naming convention">
-        <img src="images/icon_packages_3.png"
-          alt="Icon categories - General, Currencies, Pay/Receive, Cards, Phone/App">
-        <img src="images/icon_packages_4.png" alt="Icon tiers - Level 1 through Level 4 complexity">
-      </div>
-    </article>
-    <!-- /PROJECT: Icon Packages -->
-
-    <!-- AI PROJECTS SECTION DIVIDER -->
-    <div class="section-divider">
-      <span class="section-divider__label">AI Projects</span>
-    </div>
-
-    <!-- PROJECT: Zeph -->
-    <article class="project project--ai" id="ai-project-1">
-      <div class="project__info">
-        <h2 class="project__title">Zeph - Voice tab switching for Chrome</h2>
-        <p class="project__description">A Chrome extension for switching browser tabs by voice. Press Alt+Space, say the tab name, and you're there in under a second. Save tabs by voice, works even when the tab is closed, and supports 10+ languages including Hebrew.</p>
-        <p class="project__role">Personal project &middot; 2025</p>
-        <a href="https://zeph-landing.vercel.app/" class="project__cta" target="_blank" rel="noopener noreferrer">
-          Visit project
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="7" y1="17" x2="17" y2="7" />
-            <polyline points="7 7 17 7 17 17" />
-          </svg>
-        </a>
-      </div>
-      <div class="project__gallery">
-        <img src="images/zeph_1.png" alt="Zeph - voice overlay switching to Figma">
-        <img src="images/zeph_2.png" alt="Zeph - save tab by voice">
-        <img src="images/zeph_3.png" alt="Zeph - how it works in three steps">
-        <img src="images/zeph_4.png" alt="Zeph - saved tabs options page">
-      </div>
-    </article>
-    <!-- /PROJECT: Zeph -->
-
-    <!-- PROJECT: Zoomi -->
-    <article class="project project--ai" id="ai-project-2">
-      <div class="project__info">
-        <h2 class="project__title">Zoomi - Kid-friendly Zoom controls</h2>
-        <p class="project__description">A Chrome extension that adds a kid-friendly control panel to Zoom - big colorful
-          buttons for reactions, hand raise, and mute designed for children ages 6-12. Comes with 4 themes: Classic,
-          Gamer, Space, and Candy.</p>
-        <p class="project__role">Personal project &middot; 2025</p>
-        <a href="https://segalitoo.github.io/Zoom-for-kids/" class="project__cta" target="_blank"
-          rel="noopener noreferrer">
-          Visit project
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="7" y1="17" x2="17" y2="7" />
-            <polyline points="7 7 17 7 17 17" />
-          </svg>
-        </a>
-        <a href="https://segalitoo.github.io/Zoom-for-kids/case-study.html" class="project__cta" target="_blank"
-          rel="noopener noreferrer" style="margin-top: 0.5rem;">
-          Case Study
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="7" y1="17" x2="17" y2="7" />
-            <polyline points="7 7 17 7 17 17" />
-          </svg>
-        </a>
-      </div>
-      <div class="project__gallery">
-        <img src="images/zoom_1.png" alt="Zoomi - hero landing page">
-        <img src="images/zoom_2.png" alt="Zoomi - 4 skins: Classic, Gamer, Space, Candy">
-        <img src="images/zoom_3.png" alt="Zoomi - 3-step installation flow">
-        <img src="images/zoom_4.png" alt="Zoomi - extension panel inside a Zoom meeting">
-      </div>
-    </article>
-    <!-- /PROJECT: Zoomi -->
-
-    <!-- PROJECT: Mint -->
-    <article class="project project--ai" id="ai-project-3">
-      <div class="project__info">
-        <h2 class="project__title">Mint - On-brand ad generator</h2>
-        <p class="project__description">A tool for generating on-brand ad creatives across Instagram, Facebook,
-          LinkedIn, and Stories. Upload your brand kit, pick a format, and get ready-to-use visuals in seconds.</p>
-        <p class="project__role">Personal project &middot; 2025</p>
-        <a href="https://payoneer-ad-generator.vercel.app/" class="project__cta" target="_blank" rel="noopener noreferrer">
-          Visit project
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="7" y1="17" x2="17" y2="7" />
-            <polyline points="7 7 17 7 17 17" />
-          </svg>
-        </a>
-      </div>
-      <div class="project__gallery">
-        <img src="images/mint_1.png" alt="Mint hero screen" class="project__gallery-img">
-        <img src="images/payoneer_2.png" alt="Mint multi-platform format picker" class="project__gallery-img">
-        <img src="images/payoneer_3.png" alt="Mint brand kit and gallery view" class="project__gallery-img">
-        <img src="images/payoneer_4.png" alt="Mint remix and iterate view" class="project__gallery-img">
-      </div>
-    </article>
-    <!-- /PROJECT: Mint -->
-
-    <!-- PROJECT: Shhh -->
-    <article class="project project--ai" id="ai-project-4">
-      <div class="project__info">
-        <h2 class="project__title">Shhh - Voice typing for Mac</h2>
-        <p class="project__description">A macOS dictation tool that transcribes speech in real time - in English and
-          Hebrew - and pastes it directly into any app. Built with Google Cloud Speech-to-Text and wrapped in a minimal
-          floating menu bar UI.</p>
-        <p class="project__role">Personal project &middot; 2025</p>
-        <a href="https://segalitoo.github.io/Shhh/" class="project__cta" target="_blank" rel="noopener noreferrer">
-          Visit project
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="7" y1="17" x2="17" y2="7" />
-            <polyline points="7 7 17 7 17 17" />
-          </svg>
-        </a>
-      </div>
-      <div class="project__gallery">
-        <img src="images/shhh_1.png" alt="Shhh - live dictation interface">
-        <img src="images/shhh_2.png" alt="Shhh - menu bar pill UI">
-        <img src="images/shhh_3.png" alt="Shhh - bilingual transcription">
-        <img src="images/shhh_4.png" alt="Shhh - app in use">
-      </div>
-    </article>
-    <!-- /PROJECT: Shhh -->
-
-    <!--
-    =============================================
-    PROJECT TEMPLATE - Copy this block to add a new project.
-    Place it inside <main class="projects">.
-    =============================================
-
-    <article class="project">
-      <div class="project__info">
-        <h2 class="project__title">Project Name</h2>
-        <p class="project__description">Short description here.</p>
-        <p class="project__role">Design Manager, Company &middot; Year</p>
-
-        <div class="project__details">
-          <div class="project__detail">
-            <h3>Overview</h3>
-            <p>...</p>
-          </div>
-          <div class="project__detail">
-            <h3>Challenge</h3>
-            <p>...</p>
-          </div>
-          <div class="project__detail">
-            <h3>Solution</h3>
-            <p>...</p>
-          </div>
-          <div class="project__detail">
-            <h3>Results</h3>
-            <ul>
-              <li>...</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="project__gallery">
-        <img src="images/project-name/1.jpg" alt="Description">
-        <img src="images/project-name/2.jpg" alt="Description">
-        <img src="images/project-name/3.jpg" alt="Description">
-        <img src="images/project-name/4.jpg" alt="Description">
-      </div>
-    </article>
-
-    =============================================
-    -->
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p class="footer__text">Ran Segal &copy; 2025</p>
-  </footer>
+      <div id="railList"></div>
+      <div class="rail__foot">Ran Segal &copy; 2025</div>
+    </aside>
+    <main class="pane"><div class="pane__inner" id="pane"></div></main>
+  </div>
 
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-    <!-- Close: X icon (Lucide-style inline SVG) -->
     <button class="lightbox__close" aria-label="Close">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <line x1="18" y1="6" x2="6" y2="18" />
-        <line x1="6" y1="6" x2="18" y2="18" />
+        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
       </svg>
     </button>
-    <!-- Previous: chevron-left -->
     <button class="lightbox__prev" aria-label="Previous image">
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <polyline points="15 18 9 12 15 6" />
       </svg>
     </button>
-    <!-- Next: chevron-right -->
     <button class="lightbox__next" aria-label="Next image">
       <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -513,287 +231,277 @@
   </div>
 
   <script>
-    // Active nav highlight on scroll (both sidenav and mobile nav)
-    const sidenavItems = document.querySelectorAll('.sidenav__item');
-    const mobilenavItems = document.querySelectorAll('.mobilenav__item');
-    const projects = document.querySelectorAll('.project[id]');
+    // ── Project data ──────────────────────────────
+    const PROJECTS = [
+      {
+        id: 'payoneer-website', num: '01', title: 'Payoneer Website Redesign',
+        desc: 'Translating Payoneer’s “For Everyone” promise into a cohesive and scalable web experience.',
+        role: 'Design Manager, Payoneer · 2023',
+        overview: 'After a major rebrand, Payoneer needed its website to match the refreshed identity - communicating trust, simplicity, and inclusivity across diverse global markets.',
+        challenge: 'Modernizing a legacy interface into a cohesive platform that scales across markets while staying true to the “For Everyone” brand promise.',
+        solution: 'Built a modular design system with intuitive user flows that balanced visual consistency with regional flexibility - every page distinctly Payoneer, yet adaptable to local needs.',
+        results: ['Unified global brand identity established', 'Simplified complex user journey flows', 'Streamlined navigation for better conversion', 'Enhanced cross-platform visual consistency'],
+        images: [['images/website_1.png', 'Payoneer website redesign - hero and navigation'], ['images/website_2.png', 'Payoneer website - key features section'], ['images/website_3.png', 'Payoneer website - customer stories'], ['images/website_4.png', 'Payoneer website - footer and CTA sections']]
+      },
+      {
+        id: 'email-design-system', num: '02', title: 'Scalable Email Design System',
+        desc: 'A smart Figma template system designed to accelerate the production of on-brand operational and marketing emails.',
+        role: 'Design Manager, Payoneer · 2023',
+        overview: 'A centralized Figma template system enabling designers and marketers to produce on-brand emails rapidly - without starting from scratch each time.',
+        challenge: 'Email production was fragmented across teams and regions - inconsistent branding, duplicated effort, and no single source of truth for design.',
+        solution: 'A modular template library with pre-approved components and layout patterns, empowering non-designers to assemble on-brand emails independently.',
+        results: ['Accelerated design-to-delivery timeline', 'Standardized visual language across teams', 'Eliminated design bottlenecks', 'Simplified editing for rapid iteration'],
+        images: [['images/email_template_1.png', 'Email design system - template overview'], ['images/email_template_2.png', 'Email design system - component library'], ['images/email_template_3.png', 'Email design system - layout variations'], ['images/email_template_4.png', 'Email design system - brand guidelines applied']]
+      },
+      {
+        id: 'brand-portal', num: '03', title: 'Payoneer Brand Portal',
+        desc: 'A centralized digital hub for our global brand guidelines, accessible to every employee and partner.',
+        role: 'Design Manager, Payoneer · 2022–2025',
+        overview: 'A single, authoritative source for Payoneer’s brand guidelines - always current, always accessible to every employee and partner worldwide.',
+        challenge: 'Guidelines were scattered across PDFs and shared drives. Different offices interpreted the brand differently, diluting Payoneer’s identity.',
+        solution: 'An interactive web portal with searchable guidelines, downloadable assets, and usage examples - covering logo, typography, color, photography, and tone of voice.',
+        results: ['Single source of brand truth', 'Unified global visual consistency', 'Streamlined internal and external access', 'Reduced asset mismanagement errors'],
+        images: [['images/brand_portal_1.png', 'Payoneer brand portal - overview and guidelines'], ['images/brand_portal_2.png', 'Payoneer brand portal - icon library'], ['images/brand_portal_3.png', 'Payoneer brand portal - PowerPoint templates'], ['images/brand_portal_4.png', 'Payoneer brand portal - asset library and resources']]
+      },
+      {
+        id: 'image-library', num: '04', title: 'Custom Customers’ Image Library',
+        desc: 'Moving beyond stock photography: creating a bespoke asset library to truly represent our global user base.',
+        role: 'Design Manager, Payoneer · 2022',
+        overview: 'Replacing generic stock with a custom photography library featuring real users and scenarios from around the globe.',
+        challenge: 'Stock imagery felt inauthentic and interchangeable with competitors - a disconnect from Payoneer’s promise of global inclusion.',
+        solution: 'Organized photo shoots across multiple regions, building a library organized by region, use case, and theme for easy cross-team access.',
+        results: ['Owned library of diverse assets', 'Scalable cross-channel visual language', 'Unified, authentic brand identity', 'Eliminated reliance on generic stock'],
+        images: [['images/photoshoot_1.png', 'Custom photography - diverse global customers'], ['images/photoshoot_2.png', 'Regional photo shoot samples'], ['images/photoshoot_3.png', 'Customer portrait photography'], ['images/photoshoot_4.png', 'Image library organized by theme and region']]
+      },
+      {
+        id: 'icon-packages', num: '05', title: 'Icon Packages',
+        desc: 'A scalable icon ecosystem designed to bridge the gap between functional UI and expressive brand storytelling.',
+        role: 'Design Manager, Payoneer · 2022–2025',
+        overview: 'A comprehensive icon system spanning functional UI, illustrative brand, and animated motion icons - all working as one cohesive visual language.',
+        challenge: 'Icons were created ad-hoc with no shared standards, causing visual fragmentation and bottlenecks for every new feature or campaign.',
+        solution: 'A tiered system with clear usage guidelines - functional, illustrative, and animated - sharing consistent stroke weights, proportions, and style.',
+        results: ['Unified brand visual language globally', 'Streamlined internal design team workflows', 'Scalable assets for diverse needs', 'Enhanced user engagement through motion'],
+        images: [['images/icon_packages_1.png', 'Icon ecosystem overview'], ['images/icon_packages_2.png', 'Icon library structure and naming convention'], ['images/icon_packages_3.png', 'Icon categories'], ['images/icon_packages_4.png', 'Icon complexity tiers']]
+      },
+      {
+        id: 'ai-1', num: '06', title: 'Zeph - Voice tab switching for Chrome', ai: true,
+        desc: 'A Chrome extension for switching browser tabs by voice. Press Alt+Space, say the tab name, and you’re there in under a second. Save tabs by voice, works even when the tab is closed, and supports 10+ languages including Hebrew.',
+        role: 'Personal project · 2025', cta: 'https://zeph-landing.vercel.app/',
+        images: [['images/zeph_1.png', 'Zeph - voice overlay switching to Figma'], ['images/zeph_2.png', 'Zeph - save tab by voice'], ['images/zeph_3.png', 'Zeph - how it works in three steps'], ['images/zeph_4.png', 'Zeph - saved tabs options page']]
+      },
+      {
+        id: 'ai-2', num: '07', title: 'Zoomi - Kid-friendly Zoom controls', ai: true,
+        desc: 'A Chrome extension that adds a kid-friendly control panel to Zoom - big colorful buttons for reactions, hand raise, and mute designed for children ages 6-12. Comes with 4 themes: Classic, Gamer, Space, and Candy.',
+        role: 'Personal project · 2025', cta: 'https://segalitoo.github.io/Zoom-for-kids/',
+        caseStudy: 'https://segalitoo.github.io/Zoom-for-kids/case-study.html',
+        images: [['images/zoom_1.png', 'Zoomi - hero landing page'], ['images/zoom_2.png', 'Zoomi - 4 skins'], ['images/zoom_3.png', 'Zoomi - 3-step installation flow'], ['images/zoom_4.png', 'Zoomi - extension panel inside a Zoom meeting']]
+      },
+      {
+        id: 'ai-3', num: '08', title: 'Mint - On-brand ad generator', ai: true,
+        desc: 'A tool for generating on-brand ad creatives across Instagram, Facebook, LinkedIn, and Stories. Upload your brand kit, pick a format, and get ready-to-use visuals in seconds.',
+        role: 'Personal project · 2025', cta: 'https://payoneer-ad-generator.vercel.app/',
+        images: [['images/mint_1.png', 'Mint hero screen'], ['images/payoneer_2.png', 'Mint multi-platform format picker'], ['images/payoneer_3.png', 'Mint brand kit and gallery view'], ['images/payoneer_4.png', 'Mint remix and iterate view']]
+      },
+      {
+        id: 'ai-4', num: '09', title: 'Shhh - Voice typing for Mac', ai: true,
+        desc: 'A macOS dictation tool that transcribes speech in real time - in English and Hebrew - and pastes it directly into any app. Built with Google Cloud Speech-to-Text and wrapped in a minimal floating menu bar UI.',
+        role: 'Personal project · 2025', cta: 'https://segalitoo.github.io/Shhh/',
+        images: [['images/shhh_1.png', 'Shhh - live dictation interface'], ['images/shhh_2.png', 'Shhh - menu bar pill UI'], ['images/shhh_3.png', 'Shhh - bilingual transcription'], ['images/shhh_4.png', 'Shhh - app in use']]
+      }
+    ];
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-
-          sidenavItems.forEach(item => item.classList.remove('active'));
-          const activeSide = document.querySelector(`.sidenav__item[href="#${id}"]`);
-          if (activeSide) activeSide.classList.add('active');
-
-          mobilenavItems.forEach(item => item.classList.remove('active'));
-          const activeMobile = document.querySelector(`.mobilenav__item[href="#${id}"]`);
-          if (activeMobile) {
-            activeMobile.classList.add('active');
-            activeMobile.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-          }
-        }
-      });
-    }, { rootMargin: '-30% 0px -70% 0px' });
-
-    projects.forEach(project => observer.observe(project));
-
-    // ── Project galleries → Split Edge carousel ──────────
     const PG_PREV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
     const PG_NEXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
 
-    document.querySelectorAll('.project__gallery').forEach(gallery => {
+    function buildGallery(images) {
+      const g = document.createElement('div');
+      g.className = 'gal';
+      const slides = images.map(([src, alt]) => `<img src="${src}" alt="${alt}">`).join('');
+      g.innerHTML = `
+        <div class="gal__vp"><div class="gal__track">${slides}</div></div>
+        <button class="gal__arrow gal__arrow--prev" aria-label="Previous image">${PG_PREV}</button>
+        <button class="gal__arrow gal__arrow--next" aria-label="Next image">${PG_NEXT}</button>
+        <div class="gal__dots">${images.map((_, i) => `<span class="gal__dot${i === 0 ? ' is-active' : ''}"></span>`).join('')}</div>`;
+      return g;
+    }
+
+    function initGallery(gallery) {
       const imgs = Array.from(gallery.querySelectorAll('img'));
       if (imgs.length < 2) return;
+      const track = gallery.querySelector('.gal__track');
+      const vp = gallery.querySelector('.gal__vp');
+      const dots = Array.from(gallery.querySelectorAll('.gal__dot'));
+      let index = 0, timer = null, inView = false, hovering = false;
+      const total = imgs.length, DUR = 5000;
 
-      const viewport = document.createElement('div');
-      viewport.className = 'pgal__viewport';
-      const track = document.createElement('div');
-      track.className = 'pgal__track';
-      imgs.forEach(img => track.appendChild(img));
-      viewport.appendChild(track);
-
-      const prev = document.createElement('button');
-      prev.className = 'pgal__arrow pgal__arrow--prev';
-      prev.setAttribute('aria-label', 'Previous image');
-      prev.innerHTML = PG_PREV;
-
-      const next = document.createElement('button');
-      next.className = 'pgal__arrow pgal__arrow--next';
-      next.setAttribute('aria-label', 'Next image');
-      next.innerHTML = PG_NEXT;
-
-      const dots = document.createElement('div');
-      dots.className = 'pgal__dots';
-      imgs.forEach((_, i) => {
-        const d = document.createElement('span');
-        d.className = 'pgal__dot' + (i === 0 ? ' is-active' : '');
-        dots.appendChild(d);
-      });
-      const dotEls = Array.from(dots.children);
-
-      gallery.append(viewport, prev, next, dots);
-
-      let index = 0;
-      const total = imgs.length;
-      const DUR = 5000;
-      let timer = null, inView = false, hovering = false;
-
-      function setHeight() {
-        const h = imgs[index].clientHeight;
-        if (h) viewport.style.height = h + 'px';
-      }
-
+      function setH() { const h = imgs[index].clientHeight; if (h) vp.style.height = h + 'px'; }
       function render() {
         track.style.transform = `translateX(-${index * 100}%)`;
-        dotEls.forEach((d, i) => d.classList.toggle('is-active', i === index));
-        setHeight();
+        dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
+        setH();
       }
-
       function go(i) { index = (i + total) % total; render(); }
-
       function stop() { if (timer) { clearInterval(timer); timer = null; } }
-      function play() {
-        stop();
-        if (inView && !hovering) timer = setInterval(() => go(index + 1), DUR);
-      }
+      function play() { stop(); if (inView && !hovering) timer = setInterval(() => go(index + 1), DUR); }
 
-      prev.addEventListener('click', () => { go(index - 1); play(); });
-      next.addEventListener('click', () => { go(index + 1); play(); });
-      dotEls.forEach((d, i) => d.addEventListener('click', () => { go(i); play(); }));
-
+      gallery.querySelector('.gal__arrow--prev').addEventListener('click', () => { go(index - 1); play(); });
+      gallery.querySelector('.gal__arrow--next').addEventListener('click', () => { go(index + 1); play(); });
+      dots.forEach((d, i) => d.addEventListener('click', () => { go(i); play(); }));
       gallery.addEventListener('mouseenter', () => { hovering = true; stop(); });
       gallery.addEventListener('mouseleave', () => { hovering = false; play(); });
 
-      const io = new IntersectionObserver(entries => {
-        inView = entries[0].isIntersecting;
-        play();
-      }, { threshold: 0.4 });
+      const io = new IntersectionObserver(e => { inView = e[0].isIntersecting; play(); }, { threshold: 0.3 });
       io.observe(gallery);
-
-      imgs.forEach(img => img.addEventListener('load', () => { if (imgs[index] === img) setHeight(); }));
-      window.addEventListener('resize', setHeight);
-
+      imgs.forEach(img => img.addEventListener('load', () => { if (imgs[index] === img) setH(); }));
+      window.addEventListener('resize', setH);
       render();
-      if (imgs[index].complete) setHeight();
-    });
+      if (imgs[index].complete) setH();
+    }
 
-    // Lightbox
+    // ── Lightbox ──────────────────────────────
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
-    let currentImages = [];
-    let currentIndex = 0;
+    let lbImages = [], lbIndex = 0;
 
-    document.querySelectorAll('.project__gallery img').forEach(img => {
-      img.addEventListener('click', () => {
-        const gallery = img.closest('.project__gallery');
-        currentImages = Array.from(gallery.querySelectorAll('img')).map(i => i.src);
-        currentIndex = currentImages.indexOf(img.src);
-        lightboxImg.src = img.src;
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      });
-    });
-
-    function closeLightbox() {
-      lightbox.classList.remove('active');
-      document.body.style.overflow = '';
+    function openLightbox(images, i) {
+      lbImages = images; lbIndex = i;
+      lightboxImg.src = images[i][0];
+      lightboxImg.alt = images[i][1] || '';
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
-
-    function showPrev() {
-      currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
-      lightboxImg.src = currentImages[currentIndex];
+    function closeLightbox() { lightbox.classList.remove('active'); document.body.style.overflow = ''; }
+    function lbShow(d) {
+      lbIndex = (lbIndex + d + lbImages.length) % lbImages.length;
+      lightboxImg.src = lbImages[lbIndex][0];
+      lightboxImg.alt = lbImages[lbIndex][1] || '';
     }
-
-    function showNext() {
-      currentIndex = (currentIndex + 1) % currentImages.length;
-      lightboxImg.src = currentImages[currentIndex];
-    }
-
     lightbox.querySelector('.lightbox__close').addEventListener('click', closeLightbox);
-    lightbox.querySelector('.lightbox__prev').addEventListener('click', showPrev);
-    lightbox.querySelector('.lightbox__next').addEventListener('click', showNext);
-    lightbox.addEventListener('click', e => {
-      if (e.target === lightbox) closeLightbox();
-    });
-
+    lightbox.querySelector('.lightbox__prev').addEventListener('click', () => lbShow(-1));
+    lightbox.querySelector('.lightbox__next').addEventListener('click', () => lbShow(1));
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
     document.addEventListener('keydown', e => {
       if (!lightbox.classList.contains('active')) return;
       if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') showPrev();
-      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'ArrowLeft') lbShow(-1);
+      if (e.key === 'ArrowRight') lbShow(1);
     });
 
-    // ── GA4 Click Tracking ──────────────────────────────
+    // ── Render rail ──────────────────────────────
+    const railList = document.getElementById('railList');
+    let designAdded = false, aiAdded = false;
+    PROJECTS.forEach((p, i) => {
+      if (!p.ai && !designAdded) {
+        const g = document.createElement('div'); g.className = 'rail__group'; g.textContent = 'Design Work';
+        railList.appendChild(g); designAdded = true;
+      }
+      if (p.ai && !aiAdded) {
+        const g = document.createElement('div'); g.className = 'rail__group'; g.textContent = 'AI Projects';
+        railList.appendChild(g); aiAdded = true;
+      }
+      const item = document.createElement('div');
+      item.className = 'rail__item' + (p.ai ? ' is-ai' : '');
+      item.innerHTML = `<span class="rail__n">${p.num}</span><span class="rail__label">${p.title}</span>`;
+      item.addEventListener('click', () => select(i, true));
+      railList.appendChild(item);
+    });
+    const items = Array.from(railList.querySelectorAll('.rail__item'));
 
-    // Helper: immediately set active on nav items on click (don't wait for scroll observer)
-    function setNavActive(href) {
-      sidenavItems.forEach(item => item.classList.remove('active'));
-      mobilenavItems.forEach(item => item.classList.remove('active'));
-      const activeSide = document.querySelector(`.sidenav__item[href="${href}"]`);
-      if (activeSide) activeSide.classList.add('active');
-      const activeMobile = document.querySelector(`.mobilenav__item[href="${href}"]`);
-      if (activeMobile) {
-        activeMobile.classList.add('active');
-        activeMobile.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    // ── Analytics state ──────────────────────────────
+    let current = -1;
+    let viewStart = 0;
+    let aiSectionFired = false;
+
+    function logTimeSpent(useBeacon) {
+      if (current < 0 || !viewStart) return;
+      const seconds = Math.round((Date.now() - viewStart) / 1000);
+      if (seconds >= 3) {
+        const p = PROJECTS[current];
+        const params = { project_name: p.title, seconds_spent: seconds };
+        if (useBeacon) params.transport_type = 'beacon';
+        gtag('event', 'project_time_spent', params);
       }
     }
 
-    // Side nav clicks
-    document.querySelectorAll('.sidenav__item').forEach(item => {
-      item.addEventListener('click', () => {
-        const href = item.getAttribute('href');
-        setNavActive(href);
-        const projectEl = document.querySelector(href);
-        const project_name = projectEl?.querySelector('.project__title')?.textContent.trim() || item.querySelector('.sidenav__label')?.textContent.trim() || href?.replace('#', '') || 'unknown';
-        const project_type = item.classList.contains('sidenav__item--ai') ? 'ai' : 'design';
+    // ── Select a project ──────────────────────────────
+    function select(i, userInitiated) {
+      // time spent on the project we're leaving
+      logTimeSpent(false);
+
+      const p = PROJECTS[i];
+      items.forEach((it, idx) => it.classList.toggle('is-active', idx === i));
+
+      if (userInitiated) {
         gtag('event', 'nav_click', {
-          project_name,
-          project_type,
-          nav_surface: 'sidenav'
+          project_name: p.title,
+          project_type: p.ai ? 'ai' : 'design',
+          nav_surface: 'rail'
+        });
+      }
+      if (p.ai && !aiSectionFired) {
+        gtag('event', 'ai_section_viewed');
+        aiSectionFired = true;
+      }
+
+      const pane = document.getElementById('pane');
+      pane.className = 'pane__inner' + (p.ai ? ' is-ai' : '');
+
+      let facts = '';
+      if (!p.ai) {
+        facts = `
+          <div class="pane__facts">
+            <div class="pane__fact"><h4>Overview</h4><p>${p.overview}</p></div>
+            <div class="pane__fact"><h4>Challenge</h4><p>${p.challenge}</p></div>
+            <div class="pane__fact"><h4>Solution</h4><p>${p.solution}</p></div>
+            <div class="pane__fact"><h4>Results</h4><ul>${p.results.map(r => `<li>${r}</li>`).join('')}</ul></div>
+          </div>`;
+      } else {
+        const cs = p.caseStudy ? `<a class="pane__cta" data-btn="Case Study" href="${p.caseStudy}" target="_blank" rel="noopener">Case study →</a>` : '';
+        facts = `<div class="pane__ctas"><a class="pane__cta" data-btn="Visit project" href="${p.cta}" target="_blank" rel="noopener">Visit project →</a>${cs}</div>`;
+      }
+
+      pane.innerHTML = `
+        <h2 class="pane__title">${p.title}</h2>
+        <p class="pane__desc">${p.desc}</p>
+        <p class="pane__role">${p.role}</p>
+        <div class="pane__gal"></div>
+        ${facts}`;
+
+      // gallery
+      const gal = buildGallery(p.images);
+      pane.querySelector('.pane__gal').appendChild(gal);
+      initGallery(gal);
+
+      // lightbox + analytics on gallery images
+      const galImgs = Array.from(gal.querySelectorAll('.gal__track img'));
+      galImgs.forEach((img, idx) => {
+        img.addEventListener('click', () => {
+          openLightbox(p.images, idx);
+          gtag('event', 'lightbox_open', { project_name: p.title, image_index: idx + 1 });
         });
       });
-    });
 
-    // Mobile nav clicks
-    document.querySelectorAll('.mobilenav__item').forEach(item => {
-      item.addEventListener('click', () => {
-        const href = item.getAttribute('href');
-        setNavActive(href);
-        const projectEl = document.querySelector(href);
-        const project_name = projectEl?.querySelector('.project__title')?.textContent.trim() || item.textContent.trim();
-        const matchingSide = document.querySelector(`.sidenav__item[href="${href}"]`);
-        const project_type = matchingSide?.classList.contains('sidenav__item--ai') ? 'ai' : 'design';
-        gtag('event', 'nav_click', {
-          project_name,
-          project_type,
-          nav_surface: 'mobilenav'
-        });
-      });
-    });
-
-    // "Visit project" and "Case Study" CTA clicks
-    document.querySelectorAll('.project__cta').forEach(cta => {
-      cta.addEventListener('click', () => {
-        const project = cta.closest('.project');
-        const projectName = project?.querySelector('.project__title')?.textContent.trim() || 'unknown';
-        const buttonText = cta.textContent.trim();
-        gtag('event', 'cta_click', {
-          project_name: projectName,
-          button_text: buttonText,
-          link_url: cta.href
-        });
-      });
-    });
-
-    // ── High-Value Analytics ──────────────────────────────
-
-    // 1. Time on each project
-    const projectTimers = {};
-    const projectTimeObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        const id = entry.target.id;
-        if (entry.isIntersecting) {
-          projectTimers[id] = Date.now();
-        } else if (projectTimers[id]) {
-          const seconds = Math.round((Date.now() - projectTimers[id]) / 1000);
-          if (seconds >= 3) {
-            const projectName = entry.target.querySelector('.project__title')?.textContent.trim() || id;
-            gtag('event', 'project_time_spent', {
-              project_name: projectName,
-              seconds_spent: seconds
-            });
-          }
-          delete projectTimers[id];
-        }
-      });
-    }, { threshold: 0.3 });
-
-    projects.forEach(p => projectTimeObserver.observe(p));
-
-    // Flush timers on page unload
-    window.addEventListener('pagehide', () => {
-      Object.entries(projectTimers).forEach(([id, startTime]) => {
-        const seconds = Math.round((Date.now() - startTime) / 1000);
-        if (seconds >= 3) {
-          const el = document.getElementById(id);
-          const projectName = el?.querySelector('.project__title')?.textContent.trim() || id;
-          gtag('event', 'project_time_spent', {
-            project_name: projectName,
-            seconds_spent: seconds,
-            transport_type: 'beacon'
+      // CTA analytics
+      pane.querySelectorAll('.pane__cta').forEach(cta => {
+        cta.addEventListener('click', () => {
+          gtag('event', 'cta_click', {
+            project_name: p.title,
+            button_text: cta.dataset.btn,
+            link_url: cta.href
           });
-        }
-      });
-    });
-
-    // 2. Lightbox opens - project name + image index
-    document.querySelectorAll('.project__gallery img').forEach(img => {
-      img.addEventListener('click', () => {
-        const projectName = img.closest('.project')?.querySelector('.project__title')?.textContent.trim() || 'unknown';
-        const galleryImgs = Array.from(img.closest('.project__gallery').querySelectorAll('img'));
-        const imageIndex = galleryImgs.indexOf(img) + 1;
-        gtag('event', 'lightbox_open', {
-          project_name: projectName,
-          image_index: imageIndex
         });
       });
-    });
 
-    // 3. AI section viewed (fires once)
-    const aiDivider = document.querySelector('.section-divider');
-    if (aiDivider) {
-      const aiObserver = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-          gtag('event', 'ai_section_viewed');
-          aiObserver.disconnect();
-        }
-      }, { threshold: 0.5 });
-      aiObserver.observe(aiDivider);
+      document.querySelector('.pane').scrollTop = 0;
+      current = i;
+      viewStart = Date.now();
     }
-  </script>
 
+    // flush time on unload
+    window.addEventListener('pagehide', () => logTimeSpent(true));
+
+    select(0, false);
+  </script>
 </body>
 
 </html>
