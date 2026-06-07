@@ -275,7 +275,7 @@ body {
 
 .project__title {
   font-family: var(--font-heading);
-  font-size: clamp(1.875rem, 4vw, 3rem);
+  font-size: clamp(1.875rem, 3vw, 2.5rem);
   font-weight: 400;
   letter-spacing: -0.025em;
   line-height: 1.1;
