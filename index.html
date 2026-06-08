@@ -108,9 +108,13 @@
       font-weight: 400; letter-spacing: -0.015em; line-height: 1.08; margin: 0 0 0.75rem;
     }
     .pane__desc { font-size: 1.15rem; color: var(--text-mid); line-height: 1.6; max-width: 36rem; }
+    .pane__meta {
+      display: flex; align-items: baseline; gap: 1.5rem; flex-wrap: wrap;
+      margin-top: 1rem;
+    }
     .pane__role {
       font-size: 0.75rem; color: var(--text-light); text-transform: uppercase;
-      letter-spacing: 0.06em; font-weight: 500; margin-top: 1rem;
+      letter-spacing: 0.06em; font-weight: 500;
     }
 
     .pane__gal { margin: 2.5rem 0; }
@@ -123,11 +127,12 @@
     .pane__fact li { font-size: 0.92rem; color: var(--text-mid); padding-left: 1.1rem; position: relative; }
     .pane__fact li::before { content: '-'; position: absolute; left: 0; color: var(--accent); }
 
-    .pane__ctas { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .pane__ctas { display: contents; }
     .pane__cta {
-      display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 2rem;
-      font-size: 0.95rem; font-weight: 500; color: var(--ai); text-decoration: none;
-      border-bottom: 1px solid transparent; padding-bottom: 2px; transition: border-color 0.15s var(--ease);
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.75rem; font-weight: 600; color: var(--ai); text-decoration: none;
+      border-bottom: 1px solid transparent; padding-bottom: 1px;
+      transition: border-color 0.15s var(--ease); letter-spacing: 0.02em;
     }
     .pane__cta:hover { border-bottom-color: var(--ai); }
 
@@ -344,26 +349,26 @@
       {
         id: 'ai-1', num: '06', title: 'Voice tab switching for Chrome', ai: true,
         desc: 'A Chrome extension for switching browser tabs by voice. Press Alt+Space, say the tab name, and you’re there in under a second. Save tabs by voice, works even when the tab is closed, and supports 10+ languages including Hebrew.',
-        role: 'Personal project · 2025', cta: 'https://zeph-landing.vercel.app/',
+        role: 'Personal project · 2026', cta: 'https://zeph-landing.vercel.app/',
         images: [['images/zeph_1.png', 'Zeph - voice overlay switching to Figma'], ['images/zeph_2.png', 'Zeph - save tab by voice'], ['images/zeph_3.png', 'Zeph - how it works in three steps'], ['images/zeph_4.png', 'Zeph - saved tabs options page']]
       },
       {
         id: 'ai-2', num: '07', title: 'Kid-friendly Zoom controls', ai: true,
         desc: 'A Chrome extension that adds a kid-friendly control panel to Zoom - big colorful buttons for reactions, hand raise, and mute designed for children ages 6-12. Comes with 4 themes: Classic, Gamer, Space, and Candy.',
-        role: 'Personal project · 2025', cta: 'https://segalitoo.github.io/Zoom-for-kids/',
+        role: 'Personal project · 2026', cta: 'https://segalitoo.github.io/Zoom-for-kids/',
         caseStudy: 'https://segalitoo.github.io/Zoom-for-kids/case-study.html',
         images: [['images/zoom_1.png', 'Zoomi - hero landing page'], ['images/zoom_2.png', 'Zoomi - 4 skins'], ['images/zoom_3.png', 'Zoomi - 3-step installation flow'], ['images/zoom_4.png', 'Zoomi - extension panel inside a Zoom meeting']]
       },
       {
         id: 'ai-3', num: '08', title: 'On-brand ad generator', ai: true,
         desc: 'A tool for generating on-brand ad creatives and tailored copy across Instagram, Facebook, LinkedIn, and Stories. Upload your brand kit, pick a format, and get ready-to-use visuals in just a few seconds.',
-        role: 'Personal project · 2025', cta: 'https://payoneer-ad-generator.vercel.app/',
+        role: 'Personal project · 2026', cta: 'https://payoneer-ad-generator.vercel.app/',
         images: [['images/mint_1.png', 'Mint hero screen'], ['images/payoneer_2.png', 'Mint multi-platform format picker'], ['images/payoneer_3.png', 'Mint brand kit and gallery view'], ['images/payoneer_4.png', 'Mint remix and iterate view']]
       },
       {
         id: 'ai-4', num: '09', title: 'Voice typing for Mac', ai: true,
         desc: 'A macOS dictation tool that transcribes speech in real time - in English and Hebrew - and pastes it directly into any app. Built with Google Cloud Speech-to-Text and wrapped in a minimal floating menu bar UI.',
-        role: 'Personal project · 2025', cta: 'https://segalitoo.github.io/Shhh/',
+        role: 'Personal project · 2026', cta: 'https://segalitoo.github.io/Shhh/',
         images: [['images/shhh_1.png', 'Shhh - live dictation interface'], ['images/shhh_2.png', 'Shhh - menu bar pill UI'], ['images/shhh_3.png', 'Shhh - bilingual transcription'], ['images/shhh_4.png', 'Shhh - app in use']]
       }
     ];
@@ -516,6 +521,7 @@
       pane.className = 'pane__inner' + (p.ai ? ' is-ai' : '');
 
       let facts = '';
+      let ctas = '';
       if (!p.ai) {
         facts = `
           <div class="pane__facts">
@@ -526,13 +532,16 @@
           </div>`;
       } else {
         const cs = p.caseStudy ? `<a class="pane__cta" data-btn="Case Study" href="${p.caseStudy}" target="_blank" rel="noopener">Case study →</a>` : '';
-        facts = `<div class="pane__ctas"><a class="pane__cta" data-btn="Visit project" href="${p.cta}" target="_blank" rel="noopener">Visit project →</a>${cs}</div>`;
+        ctas = `<div class="pane__ctas"><a class="pane__cta" data-btn="Visit project" href="${p.cta}" target="_blank" rel="noopener">Visit project →</a>${cs}</div>`;
       }
 
       pane.innerHTML = `
         <h2 class="pane__title">${p.title}</h2>
         <p class="pane__desc">${p.desc}</p>
-        <p class="pane__role">${p.role}</p>
+        <div class="pane__meta">
+          <span class="pane__role">${p.role}</span>
+          ${ctas}
+        </div>
         <div class="pane__gal"></div>
         ${facts}`;
 
