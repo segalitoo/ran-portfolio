@@ -127,14 +127,16 @@
     .pane__fact li { font-size: 0.92rem; color: var(--text-mid); padding-left: 1.1rem; position: relative; }
     .pane__fact li::before { content: '-'; position: absolute; left: 0; color: var(--accent); }
 
-    .pane__ctas { display: contents; }
+    .pane__ctas { display: flex; align-items: center; gap: 0.45rem; }
     .pane__cta {
       display: inline-flex; align-items: center; gap: 0.3rem;
-      font-size: 0.75rem; font-weight: 600; color: var(--ai); text-decoration: none;
-      border-bottom: 1px solid transparent; padding-bottom: 1px;
-      transition: border-color 0.15s var(--ease); letter-spacing: 0.02em;
+      font-size: 0.71rem; font-weight: 600; color: var(--ai); text-decoration: none;
+      border: 1.5px solid var(--ai); border-radius: 100px;
+      padding: 0.22rem 0.7rem 0.24rem;
+      letter-spacing: 0.03em;
+      transition: background 0.18s var(--ease), color 0.18s var(--ease);
     }
-    .pane__cta:hover { border-bottom-color: var(--ai); }
+    .pane__cta:hover { background: var(--ai); color: #fff; }
 
     /* ---- Split Edge carousel ---- */
     .gal { position: relative; border-radius: 12px; overflow: hidden; background: #f2f1ef;
