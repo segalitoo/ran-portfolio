@@ -1,0 +1,189 @@
+/* Studio Design System — core tokens
+   The universal layer. Works in every stack via CSS custom properties.
+   Light is the default. Dark via [data-theme="dark"]. Hebrew/RTL via [dir="rtl"]. */
+
+:root {
+  /* Surfaces */
+  --surface-0: #FFFFFF;        /* page background */
+  --surface-1: #F6F8FB;        /* subtle raised / sections */
+  --surface-2: #FFFFFF;        /* cards (use with --border) */
+  --surface-sunken: #EEF1F6;   /* wells, inputs background */
+
+  /* Text */
+  --text-primary: #0C1330;     /* near-navy ink */
+  --text-secondary: #5A6377;
+  --text-muted: #8A92A3;
+  --text-on-fill: #FFFFFF;     /* text on primary/accent fills */
+
+  /* Borders */
+  --border: #E3E8EF;
+  --border-strong: #CBD2DD;
+
+  /* Primary — cobalt */
+  --primary: #2563EB;
+  --primary-hover: #1E54CC;
+  --primary-active: #1B4BB8;
+  --primary-tint: #E7EFFE;
+  --on-primary: #FFFFFF;
+  --text-primary-on-tint: #1B4BB8;
+
+  /* Accent — coral */
+  --accent: #FF5D52;
+  --accent-hover: #E84A40;
+  --accent-active: #D33F36;
+  --accent-tint: #FFE9E6;
+  --on-accent: #FFFFFF;
+  --text-accent: #B53324;      /* coral text on light/tint */
+
+  /* Tertiary — violet (optional, use sparingly) */
+  --violet: #6D4AFF;
+  --violet-tint: #ECE7FF;
+  --text-violet: #4A32CC;
+
+  /* Semantic */
+  --success: #1F9D6B;
+  --success-tint: #E2F4EC;
+  --text-success: #157551;
+  --warning: #E8A317;
+  --warning-tint: #FCF1DA;
+  --text-warning: #8A5E04;
+  --danger: #E5484D;
+  --danger-tint: #FCE9E9;
+  --text-danger: #B0282C;
+
+  /* Typography — families */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-hebrew: 'Heebo', system-ui, sans-serif;
+  --font-hebrew-display: 'Frank Ruhl Libre', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Typography — scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  /* Typography — weights + rhythm */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+
+  /* Spacing (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 999px;
+
+  /* Elevation (subtle) */
+  --shadow-sm: 0 1px 2px rgba(12, 19, 48, 0.06), 0 1px 3px rgba(12, 19, 48, 0.08);
+  --shadow-md: 0 4px 12px rgba(12, 19, 48, 0.08), 0 2px 4px rgba(12, 19, 48, 0.06);
+  --shadow-lg: 0 12px 32px rgba(12, 19, 48, 0.12);
+
+  /* Motion */
+  --dur-fast: 120ms;
+  --dur: 200ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Focus ring */
+  --ring: 0 0 0 3px rgba(37, 99, 235, 0.35);
+
+  /* Layout */
+  --container-max: 1120px;
+}
+
+[data-theme="dark"] {
+  --surface-0: #0C1020;
+  --surface-1: #141A2E;
+  --surface-2: #161D33;
+  --surface-sunken: #0E1426;
+
+  --text-primary: #EAEDF5;
+  --text-secondary: #A8B0C2;
+  --text-muted: #717A8E;
+  --text-on-fill: #FFFFFF;
+
+  --border: #26304A;
+  --border-strong: #36425F;
+
+  --primary: #4D86F0;
+  --primary-hover: #6699F4;
+  --primary-active: #7AADF7;
+  --primary-tint: #18233F;
+  --on-primary: #08122B;
+  --text-primary-on-tint: #9CC0F8;
+
+  --accent: #FF7A70;
+  --accent-hover: #FF9087;
+  --accent-active: #FFA39B;
+  --accent-tint: #3A1F1C;
+  --on-accent: #2A0D0A;
+  --text-accent: #FFB4AD;
+
+  --violet: #9277FF;
+  --violet-tint: #241C4A;
+  --text-violet: #C2B3FF;
+
+  --success: #34B883;
+  --success-tint: #11291F;
+  --text-success: #7FD9B4;
+  --warning: #F0B544;
+  --warning-tint: #2E2310;
+  --text-warning: #F2C97A;
+  --danger: #F26669;
+  --danger-tint: #2E1517;
+  --text-danger: #F59B9D;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
+  --ring: 0 0 0 3px rgba(77, 134, 240, 0.45);
+}
+
+/* System dark mode when no explicit theme is set */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --surface-0: #0C1020;
+    --surface-1: #141A2E;
+    --surface-2: #161D33;
+    --surface-sunken: #0E1426;
+    --text-primary: #EAEDF5;
+    --text-secondary: #A8B0C2;
+    --text-muted: #717A8E;
+    --border: #26304A;
+    --border-strong: #36425F;
+    --primary: #4D86F0;
+    --primary-hover: #6699F4;
+    --primary-tint: #18233F;
+    --on-primary: #08122B;
+    --accent: #FF7A70;
+    --accent-tint: #3A1F1C;
+    --text-accent: #FFB4AD;
+  }
+}
+
+/* Hebrew / RTL — swap to Hebrew-capable families */
+[dir="rtl"] {
+  --font-sans: 'Heebo', system-ui, sans-serif;
+  --font-display: 'Frank Ruhl Libre', Georgia, serif;
+}

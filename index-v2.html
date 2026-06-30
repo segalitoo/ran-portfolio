@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7BQQ79P7QM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7BQQ79P7QM');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ran Segal - Portfolio</title>
+  <meta name="description"
+    content="Portfolio of Ran Segal - Design Manager specializing in brand systems, digital products, and visual identity.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="brand-system/fonts.css">
+  <link rel="stylesheet" href="brand-system/tokens.css">
+  <link rel="stylesheet" href="brand-system/components.css">
+  <style>
+    /* ── Local aliases ── */
+    :root {
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--surface-0);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+      overflow: hidden;
+    }
+    img { display: block; }
+
+    .app { display: grid; grid-template-columns: 288px 1fr; height: 100vh; }
+
+    /* ── Rail ── */
+    .rail {
+      background: var(--surface-1);
+      border-right: 1px solid var(--border);
+      padding: 0 0 1.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s var(--ease-out);
+    }
+
+    .rail__brand {
+      padding: 1.75rem 1.5rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .rail__lockup { display: flex; align-items: center; gap: 0.75rem; }
+    .rail__mark {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: var(--primary); display: flex; align-items: center; justify-content: center;
+      color: var(--on-primary); font-weight: 700; font-size: 1rem;
+      font-family: var(--font-sans); position: relative; flex-shrink: 0;
+    }
+    .rail__mark::after {
+      content: ""; position: absolute; right: -3px; bottom: -3px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--surface-1);
+    }
+    .rail__name {
+      font-family: var(--font-display); font-size: 1.2rem;
+      font-weight: 400; line-height: 1.1; color: var(--text-primary);
+    }
+
+    .rail__group {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 1.25rem 1.5rem 0.5rem;
+    }
+    .rail__group-label {
+      font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--text-muted); font-weight: 600;
+    }
+    .rail__group-dot {
+      width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+    }
+    .rail__group-dot--design { background: var(--primary); }
+    .rail__group-dot--ai { background: var(--accent); }
+
+    .rail__item {
+      display: flex; align-items: baseline; gap: 0.65rem;
+      margin: 1px 0.75rem; padding: 0.55rem 0.75rem;
+      cursor: pointer; border-radius: var(--radius-md);
+      transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+    }
+    .rail__item:hover { background: var(--surface-sunken); }
+    .rail__item.is-active { background: var(--primary-tint); }
+    .rail__item.is-active.is-ai { background: var(--accent-tint); }
+
+    .rail__n {
+      font-size: 0.7rem; color: var(--text-muted); font-weight: 500;
+      flex-shrink: 0; font-variant-numeric: tabular-nums; min-width: 1.4rem;
+    }
+    .rail__item.is-active .rail__n { color: var(--text-primary-on-tint); }
+    .rail__item.is-active.is-ai .rail__n { color: var(--text-accent); }
+
+    .rail__label {
+      font-size: 0.84rem; color: var(--text-secondary);
+      font-weight: 500; line-height: 1.3;
+    }
+    .rail__item.is-active .rail__label { color: var(--text-primary-on-tint); font-weight: 600; }
+    .rail__item.is-active.is-ai .rail__label { color: var(--text-accent); font-weight: 600; }
+
+    .rail__foot {
+      margin-top: auto; padding: 1.25rem 1.5rem 0;
+      color: var(--text-muted); font-size: 0.73rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Theme toggle ── */
+    .theme-toggle {
+      display: flex; align-items: center; gap: 0.55rem;
+      margin-bottom: 0.85rem;
+    }
+    .theme-toggle__icon { width: 14px; height: 14px; color: var(--text-muted); flex-shrink: 0; }
+    .theme-toggle__pill {
+      position: relative; width: 36px; height: 20px;
+      background: var(--border-strong); border-radius: var(--radius-full);
+      cursor: pointer; transition: background var(--dur) var(--ease-out);
+      border: none; padding: 0; flex-shrink: 0;
+    }
+    .theme-toggle__pill::after {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--surface-0);
+      transition: transform var(--dur) var(--ease-out);
+      box-shadow: var(--shadow-sm);
+    }
+    [data-theme="dark"] .theme-toggle__pill { background: var(--primary); }
+    [data-theme="dark"] .theme-toggle__pill::after { transform: translateX(16px); }
+
+    /* Mobile top bar + drawer scrim (hidden on desktop) */
+    .mtopbar { display: none; }
+    .scrim { display: none; }
+
+    /* ── Detail pane ── */
+    .pane { overflow-y: auto; background: var(--surface-0); }
+    .pane__inner {
+      max-width: 760px; margin: 0 auto;
+      padding: 2.5rem clamp(1.5rem, 4vw, 4rem) 5rem;
+      animation: fade 0.4s var(--ease-out);
+    }
+    @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+    /* Eyebrow tag above title */
+    .pane__type {
+      margin-bottom: 0.75rem;
+    }
+
+    .pane__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 4vw, 2.85rem);
+      font-weight: 400; letter-spacing: -0.02em; line-height: 1.1;
+      color: var(--text-primary); margin: 0 0 0.75rem;
+    }
+    .pane__desc {
+      font-size: 1.05rem; color: var(--text-secondary);
+      line-height: 1.65; max-width: 38rem;
+    }
+
+    /* Meta row: role + CTAs */
+    .pane__meta {
+      display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+      margin-top: 1.25rem;
+    }
+    .pane__role {
+      font-size: 0.73rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.07em; font-weight: 500;
+    }
+    .pane__ctas { display: flex; align-items: center; gap: 0.5rem; }
+
+    /* Gallery */
+    .pane__gal { margin: 2rem 0; }
+
+    /* Facts grid - Crafel card style */
+    .pane__facts {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      overflow: hidden; margin-top: 2rem;
+    }
+    .pane__fact {
+      padding: 1.25rem 1.5rem;
+      background: var(--surface-0);
+    }
+    .pane__fact h4 {
+      font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--text-muted); font-weight: 600; margin-bottom: 0.5rem;
+    }
+    .pane__fact p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+    .pane__fact ul { list-style: none; display: grid; gap: 0.35rem; }
+    .pane__fact li {
+      font-size: 0.88rem; color: var(--text-secondary);
+      padding-left: 1rem; position: relative;
+    }
+    .pane__fact li::before {
+      content: ''; position: absolute; left: 0; top: 0.48em;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--primary);
+    }
+
+    /* ── Split Edge carousel ── */
+    .gal {
+      position: relative; border-radius: var(--radius-lg); overflow: hidden;
+      background: var(--surface-1);
+      box-shadow: var(--shadow-md);
+    }
+    .gal__vp { overflow: hidden; transition: height 0.5s var(--ease-out); }
+    .gal__track { display: flex; align-items: flex-start; transition: transform 0.6s var(--ease-out); }
+    .gal__track img { flex: 0 0 100%; width: 100%; height: auto; cursor: zoom-in; }
+
+    .gal__arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 40px; height: 40px; border-radius: var(--radius-full);
+      background: var(--surface-0); border: 1.5px solid var(--border-strong);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-primary); cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+      z-index: 2;
+    }
+    .gal__arrow:hover {
+      background: var(--primary); border-color: var(--primary); color: var(--on-primary);
+      transform: translateY(-50%) scale(1.06);
+    }
+    .gal__arrow:active { transform: translateY(-50%) scale(0.96); }
+    .gal__arrow svg { width: 16px; height: 16px; }
+    .gal__arrow--prev { left: 0.75rem; }
+    .gal__arrow--next { right: 0.75rem; }
+
+    .gal__dots {
+      position: absolute; bottom: 0.9rem; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 0.4rem;
+      background: rgba(12, 19, 48, 0.5); backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 0.4rem 0.65rem; border-radius: var(--radius-full); z-index: 2;
+    }
+    .gal__dot {
+      width: 6px; height: 6px; border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.45);
+      transition: width 0.4s var(--ease-out), background 0.3s var(--ease);
+      cursor: pointer;
+    }
+    .gal__dot.is-active { width: 20px; background: #fff; }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(12, 16, 32, 0.96);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+    .lightbox.active { opacity: 1; visibility: visible; }
+    .lightbox__img { max-width: 88vw; max-height: 88vh; object-fit: contain; border-radius: var(--radius-md); }
+    .lightbox__close, .lightbox__prev, .lightbox__next {
+      position: absolute; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-md); color: rgba(255,255,255,0.7);
+      cursor: pointer; padding: 0.6rem; display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .lightbox__close:hover, .lightbox__prev:hover, .lightbox__next:hover {
+      background: rgba(255,255,255,0.2); color: #fff;
+    }
+    .lightbox__close { top: 1.25rem; right: 1.25rem; }
+    .lightbox__prev { left: 1.25rem; top: 50%; transform: translateY(-50%); }
+    .lightbox__next { right: 1.25rem; top: 50%; transform: translateY(-50%); }
+
+    /* ── Mobile ── */
+    @media (max-width: 760px) {
+      body { overflow: auto; }
+      .app { grid-template-columns: 1fr; height: auto; }
+
+      .mtopbar {
+        display: flex; align-items: center; gap: 0.75rem;
+        position: sticky; top: 0; z-index: 40;
+        padding: 0.75rem 1rem;
+        background: rgba(246, 248, 251, 0.92);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      .mtopbar__btn {
+        width: 38px; height: 38px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        background: none; border: 1px solid var(--border); border-radius: var(--radius-md);
+        color: var(--text-primary); cursor: pointer;
+      }
+      .mtopbar__btn svg { width: 18px; height: 18px; }
+      .mtopbar__brand { font-family: var(--font-display); font-size: 1.15rem; line-height: 1; }
+      .mtopbar__current {
+        margin-left: auto; font-size: 0.75rem; color: var(--text-muted);
+        font-weight: 500; max-width: 45%; overflow: hidden;
+        text-overflow: ellipsis; white-space: nowrap;
+      }
+
+      .rail {
+        position: fixed; top: 0; left: 0; z-index: 60;
+        width: min(82vw, 300px); height: 100vh;
+        transform: translateX(-100%);
+        box-shadow: var(--shadow-lg);
+      }
+      .rail.open { transform: none; }
+      .rail__foot { display: block; }
+
+      .scrim {
+        display: block; position: fixed; inset: 0; z-index: 55;
+        background: rgba(12, 16, 32, 0.45);
+        opacity: 0; visibility: hidden;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+      }
+      .scrim.show { opacity: 1; visibility: visible; }
+
+      .pane__inner { padding: 1.5rem 1.25rem 4rem; }
+      .pane__facts { grid-template-columns: 1fr; }
+      .gal__arrow { width: 36px; height: 36px; }
+      .gal__arrow--prev { left: 0.5rem; }
+      .gal__arrow--next { right: 0.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Mobile top bar -->
+  <header class="mtopbar">
+    <button class="mtopbar__btn" id="menuBtn" aria-label="Open project menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+    <span class="mtopbar__brand">Ran Segal</span>
+    <span class="mtopbar__current" id="mCurrent"></span>
+  </header>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="app">
+    <aside class="rail">
+      <div class="rail__brand">
+        <div class="rail__lockup">
+          <div class="rail__mark">R</div>
+          <span class="rail__name">Ran Segal</span>
+        </div>
+      </div>
+      <div id="railList"></div>
+      <div class="rail__foot">
+        <div class="theme-toggle">
+          <!-- sun -->
+          <svg class="theme-toggle__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <button class="theme-toggle__pill" id="themeToggle" aria-label="Toggle dark mode"></button>
+          <!-- moon -->
+          <svg class="theme-toggle__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </div>
+        Ran Segal &copy; 2026
+      </div>
+    </aside>
+    <main class="pane"><div id="pane"></div></main>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button class="lightbox__close" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+    <button class="lightbox__prev" aria-label="Previous image">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </button>
+    <button class="lightbox__next" aria-label="Next image">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <polyline points="9 18 15 12 9 6" />
+      </svg>
+    </button>
+    <img class="lightbox__img" id="lightbox-img" src="" alt="">
+  </div>
+
+  <script>
+    // ── Project data ──────────────────────────────
+    const PROJECTS = [
+      {
+        id: 'payoneer-website', num: '01', title: 'Payoneer website redesign',
+        desc: 'Translating Payoneer’s “For Everyone” promise into a cohesive and scalable web experience.',
+        role: 'Design Manager, Payoneer · 2023',
+        overview: 'After a major rebrand, Payoneer needed its website to match the refreshed identity - communicating trust, simplicity, and inclusivity across diverse global markets.',
+        challenge: 'Modernizing a legacy interface into a cohesive platform that scales across markets while staying true to the “For Everyone” brand promise.',
+        solution: 'Built a modular design system with intuitive user flows that balanced visual consistency with regional flexibility - every page distinctly Payoneer, yet adaptable to local needs.',
+        results: ['Unified global brand identity established', 'Simplified complex user journey flows', 'Streamlined navigation for better conversion', 'Enhanced cross-platform visual consistency'],
+        images: [['images/website_1.png', 'Payoneer website redesign - hero and navigation'], ['images/website_2.png', 'Payoneer website - key features section'], ['images/website_3.png', 'Payoneer website - customer stories'], ['images/website_4.png', 'Payoneer website - footer and CTA sections']]
+      },
+      {
+        id: 'email-design-system', num: '02', title: 'Scalable email design system',
+        desc: 'A smart Figma template system designed to accelerate the production of on-brand operational and marketing emails.',
+        role: 'Design Manager, Payoneer · 2023',
+        overview: 'A centralized Figma template system enabling designers and marketers to produce on-brand emails rapidly - without starting from scratch each time.',
+        challenge: 'Email production was fragmented across teams and regions - inconsistent branding, duplicated effort, and no single source of truth for design.',
+        solution: 'A modular template library with pre-approved components and layout patterns, empowering non-designers to assemble on-brand emails independently.',
+        results: ['Accelerated design-to-delivery timeline', 'Standardized visual language across teams', 'Eliminated design bottlenecks', 'Simplified editing for rapid iteration'],
+        images: [['images/email_template_1.png', 'Email design system - template overview'], ['images/email_template_2.png', 'Email design system - component library'], ['images/email_template_3.png', 'Email design system - layout variations'], ['images/email_template_4.png', 'Email design system - brand guidelines applied']]
+      },
+      {
+        id: 'brand-portal', num: '03', title: 'Payoneer brand portal',
+        desc: 'A centralized digital hub for our global brand guidelines, accessible to every employee and partner.',
+        role: 'Design Manager, Payoneer · 2022–2025',
+        overview: 'A single, authoritative source for Payoneer’s brand guidelines - always current, always accessible to every employee and partner worldwide.',
+        challenge: 'Guidelines were scattered across PDFs and shared drives. Different offices interpreted the brand differently, diluting Payoneer’s identity.',
+        solution: 'An interactive web portal with searchable guidelines, downloadable assets, and usage examples - covering logo, typography, color, photography, and tone of voice.',
+        results: ['Single source of brand truth', 'Unified global visual consistency', 'Streamlined internal and external access', 'Reduced asset mismanagement errors'],
+        images: [['images/brand_portal_1.png', 'Payoneer brand portal - overview and guidelines'], ['images/brand_portal_2.png', 'Payoneer brand portal - icon library'], ['images/brand_portal_3.png', 'Payoneer brand portal - PowerPoint templates'], ['images/brand_portal_4.png', 'Payoneer brand portal - asset library and resources']]
+      },
+      {
+        id: 'image-library', num: '04', title: 'Customer image library',
+        desc: 'Moving beyond stock photography: creating a bespoke asset library to truly represent our global user base.',
+        role: 'Design Manager, Payoneer · 2022',
+        overview: 'Replacing generic stock with a custom photography library featuring real users and scenarios from around the globe.',
+        challenge: 'Stock imagery felt inauthentic and interchangeable with competitors - a disconnect from Payoneer’s promise of global inclusion.',
+        solution: 'Organized photo shoots across multiple regions, building a library organized by region, use case, and theme for easy cross-team access.',
+        results: ['Owned library of diverse assets', 'Scalable cross-channel visual language', 'Unified, authentic brand identity', 'Eliminated reliance on generic stock'],
+        images: [['images/photoshoot_1.png', 'Custom photography - diverse global customers'], ['images/photoshoot_2.png', 'Regional photo shoot samples'], ['images/photoshoot_3.png', 'Customer portrait photography'], ['images/photoshoot_4.png', 'Image library organized by theme and region']]
+      },
+      {
+        id: 'icon-packages', num: '05', title: 'Icon packages',
+        desc: 'A scalable icon ecosystem designed to bridge the gap between functional UI and expressive brand storytelling.',
+        role: 'Design Manager, Payoneer · 2022–2025',
+        overview: 'A comprehensive icon system spanning functional UI, illustrative brand, and animated motion icons - all working as one cohesive visual language.',
+        challenge: 'Icons were created ad-hoc with no shared standards, causing visual fragmentation and bottlenecks for every new feature or campaign.',
+        solution: 'A tiered system with clear usage guidelines - functional, illustrative, and animated - sharing consistent stroke weights, proportions, and style.',
+        results: ['Unified brand visual language globally', 'Streamlined internal design team workflows', 'Scalable assets for diverse needs', 'Enhanced user engagement through motion'],
+        images: [['images/icon_packages_1.png', 'Icon ecosystem overview'], ['images/icon_packages_2.png', 'Icon library structure and naming convention'], ['images/icon_packages_3.png', 'Icon categories'], ['images/icon_packages_4.png', 'Icon complexity tiers']]
+      },
+      {
+        id: 'ai-1', num: '06', title: 'Voice tab switching for Chrome', ai: true,
+        desc: 'A Chrome extension for switching browser tabs by voice. Press Alt+Space, say the tab name, and you’re there in under a second. Save tabs by voice, works even when the tab is closed, and supports 10+ languages including Hebrew.',
+        role: 'Personal project · 2026', cta: 'https://zeph-landing.vercel.app/',
+        images: [['images/zeph_1.png', 'Zeph - voice overlay switching to Figma'], ['images/zeph_2.png', 'Zeph - save tab by voice'], ['images/zeph_3.png', 'Zeph - how it works in three steps'], ['images/zeph_4.png', 'Zeph - saved tabs options page']]
+      },
+      {
+        id: 'ai-2', num: '07', title: 'Kid-friendly Zoom controls', ai: true,
+        desc: 'A Chrome extension that adds a kid-friendly control panel to Zoom - big colorful buttons for reactions, hand raise, and mute designed for children ages 6-12. Comes with 4 themes: Classic, Gamer, Space, and Candy.',
+        role: 'Personal project · 2026', cta: 'https://segalitoo.github.io/Zoom-for-kids/',
+        caseStudy: 'https://segalitoo.github.io/Zoom-for-kids/case-study.html',
+        images: [['images/zoom_1.png', 'Zoomi - hero landing page'], ['images/zoom_2.png', 'Zoomi - 4 skins'], ['images/zoom_3.png', 'Zoomi - 3-step installation flow'], ['images/zoom_4.png', 'Zoomi - extension panel inside a Zoom meeting']]
+      },
+      {
+        id: 'ai-3', num: '08', title: 'On-brand ad generator', ai: true,
+        desc: 'A tool for generating on-brand ad creatives and tailored copy across Instagram, Facebook, LinkedIn, and Stories. Upload your brand kit, pick a format, and get ready-to-use visuals in just a few seconds.',
+        role: 'Personal project · 2026', cta: 'https://payoneer-ad-generator.vercel.app/',
+        images: [['images/mint_1.png', 'Mint hero screen'], ['images/payoneer_2.png', 'Mint multi-platform format picker'], ['images/payoneer_3.png', 'Mint brand kit and gallery view'], ['images/payoneer_4.png', 'Mint remix and iterate view']]
+      },
+      {
+        id: 'ai-4', num: '09', title: 'Voice typing for Mac', ai: true,
+        desc: 'A macOS dictation tool that transcribes speech in real time - in English and Hebrew - and pastes it directly into any app. Built with Google Cloud Speech-to-Text and wrapped in a minimal floating menu bar UI.',
+        role: 'Personal project · 2026', cta: 'https://segalitoo.github.io/Shhh/',
+        images: [['images/shhh_1.png', 'Shhh - live dictation interface'], ['images/shhh_2.png', 'Shhh - menu bar pill UI'], ['images/shhh_3.png', 'Shhh - bilingual transcription'], ['images/shhh_4.png', 'Shhh - app in use']]
+      }
+    ];
+
+    const PG_PREV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+    const PG_NEXT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
+
+    function buildGallery(images) {
+      const g = document.createElement('div');
+      g.className = 'gal';
+      const slides = images.map(([src, alt]) => `<img src="${src}" alt="${alt}">`).join('');
+      g.innerHTML = `
+        <div class="gal__vp"><div class="gal__track">${slides}</div></div>
+        <button class="gal__arrow gal__arrow--prev" aria-label="Previous image">${PG_PREV}</button>
+        <button class="gal__arrow gal__arrow--next" aria-label="Next image">${PG_NEXT}</button>
+        <div class="gal__dots">${images.map((_, i) => `<span class="gal__dot${i === 0 ? ' is-active' : ''}"></span>`).join('')}</div>`;
+      return g;
+    }
+
+    function initGallery(gallery) {
+      const imgs = Array.from(gallery.querySelectorAll('img'));
+      if (imgs.length < 2) return;
+      const track = gallery.querySelector('.gal__track');
+      const vp = gallery.querySelector('.gal__vp');
+      const dots = Array.from(gallery.querySelectorAll('.gal__dot'));
+      let index = 0, timer = null, inView = false, hovering = false;
+      const total = imgs.length, DUR = 5000;
+
+      function setH() { const h = imgs[index].clientHeight; if (h) vp.style.height = h + 'px'; }
+      function render() {
+        track.style.transform = `translateX(-${index * 100}%)`;
+        dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
+        setH();
+      }
+      function go(i) { index = (i + total) % total; render(); }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      function play() { stop(); if (inView && !hovering) timer = setInterval(() => go(index + 1), DUR); }
+
+      gallery.querySelector('.gal__arrow--prev').addEventListener('click', () => { go(index - 1); play(); });
+      gallery.querySelector('.gal__arrow--next').addEventListener('click', () => { go(index + 1); play(); });
+      dots.forEach((d, i) => d.addEventListener('click', () => { go(i); play(); }));
+      gallery.addEventListener('mouseenter', () => { hovering = true; stop(); });
+      gallery.addEventListener('mouseleave', () => { hovering = false; play(); });
+
+      const io = new IntersectionObserver(e => { inView = e[0].isIntersecting; play(); }, { threshold: 0.3 });
+      io.observe(gallery);
+      imgs.forEach(img => img.addEventListener('load', () => { if (imgs[index] === img) setH(); }));
+      window.addEventListener('resize', setH);
+      render();
+      if (imgs[index].complete) setH();
+    }
+
+    // ── Lightbox ──────────────────────────────
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    let lbImages = [], lbIndex = 0;
+
+    function openLightbox(images, i) {
+      lbImages = images; lbIndex = i;
+      lightboxImg.src = images[i][0];
+      lightboxImg.alt = images[i][1] || '';
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() { lightbox.classList.remove('active'); document.body.style.overflow = ''; }
+    function lbShow(d) {
+      lbIndex = (lbIndex + d + lbImages.length) % lbImages.length;
+      lightboxImg.src = lbImages[lbIndex][0];
+      lightboxImg.alt = lbImages[lbIndex][1] || '';
+    }
+    lightbox.querySelector('.lightbox__close').addEventListener('click', closeLightbox);
+    lightbox.querySelector('.lightbox__prev').addEventListener('click', () => lbShow(-1));
+    lightbox.querySelector('.lightbox__next').addEventListener('click', () => lbShow(1));
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') lbShow(-1);
+      if (e.key === 'ArrowRight') lbShow(1);
+    });
+
+    // ── Render rail ──────────────────────────────
+    const railList = document.getElementById('railList');
+    let designAdded = false, aiAdded = false;
+    PROJECTS.forEach((p, i) => {
+      if (!p.ai && !designAdded) {
+        const g = document.createElement('div'); g.className = 'rail__group';
+        g.innerHTML = '<span class="rail__group-dot rail__group-dot--design"></span><span class="rail__group-label">Design Work</span>';
+        railList.appendChild(g); designAdded = true;
+      }
+      if (p.ai && !aiAdded) {
+        const g = document.createElement('div'); g.className = 'rail__group';
+        g.innerHTML = '<span class="rail__group-dot rail__group-dot--ai"></span><span class="rail__group-label">AI Projects</span>';
+        railList.appendChild(g); aiAdded = true;
+      }
+      const item = document.createElement('div');
+      item.className = 'rail__item' + (p.ai ? ' is-ai' : '');
+      item.innerHTML = `<span class="rail__n">${p.num}</span><span class="rail__label">${p.title}</span>`;
+      item.addEventListener('click', () => select(i, true));
+      railList.appendChild(item);
+    });
+    const items = Array.from(railList.querySelectorAll('.rail__item'));
+
+    // ── Mobile drawer ──────────────────────────────
+    const rail = document.querySelector('.rail');
+    const scrim = document.getElementById('scrim');
+    const menuBtn = document.getElementById('menuBtn');
+    const mCurrent = document.getElementById('mCurrent');
+    function openMenu() { rail.classList.add('open'); scrim.classList.add('show'); menuBtn.setAttribute('aria-expanded', 'true'); }
+    function closeMenu() { rail.classList.remove('open'); scrim.classList.remove('show'); menuBtn.setAttribute('aria-expanded', 'false'); }
+    menuBtn.addEventListener('click', () => { rail.classList.contains('open') ? closeMenu() : openMenu(); });
+    scrim.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+    // ── Analytics ──────────────────────────────
+    let current = -1, viewStart = 0, aiSectionFired = false;
+
+    function logTimeSpent(useBeacon) {
+      if (current < 0 || !viewStart) return;
+      const seconds = Math.round((Date.now() - viewStart) / 1000);
+      if (seconds >= 3) {
+        const p = PROJECTS[current];
+        const params = { project_name: p.title, seconds_spent: seconds };
+        if (useBeacon) params.transport_type = 'beacon';
+        gtag('event', 'project_time_spent', params);
+      }
+    }
+
+    // ── Select a project ──────────────────────────────
+    function select(i, userInitiated) {
+      logTimeSpent(false);
+      const p = PROJECTS[i];
+      items.forEach((it, idx) => it.classList.toggle('is-active', idx === i));
+
+      if (userInitiated) {
+        gtag('event', 'nav_click', {
+          project_name: p.title,
+          project_type: p.ai ? 'ai' : 'design',
+          nav_surface: 'rail'
+        });
+      }
+      if (p.ai && !aiSectionFired) {
+        gtag('event', 'ai_section_viewed');
+        aiSectionFired = true;
+      }
+
+      // Eyebrow tag
+      const typeTag = p.ai
+        ? `<span class="ds-tag ds-tag--accent">AI project</span>`
+        : `<span class="ds-tag ds-tag--primary">Design work</span>`;
+
+      // CTAs
+      let ctas = '';
+      if (p.ai) {
+        const cs = p.caseStudy
+          ? `<a class="ds-btn ds-btn--secondary" data-btn="Case Study" href="${p.caseStudy}" target="_blank" rel="noopener">Case study</a>`
+          : '';
+        ctas = `<div class="pane__ctas">
+          <a class="ds-btn ds-btn--primary" data-btn="Visit project" href="${p.cta}" target="_blank" rel="noopener">Visit project</a>${cs}
+        </div>`;
+      }
+
+      // Facts
+      let facts = '';
+      if (!p.ai) {
+        facts = `
+          <div class="pane__facts">
+            <div class="pane__fact"><h4>Overview</h4><p>${p.overview}</p></div>
+            <div class="pane__fact"><h4>Challenge</h4><p>${p.challenge}</p></div>
+            <div class="pane__fact"><h4>Solution</h4><p>${p.solution}</p></div>
+            <div class="pane__fact"><h4>Results</h4><ul>${p.results.map(r => `<li>${r}</li>`).join('')}</ul></div>
+          </div>`;
+      }
+
+      const pane = document.getElementById('pane');
+      pane.innerHTML = `
+        <div class="pane__inner">
+          <div class="pane__type">${typeTag}</div>
+          <h2 class="pane__title">${p.title}</h2>
+          <p class="pane__desc">${p.desc}</p>
+          <div class="pane__meta">
+            <span class="pane__role">${p.role}</span>
+            ${ctas}
+          </div>
+          <div class="pane__gal"></div>
+          ${facts}
+        </div>`;
+
+      // Gallery
+      const galEl = pane.querySelector('.pane__gal');
+      const gal = buildGallery(p.images);
+      galEl.appendChild(gal);
+      initGallery(gal);
+
+      // Lightbox + analytics
+      Array.from(gal.querySelectorAll('.gal__track img')).forEach((img, idx) => {
+        img.addEventListener('click', () => {
+          openLightbox(p.images, idx);
+          gtag('event', 'lightbox_open', { project_name: p.title, image_index: idx + 1 });
+        });
+      });
+
+      // CTA analytics
+      pane.querySelectorAll('[data-btn]').forEach(el => {
+        el.addEventListener('click', () => {
+          gtag('event', 'cta_click', {
+            project_name: p.title,
+            button_text: el.dataset.btn,
+            link_url: el.href
+          });
+        });
+      });
+
+      document.querySelector('.pane').scrollTop = 0;
+      if (mCurrent) mCurrent.textContent = p.title;
+      closeMenu();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      current = i;
+      viewStart = Date.now();
+    }
+
+    window.addEventListener('pagehide', () => logTimeSpent(true));
+    select(0, false);
+
+    // ── Theme toggle ──
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('v2-theme');
+    if (savedTheme) html.setAttribute('data-theme', savedTheme);
+    themeToggle.addEventListener('click', () => {
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      const next = isDark ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('v2-theme', next);
+    });
+  </script>
+</body>
+
+</html>
