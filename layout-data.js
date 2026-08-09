@@ -51,10 +51,10 @@ window.PROJECTS = [
     images: [['images/icon_packages_1.png', 'icon ecosystem overview'], ['images/icon_packages_2.png', 'library structure'], ['images/icon_packages_3.png', 'icon categories'], ['images/icon_packages_4.png', 'complexity tiers']]
   },
   {
-    id: 'ai-1', num: '06', title: 'Zeph - Voice tab switching for Chrome', ai: true,
+    id: 'ai-1', num: '06', title: 'Naymo - Voice tab switching for Chrome', ai: true,
     desc: 'A Chrome extension for switching browser tabs by voice. Press Alt+Space, say the tab name, and you’re there in under a second. Supports 10+ languages including Hebrew.',
-    role: 'Personal project · 2025', cta: 'https://zeph-landing.vercel.app/',
-    images: [['images/zeph_1.png', 'voice overlay'], ['images/zeph_2.png', 'save by voice'], ['images/zeph_3.png', 'how it works'], ['images/zeph_4.png', 'saved tabs']]
+    role: 'Personal project · 2025', cta: 'https://naymo.vercel.app/',
+    images: [['images/naymo_1.png', 'voice overlay'], ['images/naymo_2.png', 'save by voice'], ['images/naymo_3.png', 'how it works'], ['images/naymo_4.png', 'saved tabs']]
   },
   {
     id: 'ai-2', num: '07', title: 'Zoomi - Kid-friendly Zoom controls', ai: true,
