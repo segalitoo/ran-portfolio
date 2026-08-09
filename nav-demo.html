@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nav Options - AI Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg:         #FFFFFF;
+      --color-text:       #111111;
+      --color-text-mid:   #555555;
+      --color-text-light: #999999;
+      --color-accent:     #C4896E;
+      --color-rule:       #E2E2E2;
+      --color-rule-heavy: #CCCCCC;
+      --font-heading: 'DM Serif Display', Georgia, serif;
+      --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+      --text-xs: 0.6875rem;
+      --text-sm: 0.8125rem;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--color-bg);
+      font-family: var(--font-body);
+      color: var(--color-text);
+      -webkit-font-smoothing: antialiased;
+      padding: 3rem 4rem;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.375rem;
+    }
+    .subtitle {
+      font-size: var(--text-sm);
+      color: var(--color-text-light);
+      margin-bottom: 3rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem 4rem;
+    }
+
+    .demo {
+      border-top: 1px solid var(--color-rule);
+      padding-top: 1.5rem;
+    }
+
+    .demo__label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-text-light);
+      margin-bottom: 0.4rem;
+    }
+
+    .demo__name {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 400;
+      margin-bottom: 0.3rem;
+    }
+
+    .demo__desc {
+      font-size: var(--text-xs);
+      color: var(--color-text-mid);
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Shared nav shell ---- */
+    .nav {
+      width: 180px;
+      border-right: 1px solid var(--color-rule);
+      padding-right: 0;
+    }
+
+    .nav__item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.625rem;
+      padding: 0.6rem 1.5rem 0.6rem 1.5rem;
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      margin-left: -1px;
+      transition: border-color 0.15s ease;
+    }
+
+    .nav__num {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-text-light);
+      flex-shrink: 0;
+    }
+
+    .nav__label {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-text-light);
+      line-height: 1.3;
+    }
+
+    /* Existing items (main projects) */
+    .nav__item--main.active {
+      border-left-color: var(--color-text);
+    }
+    .nav__item--main.active .nav__label,
+    .nav__item--main.active .nav__num {
+      color: var(--color-text);
+    }
+
+    /* Section divider label inside nav */
+    .nav__section {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-text-light);
+      padding: 1rem 1.5rem 0.4rem;
+    }
+
+    /* ====================================================
+       OPTION A: Accent left-border active state
+       Same as main but active uses accent color
+       ==================================================== */
+    .nav--a .nav__item--ai:hover { border-left-color: rgba(196,137,110,0.4); }
+    .nav--a .nav__item--ai:hover .nav__label { color: var(--color-text); }
+    .nav--a .nav__item--ai.active { border-left-color: var(--color-accent); }
+    .nav--a .nav__item--ai.active .nav__label { color: var(--color-accent); }
+    .nav--a .nav__item--ai.active .nav__num { color: var(--color-accent); }
+
+    /* ====================================================
+       OPTION B: Accent dot instead of number
+       ==================================================== */
+    .nav--b .nav__item--ai .nav__num { display: none; }
+    .nav--b .nav__item--ai {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .nav--b .nav__item--ai::after {
+      content: '';
+      position: absolute;
+      left: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--color-rule-heavy);
+      transition: background 0.15s ease;
+    }
+    .nav--b .nav__item--ai:hover::after { background: var(--color-accent); }
+    .nav--b .nav__item--ai.active::after { background: var(--color-accent); }
+    .nav--b .nav__item--ai.active { border-left-color: var(--color-accent); }
+    .nav--b .nav__item--ai.active .nav__label { color: var(--color-text); }
+    .nav--b .nav__item--ai:hover .nav__label { color: var(--color-text); }
+
+    /* ====================================================
+       OPTION C: Accent background pill on active item
+       ==================================================== */
+    .nav--c .nav__item--ai {
+      border-left: none;
+      margin-left: 0;
+      padding: 0.45rem 1rem 0.45rem 1.25rem;
+      border-radius: 0;
+      transition: background 0.15s ease;
+    }
+    .nav--c .nav__item--ai:hover { background: #fdf5f1; }
+    .nav--c .nav__item--ai.active { background: rgba(196,137,110,0.12); }
+    .nav--c .nav__item--ai.active .nav__label { color: var(--color-accent); }
+    .nav--c .nav__item--ai.active .nav__num { color: var(--color-accent); }
+
+    /* ====================================================
+       OPTION D: Indented + italic labels (sub-section feel)
+       ==================================================== */
+    .nav--d .nav__item--ai .nav__num { display: none; }
+    .nav--d .nav__item--ai {
+      padding-left: 2.25rem;
+    }
+    .nav--d .nav__item--ai .nav__label {
+      font-style: italic;
+      font-size: calc(var(--text-xs) - 0.05rem);
+    }
+    .nav--d .nav__item--ai:hover { border-left-color: rgba(196,137,110,0.4); }
+    .nav--d .nav__item--ai:hover .nav__label { color: var(--color-text-mid); }
+    .nav--d .nav__item--ai.active { border-left-color: var(--color-accent); }
+    .nav--d .nav__item--ai.active .nav__label { color: var(--color-accent); font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <h1>Nav Options — AI Projects</h1>
+  <p class="subtitle">Active state shown on first AI item. Hover to test.</p>
+
+  <div class="grid">
+
+    <!-- OPTION A -->
+    <div class="demo">
+      <p class="demo__label">Option A</p>
+      <p class="demo__name">Accent left-border</p>
+      <p class="demo__desc">Same structure as main nav. Active AI items use accent color for the border and text instead of black.</p>
+      <nav class="nav nav--a">
+        <a href="#" class="nav__item nav__item--main active" onclick="return false;">
+          <span class="nav__num">04</span>
+          <span class="nav__label">Image Library</span>
+        </a>
+        <a href="#" class="nav__item nav__item--main" onclick="return false;">
+          <span class="nav__num">05</span>
+          <span class="nav__label">Icon Packages</span>
+        </a>
+        <div class="nav__section">AI Projects</div>
+        <a href="#" class="nav__item nav__item--ai active" onclick="return false;">
+          <span class="nav__num">06</span>
+          <span class="nav__label">Project One</span>
+        </a>
+        <a href="#" class="nav__item nav__item--ai" onclick="return false;">
+          <span class="nav__num">07</span>
+          <span class="nav__label">Project Two</span>
+        </a>
+        <a href="#" class="nav__item nav__item--ai" onclick="return false;">
+          <span class="nav__num">08</span>
+          <span class="nav__label">Project Three</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- OPTION B -->
+    <div class="demo">
+      <p class="demo__label">Option B</p>
+      <p class="demo__name">Accent dot marker</p>
+      <p class="demo__desc">Numbers replaced by a small dot. Active and hover state turns dot accent. Left border also accent on active.</p>
+      <nav class="nav nav--b">
+        <a href="#" class="nav__item nav__item--main active" onclick="return false;">
+          <span class="nav__num">04</span>
+          <span class="nav__label">Image Library</span>
+        </a>
+        <a href="#" class="nav__item nav__item--main" onclick="return false;">
+          <span class="nav__num">05</span>
+          <span class="nav__label">Icon Packages</span>
+        </a>
+        <div class="nav__section">AI Projects</div>
+        <a href="#" class="nav__item nav__item--ai active" onclick="return false;">
+          <span class="nav__num"></span>
+          <span class="nav__label">Project One</span>
+        </a>
+        <a href="#" class="nav__item nav__item--ai" onclick="return false;">
+          <span class="nav__num"></span>
+          <span class="nav__label">Project Two</span>
+        </a>
+        <a href="#" class="nav__item nav__item--ai" onclick="return false;">
+          <span class="nav__num"></span>
+          <span class="nav__label">Project Three</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- OPTION C -->
+    <div class="demo">
+      <p class="demo__label">Option C</p>
+      <p class="demo__name">Accent background tint</p>
+      <p class="demo__desc">Active item gets a soft warm tint background. More distinct from main nav items. Subtle but clearly different.</p>
+      <nav class="nav nav--c">
+        <a href="#" class="nav__item nav__item--main active" onclick="return false;">
+          <span class="nav__num">04</span>
+          <span class="nav__label">Image Library</span>
+        </a>
+        <a href="#" class="nav__item nav__item--main" onclick="return false;">
+          <span class="nav__num">05</span>
+          <span class="nav__label">Icon Packages</span>
+        </a>
+        <div class="nav__section">AI Projects</div>
+        <a href="#" class="nav__item nav__item--ai active" onclick="return false;">
+          <span class="nav__num">06</span>
+          <span class="nav__label">Project One</span>
+        </a>
+        <a href="#" class="nav__item nav__item--ai" onclick="return false;">
+          <span class="nav__num">07</span>
+          <span class="nav__label">Project Two</span>
+        </a>
+        <a href="#" class="nav__item nav__item--ai" onclick="return false;">
+          <span class="nav__num">08</span>
+          <span class="nav__label">Project Three</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- OPTION D -->
+    <div class="demo">
+      <p class="demo__label">Option D</p>
+      <p class="demo__name">Indented italic</p>
+      <p class="demo__desc">No numbers. Labels indented and italicised — signals a sub-section or side-project feel. Active uses accent left-border.</p>
+      <nav class="nav nav--d">
+        <a href="#" class="nav__item nav__item--main active" onclick="return false;">
+          <span class="nav__num">04</span>
+          <span class="nav__label">Image Library</span>
+        </a>
+        <a href="#" class="nav__item nav__item--main" onclick="return false;">
+          <span class="nav__num">05</span>
+          <span class="nav__label">Icon Packages</span>
+        </a>
+        <div class="nav__section">AI Projects</div>
+        <a href="#" class="nav__item nav__item--ai active" onclick="return false;">
+          <span class="nav__label">Project One</span>
+        </a>
+        <a href="#" class="nav__item nav__item--ai" onclick="return false;">
+          <span class="nav__label">Project Two</span>
+        </a>
+        <a href="#" class="nav__item nav__item--ai" onclick="return false;">
+          <span class="nav__label">Project Three</span>
+        </a>
+      </nav>
+    </div>
+
+  </div>
+
+</body>
+</html>
