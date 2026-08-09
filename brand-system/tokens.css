@@ -112,7 +112,11 @@
   --container-max: 1120px;
 }
 
-[data-theme="dark"] {
+/* .dark is scoped to :root deliberately. Tailwind's class strategy puts it on
+   <html>, which is what Ideas does. An unscoped .dark would also theme any nested
+   element that happens to carry the class, e.g. the "on dark" logo swatch in
+   docs/identity.html. */
+[data-theme="dark"], :root.dark {
   --surface-0: #0C1020;
   --surface-1: #141A2E;
   --surface-2: #161D33;
