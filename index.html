@@ -12,9 +12,23 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ran Segal - Portfolio</title>
+  <title>Ran Segal - Design Manager Portfolio</title>
   <meta name="description"
     content="Portfolio of Ran Segal - Design Manager specializing in brand systems, digital products, and visual identity.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://segalitoo.github.io/ran-portfolio/">
+  <meta property="og:title" content="Ran Segal - Design Manager Portfolio">
+  <meta property="og:description" content="Design Manager with 10+ years at Payoneer and beyond. Brand systems, digital products, and AI side projects.">
+  <meta property="og:image" content="https://segalitoo.github.io/ran-portfolio/images/website_1.png">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ran Segal - Design Manager Portfolio">
+  <meta name="twitter:description" content="Design Manager with 10+ years at Payoneer and beyond. Brand systems, digital products, and AI side projects.">
+  <meta name="twitter:image" content="https://segalitoo.github.io/ran-portfolio/images/website_1.png">
+
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -351,7 +365,20 @@
           <span class="rail__name">Ran Segal</span>
         </div>
       </div>
-      <div id="railList"></div>
+      <div id="railList">
+        <!-- static nav for crawlers / no-JS — JS replaces this on load -->
+        <nav aria-label="Projects">
+          <a href="#payoneer-website">Payoneer website redesign</a>
+          <a href="#email-design-system">Scalable email design system</a>
+          <a href="#brand-portal">Payoneer brand portal</a>
+          <a href="#customer-images">Customer image library</a>
+          <a href="#icon-packages">Icon packages</a>
+          <a href="#ai-1">Voice tab switching for Chrome</a>
+          <a href="#ai-2">Kid-friendly Zoom controls</a>
+          <a href="#ai-3">On-brand ad generator</a>
+          <a href="#ai-4">Voice typing for Mac</a>
+        </nav>
+      </div>
       <div class="rail__foot">
         <div class="theme-toggle">
           <!-- sun -->
@@ -363,7 +390,22 @@
         Ran Segal &copy; 2026
       </div>
     </aside>
-    <main class="pane"><div id="pane"></div></main>
+    <main class="pane"><div id="pane">
+      <!-- static fallback for crawlers / no-JS — JS replaces this on load -->
+      <article>
+        <h1>Ran Segal — Design Manager</h1>
+        <p>Design Manager with 10+ years at Payoneer and beyond, working on brand systems, digital products, and AI side projects.</p>
+        <section id="payoneer-website"><h2>Payoneer website redesign</h2><p>Translating Payoneer's "For Everyone" promise into a cohesive and scalable web experience.</p></section>
+        <section id="email-design-system"><h2>Scalable email design system</h2><p>A modular email design system that unified Payoneer's communications across every market.</p></section>
+        <section id="brand-portal"><h2>Payoneer brand portal</h2><p>A single, authoritative source for Payoneer's brand guidelines — always current, always accessible.</p></section>
+        <section id="customer-images"><h2>Customer image library</h2><p>An owned photography library of diverse, authentic customers replacing generic stock imagery.</p></section>
+        <section id="icon-packages"><h2>Icon packages</h2><p>A scalable icon ecosystem bridging functional UI and expressive brand storytelling.</p></section>
+        <section id="ai-1"><h2>Voice tab switching for Chrome</h2><p>A Chrome extension for switching browser tabs by voice. Press Alt+Space, say the tab name, and you're there in under a second.</p></section>
+        <section id="ai-2"><h2>Kid-friendly Zoom controls</h2><p>A Chrome extension that simplifies Zoom's interface for children during online learning.</p></section>
+        <section id="ai-3"><h2>On-brand ad generator</h2><p>An AI-powered tool that generates on-brand ad creatives at scale using Gemini and Payoneer's design system.</p></section>
+        <section id="ai-4"><h2>Voice typing for Mac</h2><p>A macOS dictation tool that types wherever your cursor is, in English and Hebrew, using a single hotkey.</p></section>
+      </article>
+    </div></main>
   </div>
 
   <!-- LIGHTBOX -->
