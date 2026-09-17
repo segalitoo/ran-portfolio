@@ -8,3 +8,7 @@ mov/*.mov
 .github/hooks/
 .github/skills/
 .impeccable/
+
+# Design explorations. Kept on disk and in history at fd8afab,
+# but not deployed: GitHub Pages serves whatever is committed.
+_archive/
