@@ -1,0 +1,512 @@
+/* ══════════════════════════════════════════════════════════
+   Option G · By day, by night
+   The structure is Ran's own sentence. "Brand systems, global
+   websites and design operations by day. AI production tools,
+   browser extensions and apps by night." So the page has two
+   grounds, and the tools run in the dark one.
+
+   The global theme toggle is deliberately absent here. This page is
+   already two themes at once, and a control that flattens them into
+   one would remove the only idea it has.
+   ══════════════════════════════════════════════════════════ */
+
+/* The two grounds, written out. A gradient has to interpolate between
+   two resolved colours, and a custom property that points at a token
+   resolves where it is used, which is the wrong side of the seam.
+   These are exactly --surface-0 light and --surface-0 dark. */
+.g-page {
+  --ground-day: #FFFFFF; --ground-night: #0C1020;
+  /* Two browser defaults this page never opted out of. iOS paints a grey
+     rectangle over anything tapped, which flashes a square through the
+     radius-full shape of every reel tab and every tool pill. And site.css
+     asks Chrome and Safari for grayscale antialiasing but never asks
+     Firefox on macOS, so the same page renders at two different weights
+     depending on the browser. */
+  -webkit-tap-highlight-color: transparent;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Taking the tap highlight away takes the only touch feedback the two hero
+   buttons had: unlike every other pressable thing on this page they carry
+   no :active state. Same 0.97 as the reel tabs and the tool pills, eased
+   over the same 140ms as .g-tool__go and the pause pill. site.css gives
+   .btn no transform transition, so its two existing transitions are
+   restated here rather than dropped. */
+.g-page .btn {
+  transition: background 0.24s var(--ez), border-color 0.24s var(--ez), transform 140ms var(--ez);
+}
+
+.g-page .btn:active { transform: scale(0.97); }
+
+/* site.css declares --hair, --hair-hi and --tint on :root, so the
+   var(--text-primary) inside each one is substituted against :root and not
+   against the block that carries data-theme. On a page with two grounds that
+   is the wrong side of the seam: every hairline in the night section was drawn
+   with the day ink and vanished. The rule beside the "Four products" eyebrow
+   and the rule above each tool's fact line are both invisible today, which is
+   the same thing the .g-tool__go comment found and worked around one property
+   at a time. Restating the three here re-resolves them per themed block, and
+   fixes the mirror case: with the OS in dark mode the day, hero and foot
+   hairlines were being drawn with the night ink. */
+.g-page [data-theme] {
+  --hair: color-mix(in srgb, var(--text-primary) 10%, transparent);
+  --hair-hi: color-mix(in srgb, var(--text-primary) 22%, transparent);
+  --tint: color-mix(in srgb, var(--text-primary) 4%, transparent);
+}
+
+/* Wayfinding: site.js already flags the section you are in, it just was
+   not loud enough to use. */
+.nav__a.is-current { color: var(--primary); background: var(--primary-tint); }
+
+/* The page was running the full width on a wide screen with a 56px
+   gutter, which reads as a browser window rather than as a page. This
+   ramps to 150px of side air and holds there, and collapses back to the
+   shared gutter by the time the layout is a single column, so a phone
+   does not lose a third of its width to margin. */
+.g-page { --g-gut: clamp(20px, calc((100vw - 900px) * 0.28 + 20px), 150px); }
+
+.g-wrap { width: 100%; max-width: 1560px; margin-inline: auto; padding-inline: var(--g-gut); }
+
+/* The nav runs on site.css's --wide, 1560px, and this page runs on 1480px,
+   so above 1480 the fixed bar sits on a wider rail than everything beneath
+   it. At 1920 "Ran Segal" starts 40px to the left of the eyebrow it is
+   meant to sit directly above, and "Contact" overhangs the spec rule by
+   the same 40px. One rail per page. */
+.g-page .nav__in { max-width: 1480px; }
+
+/* ── Hero, in daylight ─────────────────────────── */
+.g-hero { background: var(--ground-day); color: var(--text-primary); padding-block: 116px 72px; }
+
+.g-hero__in {
+  display: grid; grid-template-columns: minmax(0, 6.6fr) minmax(0, 5.4fr);
+  gap: 24px 60px; align-items: center;
+}
+
+.g-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.g-h1 {
+  margin-top: 16px; max-width: 17ch;
+  font-size: clamp(2.1rem, 3.9vw, 3.3rem);
+  /* The leading has to open as the headline shrinks. A flat 1.03 is right at
+     the 3.3rem cap and much too tight at the 2.1rem floor, where the b, d, t
+     and h ascenders of one line sit on the line above. Same ramp as the
+     font-size at a shallower slope, so the two clamps turn on and off at the
+     same widths: 1.03 at 52.8px, 1.09 at 39px, 1.12 at 33.6px. */
+  line-height: clamp(2.35rem, 3.41vw + 0.52rem, 3.4rem);
+  font-weight: 600; letter-spacing: -0.042em;
+}
+
+.g-h1 b { color: var(--primary); font-weight: 600; }
+
+/* The lede is the page's table of contents, so the two words that
+   name the sections below are marked as what they are. */
+.g-lede { margin-top: 22px; max-width: 50ch; font-size: 1.06rem; line-height: 1.62; color: var(--text-secondary); }
+.g-lede em { font-style: normal; color: var(--text-primary); font-weight: 500; }
+
+.g-spec {
+  grid-column: 1 / -1;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px;
+  margin-top: 10px; padding-top: 20px; border-top: 1px solid var(--hair);
+  font-size: 0.88rem; color: var(--text-secondary);
+}
+
+.g-spec b { font-weight: 400; }
+.g-spec b:not(:last-child)::after { content: "\00b7"; margin-left: 14px; color: var(--text-muted); }
+
+.g-spec i {
+  display: inline-block; width: 7px; height: 7px; margin-right: 7px;
+  border-radius: 50%; background: var(--success); font-style: normal;
+}
+
+.g-hero .acts { margin-top: 26px; }
+
+/* Email me and LinkedIn are the two largest targets on the page and the
+   only ones that did not answer a press. .g-tool__go, .g-reel__tab and
+   .motion all give back 3%. Scoped to .g-page rather than edited in
+   site.css, which eight other pages share. */
+.g-page .btn { transition: background 0.24s var(--ez), border-color 0.24s var(--ez), transform 140ms var(--ez); }
+.g-page .btn:active { transform: scale(0.97); }
+/* ── The reel ──────────────────────────────────────
+   One frame that cycles through all four tools, rather than a hero
+   that privileges whichever one happened to be first. The names sit
+   under it as a legend you can also click, so the hero doubles as the
+   page's table of contents. */
+.g-reel { max-width: 470px; margin-left: auto; }
+
+.g-reel__stage {
+  position: relative; aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  background: var(--surface-sunken); border: 1px solid var(--hair);
+  overflow: hidden;
+}
+
+/* A cross dissolve wants a linear alpha. --ez is cubic-bezier(0.16, 1,
+   0.3, 1), which is 78% resolved at 100ms, so the 460ms crossfade was
+   really a 100ms cut followed by 360ms of nothing anyone could see.
+   Linear spends the whole duration exchanging the two frames, and two
+   complementary ramps sum to full opacity at every instant, so the well
+   never shows through the seam.
+
+   Only the incoming frame moves. With both scaled, the composite sat at
+   0.992 at the midpoint and snapped back, so the reel breathed inward on
+   every change. The outgoing frame's scale is deferred until the fade is
+   over, by which point it cannot be seen.
+
+   visibility, not opacity alone: opacity 0 hides a frame from the eye and
+   the mouse and from nothing else, so live.js's tabindex left three
+   invisible video buttons between LinkedIn and the first tool name, and a
+   screen reader read all four alt texts as one run. It steps at the end of
+   the fade, so the frame on its way out is still drawn while it leaves. */
+.g-reel__f {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  opacity: 0; transform: scale(0.985); visibility: hidden;
+  transition: opacity 300ms linear, transform 0ms 300ms, visibility 0s linear 300ms;
+  pointer-events: none;
+}
+
+.g-reel__f.is-on {
+  opacity: 1; transform: none; visibility: visible; pointer-events: auto;
+  transition: opacity 300ms linear, transform 380ms var(--ease-out), visibility 0s;
+}
+.g-reel__f .live { height: 100%; width: auto; max-width: 100%; border: 0; background: none; border-radius: 0; }
+.g-reel__f--tall .live { height: 92%; }
+.g-reel__f--small .live { height: 62%; }
+.g-reel__f--css .live { height: 100%; width: 100%; }
+
+/* Mint is drawn, not filmed, so it holds no video and live.js never
+   sees it: its two keyframe animations keep running in the reel frame
+   even while that frame sits at opacity 0, which is three quarters of
+   the cycle. mint-shape animates width and height, so the browser
+   relays out a box nobody can see. Paused rather than cancelled, so
+   the shape and its format label stay in step and the frame resumes
+   where the reader left it instead of snapping back to a square. */
+.g-reel__f:not(.is-on) .mint__canvas,
+.g-reel__f:not(.is-on) .mint__fmt span { animation-play-state: paused; }
+
+.g-reel__tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+
+.g-reel__tab {
+  padding: 6px 12px; border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  font-size: 0.82rem; font-weight: 500; color: var(--text-muted);
+  /* transform was in the :active rule but not in the transition, so the
+     press snapped down and snapped back. 140ms on --ez, the same as
+     .g-tool__go and .motion, is what the release needs. */
+  transition: color 200ms var(--ez), background 200ms var(--ez), border-color 200ms var(--ez), transform 140ms var(--ez);
+}
+
+/* Gated like every other hover on this page. Ungated, a tap left the
+   name you just chose looking hovered until you touched something else,
+   competing with the .is-on state that is the real answer. */
+@media (hover: hover) and (pointer: fine) {
+  .g-reel__tab:hover { color: var(--text-primary); background: var(--tint); }
+}
+.g-reel__tab.is-on { color: var(--primary); border-color: color-mix(in srgb, var(--primary) 38%, transparent); background: var(--primary-tint); }
+.g-reel__tab:active { transform: scale(0.97); }
+
+/* ── The seam ──────────────────────────────────────
+   A hard edge, not a fade. A 120px gradient between the two grounds
+   read as a light leak across the page, which is the one thing this
+   design cannot afford: the point is that the ground changes, and a
+   blur makes it look like an accident. The only softening is a single
+   hairline of the incoming ground, so the edge has an edge. */
+.g-seam { height: 0; border-top: 1px solid transparent; }
+
+/* .g-seam--fall and .g-seam--rise are in the markup and have never had
+   a rule, so the seam paints the root ground, not the ground it
+   belongs to. At full width that is one stray pixel, but below 900px
+   the seam is 72px tall: with a dark theme stored on :root the light
+   hero ends in a 72px band of night that belongs to no section. Each
+   seam now carries the ground it is leaving, in both root themes. */
+.g-seam--fall { background: var(--ground-day); }
+.g-seam--rise { background: var(--ground-night); }
+
+/* ── The two worlds ────────────────────────────── */
+/* color has to be restated on every themed block. data-theme swaps the
+   custom properties, but color is an inherited value that was already
+   computed on body, so nothing downstream picks up the new one. */
+.g-night { background: var(--ground-night); color: var(--text-primary); padding-block: 96px 96px; }
+.g-day { background: var(--ground-day); color: var(--text-primary); padding-block: 96px 104px; }
+
+/* DM Serif Display appears twice on this page and nowhere else. It
+   names the two worlds and then gets out of the way. Big enough that
+   you cannot scroll past without registering which half you are in. */
+.g-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.9rem, 6.4vw, 5.2rem);
+  /* line-height 1, not 0.94. At 86px the tighter box was five pixels
+     shorter than the glyphs on each side, so the ascenders of "By night"
+     pushed into whatever sat above and the descenders into whatever sat
+     below. A display face still reads tight at 1, because the face is. */
+  font-weight: 400; letter-spacing: -0.018em; line-height: 1;
+}
+
+.g-head {
+  padding-block: 12px 64px;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px 80px; align-items: end;
+}
+
+/* The other half of the heading, not a caption under it. It was 1.06rem
+   in --text-secondary capped at 44ch inside a 613px column, so it ended
+   140px short of the edge and read as an afterthought floating in dead
+   space. Now it is a lede: full ink, a step and a half larger, and given
+   an equal column to sit in. The 5px nudge lands its last baseline on the
+   title's, since align-items: end aligns boxes rather than baselines. */
+.g-head__d {
+  max-width: 50ch; font-size: 1.22rem; line-height: 1.55;
+  color: var(--text-primary); padding-bottom: 5px;
+}
+
+.g-count {
+  /* Its own line across the whole head, with the rule running out to the
+     far edge. It used to sit in the left column directly over the title
+     with 18px of clearance, and the two read as one crowded block. */
+  grid-column: 1 / -1;
+  margin-bottom: 4px; display: flex; align-items: center; gap: 22px;
+  font-family: var(--font-mono); font-size: 0.7rem;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-secondary);
+}
+
+.g-count::after { content: ""; flex: 1; height: 1px; background: var(--hair); }
+
+/* ── Night: four tools, one shape ──────────────────
+   Every well is the same square whatever shape the recording inside
+   it is, so four different captures read as one set of specimens
+   rather than as tiles fitted around each other. */
+.g-tools { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 34px 24px; }
+
+.g-tool { position: relative; display: flex; flex-direction: column; gap: 16px; }
+/* Lit panels in a dark room. All three recordings were authored to sit
+   on white: Naymo is a dark card, the other two are light cards. On a
+   dark well Naymo had no figure and ground at all, and the row read
+   unevenly. Each tile carries data-theme="light" in the markup, so the
+   ground under every recording is the one it was made for. */
+.g-tool .live { aspect-ratio: 1 / 1; width: 100%; }
+.g-tool .live--css { padding: 9%; }
+
+.g-tool__n { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.g-tool__t { margin-top: 9px; font-size: 1.16rem; font-weight: 600; letter-spacing: -0.026em; line-height: 1.25; }
+.g-tool__t a { text-decoration: none; color: inherit; }
+.g-tool__t a::after { content: ""; position: absolute; inset: 0; }
+.g-tool__d { margin-top: 10px; font-size: 0.97rem; line-height: 1.58; color: var(--text-secondary); }
+
+/* The fact and the action were a mono whisper at 0.62rem and the link
+   did not read as pressable at all. The fact is now body scale, and the
+   action is a bordered pill with a real target.
+
+   Stacked rather than justified across the row: a fact long enough to
+   wrap pushed the button onto its own line on some cards and not on
+   others, so the four footers never lined up. Claim first, then the
+   thing you press. */
+.g-tool__f {
+  margin-top: auto; padding-top: 16px; border-top: 1px solid var(--hair);
+  display: flex; flex-direction: column; align-items: flex-start; gap: 13px;
+  font-size: 0.84rem; line-height: 1.45; color: var(--text-secondary);
+}
+
+/* Once the ink is right, 10% still is not enough on the night ground.
+   The numbers come out almost identical, 1.23:1 on white and 1.26:1 on
+   navy, but the eye loses low contrast fastest at low luminance, so the
+   line that reads as a delicate rule under the hero disappears under
+   the night eyebrow. --border-strong is 1.89:1 there, which is the same
+   weight as the 22% ink the Try it pill already uses, so the night
+   section ends up with one hairline value. The day section keeps 10%:
+   --border-strong on white is 1.52:1 and reads as a drawn line. */
+.g-night .g-count::after { background: var(--border-strong); }
+.g-night .g-tool__f { border-top-color: var(--border-strong); }
+
+/* --border-strong, not --hair-hi: at 22% of the ink the outline was
+   invisible against the dark section and the pill read as plain text. */
+.g-tool__go {
+  position: relative; z-index: 1;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 17px; border-radius: var(--radius-full);
+  border: 1px solid var(--border-strong);
+  font-size: 0.84rem; font-weight: 500; color: var(--text-primary);
+  text-decoration: none; white-space: nowrap;
+  transition: background 200ms var(--ez), border-color 200ms var(--ez), color 200ms var(--ez), transform 140ms var(--ez);
+}
+
+/* Gated: Try it opens a new tab, so on touch the old tab keeps the
+   pressed looking pill filled solid primary long after you have gone. */
+@media (hover: hover) and (pointer: fine) {
+  .g-tool__go:hover { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+}
+
+.g-tool__go:active { transform: scale(0.97); }
+.g-tool__go i { font-style: normal; display: inline-block; transition: transform 200ms var(--ez); }
+.g-tool__read { display: flex; flex-direction: column; flex: 1; }
+
+/* The .live transition lives in live.css and already applies here. The
+   duplicate that stood at this line restated it byte for byte, including a
+   box-shadow that nothing in assets/ ever sets on a tile. */
+
+@media (hover: hover) and (pointer: fine) {
+  .g-tool:hover .live { border-color: color-mix(in srgb, var(--primary) 42%, var(--hair)); }
+  .g-tool:hover .g-tool__t { color: var(--primary); }
+  .g-tool:hover .g-tool__go i { transform: translateX(3px); }
+}
+
+/* ── Day: four, the same as the night ──────────────
+   The lead tile is gone. Two sections that hold four projects each,
+   in the same grid at the same size, is the whole argument of the
+   page: these are two halves of one job, not a main act and a
+   supporting one. A featured tile would have ranked them. */
+.g-systems { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 34px 24px; }
+
+.g-sys { position: relative; display: flex; flex-direction: column; gap: 16px; }
+
+/* Square, to rhyme with the night tiles. The exports are all 1.893:1
+   landscape, so they are cropped rather than letterboxed, and anchored
+   to the top: on a website, an email or a brand portal the identity
+   lives in the first few hundred pixels, and a centre crop throws
+   exactly that away. */
+.g-sys .live { width: 100%; aspect-ratio: 1 / 1; }
+.g-sys .live--still img { object-position: top center; }
+/* A system with a page of its own is covered by the card link, so
+   pointer is the truth there. The one without opens the viewer instead,
+   and zoom-in is what site.css already says for exactly that. */
+.g-sys .live img { cursor: pointer; }
+.g-sys .live img[data-open] { cursor: zoom-in; }
+
+@media (hover: hover) and (pointer: fine) {
+  .g-sys:hover .live { border-color: color-mix(in srgb, var(--primary) 42%, var(--hair)); }
+  .g-sys:hover .g-tool__t { color: var(--primary); }
+  .g-sys:hover .g-tool__go i { transform: translateX(3px); }
+}
+
+/* ── Close ─────────────────────────────────────── */
+.g-foot { background: var(--ground-day); color: var(--text-primary); padding-block: 20px 120px; }
+.g-foot__t { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 600; letter-spacing: -0.035em; }
+.g-foot__d { margin-top: 14px; max-width: 46ch; font-size: 1.06rem; line-height: 1.62; color: var(--text-secondary); }
+.g-foot__m { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--hair); display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); }
+
+/* --text-muted fails AA on both of this page's grounds at the sizes it
+   is used here. Measured: #8A92A3 on #FFFFFF is 3.12:1, and #717A8E on
+   #0C1020 is 4.39:1, against the 4.5:1 that text under 18.66px needs.
+   That covers the hero eyebrow at 10.88px, the two section counts, the
+   tile numbers at 11.2px, the reel tabs at 13.1px, which are controls,
+   and the footer meta at 12.8px. --text-secondary is 6.02:1 on the day
+   ground and 8.69:1 on the night one and still reads as the quiet
+   register: mono, small, tracked out. Muted stays for the interpunct
+   separators in .g-spec, which carry no information. */
+.g-eyebrow, .g-count, .g-tool__n, .g-reel__tab, .g-foot__m { color: var(--text-secondary); }
+
+/* ── Touch ─────────────────────────────────────────
+   Every pill here is drawn for a cursor. Measured at 1440: a reel tab is
+   35px, the action pills and the pause control 39px, a nav link 33px. A
+   finger needs 44. The vertical padding does the work, so nothing moves
+   for a mouse and no type size changes. The nav keeps 10px of side
+   padding: at 12px the three links leave a 320px screen about a pixel of
+   slack, and they are already 60px wide. */
+@media (pointer: coarse) {
+  .g-reel__tab { padding: 11px 14px; }
+  .g-page .g-tool__go { padding: 12px 18px; }
+  .g-page .nav__a { padding: 13px 10px; }
+  .g-page .motion { padding: 12px 17px; }
+}
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 1180px) {
+  .g-tools, .g-systems { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .g-hero__in { grid-template-columns: 1fr; }
+  /* One column puts the reel between the buttons and the spec line.
+     Sending it last keeps role, place and availability directly under
+     the headline, which is the only thing the first reader is checking. */
+  .g-hero__art { order: 1; }
+  .g-reel { margin-left: 0; max-width: 100%; }
+  .g-head { grid-template-columns: 1fr; }
+  .g-seam { height: 72px; }
+}
+
+/* Each separator is an ::after inside its own item, so it travels with that
+   item and a row that wraps ends with a dot hanging alone in the margin. The
+   three phrases plus the status dot need about 700px of measure, which is gone
+   below 760px, so below that the line becomes a stack and the dots come out:
+   the rows separate the facts on their own. */
+@media (max-width: 760px) {
+  .g-spec { display: grid; justify-items: start; }
+  .g-spec b:not(:last-child)::after { content: none; }
+}
+
+@media (max-width: 640px) {
+  .g-hero { padding-block: 96px 56px; }
+  .g-tools, .g-systems { grid-template-columns: 1fr; }
+}
+
+/* ── The card as a control ─────────────────────────
+   Seven of the eight cards are one big link: .g-tool__t a::after covers the
+   tile, the words and the rule above the pill. But the focus ring landed on
+   the h3 text alone, which reads as an underline on a title rather than as
+   "this whole card is where you are", and pressing it gave nothing back. */
+@supports selector(:has(*)) {
+  .g-tool__t a:focus-visible { outline: none; }
+
+  .g-tool:has(.g-tool__t a:focus-visible),
+  .g-sys:has(.g-tool__t a:focus-visible) {
+    outline: 2px solid var(--primary); outline-offset: 6px;
+    border-radius: var(--radius-lg);
+  }
+
+  /* The media answers the press, not the text: a scaling paragraph
+     resamples and goes soft, a scaling tile does not. */
+  .g-tool .live, .g-sys .live {
+    transition: border-color 260ms var(--ez), transform 150ms var(--ez);
+  }
+
+  .g-tool:has(.g-tool__t a:active) .live,
+  .g-sys:has(.g-tool__t a:active) .live { transform: scale(0.988); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .g-tool .live, .g-sys .live, .g-tool__go i { transition: none; }
+  /* 1.2% of a 312px tile is a visible jump once the easing is gone. */
+  .g-tool:has(.g-tool__t a:active) .live,
+  .g-sys:has(.g-tool__t a:active) .live { transform: none; }
+  /* The reel was the one piece of motion here leaning on site.css's blanket
+     duration override, which zeroes duration and leaves delay alone. */
+  .g-reel__f, .g-reel__f.is-on { transition: none; }
+}
+
+/* ── Print ─────────────────────────────────────────
+   Three things go wrong on paper and none are visible on screen. The fixed
+   nav and switcher bar reprint on every sheet. .rv is still at opacity 0
+   for everything the reader never scrolled past, so both grids come out
+   blank. And background graphics are off by default in the print dialog,
+   which leaves the night section's near-white ink on white paper, so the
+   night ground becomes the night ink. Both values are already declared on
+   .g-page, so no new literal enters the file. */
+@media print {
+  .nav, .dbar, .motion, .rvw-bar, .rvw-layer,
+  .g-seam, .g-reel__tabs { display: none !important; }
+  .g-page .rv { opacity: 1 !important; transform: none !important; }
+
+  .g-night { background: var(--ground-day); color: var(--ground-night); }
+  .g-night .g-count, .g-night .g-tool__n,
+  .g-night .g-head__d, .g-night .g-tool__d {
+    color: color-mix(in srgb, var(--ground-night) 70%, transparent);
+  }
+  .g-night .g-tool__f {
+    color: color-mix(in srgb, var(--ground-night) 70%, transparent);
+    border-top-color: color-mix(in srgb, var(--ground-night) 25%, transparent);
+  }
+  .g-night .g-tool__go {
+    color: var(--ground-night);
+    border-color: color-mix(in srgb, var(--ground-night) 40%, transparent);
+  }
+
+  .g-hero { padding-block: 0 28px; }
+  .g-head { padding-block: 0 24px; }
+  .g-night, .g-day { padding-block: 28px; }
+  .g-foot { padding-block: 20px 0; }
+  .g-tool, .g-sys, .g-head, .g-reel { break-inside: avoid; }
+  @page { margin: 14mm; }
+}

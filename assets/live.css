@@ -1,0 +1,256 @@
+/* ══════════════════════════════════════════════════════════
+   Live tiles
+   Three of the four tools have a real recording, exported with a
+   genuine alpha channel. The tile is the well they float in, so a
+   dark card (Naymo) and two light cards (Zoomi, Shhh) still read as
+   one family, and so both themes show the right ground behind them.
+
+   Four kinds, one class:
+     .live              a recording
+     .live--still       a screenshot
+     .live--css         drawn here, because no recording exists
+     .live--bare        no well: the card sits straight on the page
+   ══════════════════════════════════════════════════════════ */
+
+.live {
+  position: relative; margin: 0;
+  aspect-ratio: var(--ar, 1098 / 868);
+  border-radius: var(--radius-lg);
+  background: var(--surface-sunken);
+  border: 1px solid var(--hair);
+  overflow: hidden;
+  transition: border-color 260ms var(--ez), box-shadow 320ms var(--ez);
+}
+
+/* The recording sits inside the well with air around it, so the card
+   reads as an object rather than as a cropped screenshot. */
+.live__v {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  padding: 5%;
+  cursor: pointer;
+}
+
+.live__v:focus-visible { outline: 2px solid var(--primary); outline-offset: -4px; }
+
+/* A screenshot has no alpha and nothing to float, so it fills the frame. */
+.live--still { background: var(--surface-1); }
+.live--still img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Some layouts want the card on the page itself, with no well at all. */
+.live--bare { background: none; border: 0; border-radius: 0; overflow: visible; }
+.live--bare .live__v { padding: 0; }
+
+/* ── The badge ─────────────────────────────────────
+   "Recording" and not "Live", because that is what it is. It only
+   appears once the video is genuinely playing, so a tile that failed
+   to load never makes a claim the page cannot back. */
+.live__badge {
+  position: absolute; left: 12px; bottom: 12px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 11px; border-radius: var(--radius-full);
+  /* The one intentional literal in this file, and the same one
+     site.css uses for .stage__badge: the badge sits on top of media,
+     so it has to stay dark in both themes. No token is dark in both. */
+  background: color-mix(in srgb, #0C1330 74%, transparent);
+  color: var(--text-on-fill); font-size: 0.62rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  /* Exit is a fade, and a fast one. A badge that slides back down the 4px
+     it came up reads as its own entrance played backwards, and a tile you
+     just paused should drop its claim at once rather than spend the same
+     200ms leaving that it spent arriving. The transform is held until the
+     fade is over, so the reset is never seen.
+
+     visibility as well as opacity, or the promise in the comment above is
+     only kept for the eye: at opacity 0 the word "Recording" stays in the
+     accessibility tree, so every tile announced it, including one whose
+     source never decoded. */
+  opacity: 0; transform: translateY(4px); visibility: hidden;
+  transition: opacity 120ms linear, transform 0ms 120ms, visibility 0s linear 120ms;
+  pointer-events: none;
+}
+
+.live__badge i {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); font-style: normal;
+}
+
+/* Entrance on --ease-out rather than --ez: at 200ms an expo out puts the
+   4px away in about 45ms, so the rise never read as motion at all. */
+.live.is-playing .live__badge {
+  opacity: 1; transform: none; visibility: visible;
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out), visibility 0s;
+}
+
+/* The poster copy that only exists for print. */
+.live__print { display: none; }
+
+/* ── Mint, drawn rather than filmed ────────────────
+   The one tool with no recording. Rather than a still pretending to be
+   motion, one canvas changes shape through the four formats it exports,
+   which is the single thing a screenshot of Mint cannot show. Four
+   separate frames blinking in turn was the first attempt and it read as
+   abstract blocks; one object that morphs reads as the product. */
+.live--css { display: grid; place-items: stretch; padding: 8%; }
+
+.mint { width: 100%; height: 100%; min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+
+.mint__bar {
+  display: flex; align-items: center; gap: 9px; min-width: 0;
+  padding: 7px 11px; border-radius: var(--radius-md);
+  background: var(--surface-2); border: 1px solid var(--hair);
+  font-size: 0.68rem; color: var(--text-secondary);
+}
+
+.mint__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
+.mint__prompt { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.mint__stage {
+  position: relative; flex: 1; min-height: 0;
+  display: grid; place-items: center;
+  border-radius: var(--radius-md);
+}
+
+/* Width and height rather than scale, because the point is that the
+   frame changes proportion. A scale would keep the ratio and say
+   nothing. It is one small box, so the layout cost is trivial. */
+.mint__canvas {
+  position: relative; overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  width: 70%; height: 70%;
+  /* animation-timing-function applies between each pair of keyframes, not
+     across the loop. --ez is cubic-bezier(0.16, 1, 0.3, 1), so each 500ms
+     morph window was 78% resolved in 110ms: the frame snapped to the new
+     proportion and then sat there, which destroys the one thing this
+     animation exists to show. The morph also leaves one hold and arrives
+     at the next, so it has zero velocity at both ends and needs an ease in
+     as well as an ease out. Neither --ez nor --ease-out has an ease in
+     side, so this is the CSS keyword. */
+  animation: mint-shape 8s ease-in-out infinite;
+}
+
+/* The creative inside: a headline, a line of copy, a button. Suggested,
+   never spelled out, because inventing a fake ad would be a claim. */
+.mint__canvas i { position: absolute; inset: 0; }
+
+.mint__canvas i::before, .mint__canvas i::after {
+  content: ""; position: absolute; left: 12%; right: 30%;
+  border-radius: 2px; background: color-mix(in srgb, var(--on-primary) 62%, transparent);
+}
+
+.mint__canvas i::before { top: 22%; height: 7%; min-height: 3px; }
+.mint__canvas i::after { top: 36%; height: 5%; min-height: 2px; right: 48%; }
+
+.mint__canvas b {
+  position: absolute; left: 12%; bottom: 16%;
+  width: 34%; height: 11%; min-height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+}
+
+.mint__fmt {
+  position: relative; height: 1.1em; flex: none;
+  font-family: var(--font-mono); font-size: 0.6rem;
+  letter-spacing: 0.1em; color: var(--text-secondary);
+}
+
+.mint__fmt span {
+  position: absolute; inset: 0; text-align: center;
+  opacity: 0; animation: mint-lab 8s linear infinite;
+}
+
+.mint__fmt span:nth-child(1) { animation-delay: 0s; }
+.mint__fmt span:nth-child(2) { animation-delay: 2s; }
+.mint__fmt span:nth-child(3) { animation-delay: 4s; }
+.mint__fmt span:nth-child(4) { animation-delay: 6s; }
+
+@keyframes mint-shape {
+  0%,   18.75% { width: 70%;  height: 70%; }
+  25%,  43.75% { width: 58%;  height: 72.5%; }
+  50%,  68.75% { width: 44%;  height: 78%; }
+  75%,  93.75% { width: 92%;  height: 51.75%; }
+  100%         { width: 70%;  height: 70%; }
+}
+
+/* One label at a time. Each is visible for the first quarter of its own
+   cycle and the delays are a quarter apart, so the windows never meet.
+   An earlier version used steps() and two labels printed on top of
+   each other at the boundary.
+
+   The exit was an 80ms fade and the entrance was nothing at all: the old
+   name dissolved, the slot sat empty for 80ms, then the new name was
+   switched on hard. The informative half of the swap was the half that
+   did not animate. Now the exit runs 160ms and lands exactly on 25%,
+   which is where the next label's delay puts its own 0%, so there is no
+   dead frame between them, and the entrance takes twice as long as the
+   exit because the incoming format is the payload and the outgoing one
+   is stale. */
+@keyframes mint-lab {
+  0%   { opacity: 0; }
+  4%   { opacity: 1; }
+  23%  { opacity: 1; }
+  25%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ── The pause control ─────────────────────────────
+   WCAG 2.2.2: anything that moves on its own for more than five
+   seconds needs a way to stop it. The Zoomi loop runs ten. */
+@keyframes motion-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+.motion {
+  /* live.js appends this after DOMContentLoaded, so on any real
+     connection it materialises in a fixed corner a beat after the page
+     has painted. Something that arrives uninvited should arrive rather
+     than simply be there. The delay lets the first screen settle first.
+     backwards fill holds it hidden through that delay; there is
+     deliberately no forwards fill, because a filled transform would
+     outrank :active and kill the press scale for the rest of the
+     session. */
+  animation: motion-in 300ms var(--ease-out) 500ms backwards;
+  position: fixed; right: 18px; bottom: 18px; z-index: 75;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 15px; border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--surface-0) 86%, transparent);
+  border: 1px solid var(--hair-hi); color: var(--text-secondary);
+  font-size: 0.74rem; font-weight: 500;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  box-shadow: var(--shadow-sm);
+  transition: color 200ms var(--ez), border-color 200ms var(--ez), transform 140ms var(--ez);
+}
+
+.motion:hover { color: var(--text-primary); border-color: var(--border-strong); }
+.motion:active { transform: scale(0.97); }
+.motion svg { width: 13px; height: 13px; }
+.motion .i-play { display: none; }
+.is-paused .motion .i-play { display: block; }
+.is-paused .motion .i-pause { display: none; }
+
+/* Paused stops the drawn tiles as well as the filmed ones. */
+.is-paused .mint__canvas, .is-paused .mint__fmt span { animation-play-state: paused; }
+
+/* ── Reduced motion ────────────────────────────────
+   No autoplay at all. The poster carries the tile, the badge never
+   claims to be recording, and Mint shows its four formats filled. */
+@media (prefers-reduced-motion: reduce) {
+  .live { transition: none; }
+  .live__badge { display: none; }
+  .mint__canvas { animation: none; }
+  .mint__fmt span:not(:first-child) { opacity: 0; }
+  .mint__fmt span:first-child { opacity: 1; animation: none; }
+  .motion { display: none; }
+}
+
+/* ── Print ─────────────────────────────────────────
+   Option I prints as a CV, so every tile swaps to its still. */
+@media print {
+  .live { border-color: var(--border-strong); background: none; break-inside: avoid; }
+  .live__v, .live__badge, .motion, .live--css { display: none !important; }
+  .live__print { display: block; width: 100%; height: 100%; object-fit: contain; }
+}

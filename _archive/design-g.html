@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ran Segal &middot; Creative Manager who builds the tools</title>
+  <meta name="description" content="I lead creative teams and build the tools that make them faster. 13 years at Payoneer and Taptica. Four products designed, coded and shipped solo.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://segalitoo.github.io/ran-portfolio/design-g.html">
+  <meta property="og:title" content="Ran Segal &middot; Creative Manager who builds the tools">
+  <meta property="og:description" content="Brand systems and design operations by day. AI production tools, browser extensions and apps by night.">
+  <meta property="og:image" content="https://segalitoo.github.io/ran-portfolio/images/naymo_1.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="brand-system/fonts.css">
+  <link rel="stylesheet" href="brand-system/tokens.css">
+  <link rel="stylesheet" href="assets/site.css?v=d9113455">
+  <link rel="stylesheet" href="assets/live.css?v=8183004f">
+  <link rel="stylesheet" href="assets/dbar.css?v=f72ea595">
+  <link rel="stylesheet" href="assets/opt-g.css?v=573e34f6">
+  <link rel="stylesheet" href="assets/review.css?v=f88187b1">
+  <script src="assets/projects.js?v=e2fd1b8b"></script>
+  <script src="assets/site.js?v=109179a8" defer></script>
+  <script src="assets/live.js?v=a5584639" defer></script>
+  <script src="assets/review.js?v=7254ca8f" defer></script>
+</head>
+
+<!-- This page paints its own two grounds and, by design, carries no theme
+     toggle. site.js still applies the site-wide v2-theme preference to
+     <html> on every page, and tokens.css darkens :root under a dark OS
+     when nothing is saved, so a visitor can arrive here with a dark nav,
+     a dark switcher bar, a dark lightbox and a dark pause pill sitting on
+     the white hero, and no control on this page to undo it. The hero, the
+     day section and the footer already pin themselves with
+     data-theme="light"; the chrome never did. site.js only ever writes to
+     documentElement, so an attribute on body survives it.
+
+     Note this does not reach --hair, --hair-hi and --tint: site.css
+     declares them once on :root and a custom property substitutes its
+     var() where it is declared, so they keep the ink of whatever theme
+     <html> holds. Re-declaring those three on the themed blocks is a
+     separate fix in opt-g.css. -->
+<body class="g-page" data-theme="light">
+  <nav class="nav" id="nav">
+    <div class="nav__in">
+      <a class="nav__me" href="#top">Ran Segal <span>&middot; Creative Manager</span></a>
+      <div class="nav__links">
+        <a class="nav__a" href="#night">By night</a>
+        <a class="nav__a" href="#day">By day</a>
+        <a class="nav__a" href="mailto:segalitoo@gmail.com">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="dbar">
+    <span class="dbar__t">Option G &middot; By day, by night</span>
+    <span class="dbar__n">The lede becomes the structure: two grounds, with the tools running in the dark one</span>
+    <span class="dbar__links">
+      <a class="dbar__a is-on" href="design-g.html">G &middot; Day and night</a>
+      <a class="dbar__a" href="design-h.html">H &middot; Ledger</a>
+      <a class="dbar__a" href="design-i.html">I &middot; CV</a>
+      <a class="dbar__a" href="design-f.html" style="opacity:.55">&larr; round 6</a>
+    </span>
+  </div>
+
+  <main id="top">
+    <header class="g-hero" data-theme="light">
+      <div class="g-wrap g-hero__in">
+        <div>
+          <p class="g-eyebrow">Ran Segal &middot; Creative Manager</p>
+          <h1 class="g-h1">I lead creative teams and <b>build the tools</b> that make them faster.</h1>
+          <p class="g-lede">13 years managing design and marketing at Payoneer and Taptica.
+            Brand systems, global websites and design operations <em>by day</em>.
+            AI production tools, browser extensions and apps <em>by night</em>.</p>
+          <div class="acts">
+            <a class="btn btn--fill" href="mailto:segalitoo@gmail.com">Email me <i>&rarr;</i></a>
+            <a class="btn btn--line" href="https://www.linkedin.com/in/ran-segal/" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+        <div class="g-hero__art">
+          <div class="g-reel" id="gReel">
+            <div class="g-reel__stage" id="gReelStage"></div>
+            <div class="g-reel__tabs" id="gReelTabs" role="tablist" aria-label="The four tools"></div>
+          </div>
+        </div>
+        <p class="g-spec">
+          <b><i></i> Creative Manager / Head of Design</b><b>Tel Aviv, hybrid or remote</b><b>Open to full-time and consulting</b>
+        </p>
+      </div>
+    </header>
+
+    <div class="g-seam g-seam--fall" aria-hidden="true"></div>
+
+    <section class="g-night" data-theme="dark" id="night">
+      <div class="g-wrap g-head">
+        <p class="g-count">Four products, built solo</p>
+        <h2 class="g-title">By night</h2>
+        <p class="g-head__d">Each one started as something that annoyed me daily. I designed the interface,
+          wrote the code, and put it in front of real users. Three of the four are running on this page.</p>
+      </div>
+      <div class="g-wrap"><div class="g-tools" id="gTools"></div></div>
+    </section>
+
+    <div class="g-seam g-seam--rise" aria-hidden="true"></div>
+
+    <section class="g-day" data-theme="light" id="day">
+      <div class="g-wrap g-head">
+        <p class="g-count">Four systems at Payoneer, 2022 to 2025</p>
+        <h2 class="g-title">By day</h2>
+        <p class="g-head__d">Brand systems built to outlive the people who made them. The same underlying
+          problem each time: how a global brand stays itself while hundreds of people ship in parallel.</p>
+      </div>
+      <div class="g-wrap"><div class="g-systems" id="gSys"></div></div>
+    </section>
+
+    <section class="g-foot" data-theme="light" id="contact">
+      <div class="g-wrap">
+        <h2 class="g-foot__t">Got something worth building?</h2>
+        <p class="g-foot__d">I take on design leadership, design systems, and the odd tool a team keeps
+          asking for. Tell me what is slowing you down.</p>
+        <div class="acts">
+          <a class="btn btn--fill" href="mailto:segalitoo@gmail.com">segalitoo@gmail.com <i>&rarr;</i></a>
+          <a class="btn btn--line" href="https://www.linkedin.com/in/ran-segal/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <div class="g-foot__m"><span>Ran Segal &copy; 2026</span><span>Built by hand. No framework, no build step.</span></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button class="lb__x" aria-label="Close image viewer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <img id="lbImg" alt="">
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+    var W = window.WORK;
+    var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); };
+
+    function tile(p, extra, theme) {
+      var m = p.media;
+      var th = theme ? ' data-theme="' + theme + '"' : '';
+      if (m.kind === 'video') {
+        return '<figure class="live ' + extra + '" data-live' + th + '>' +
+          '<video class="live__v" poster="assets/media/' + m.stem + '-poster.webp" muted loop playsinline preload="none" aria-label="' + esc(p.alt) + '">' +
+          '<source src="assets/media/' + m.stem + '.webm" type="video/webm">' +
+          '<source src="assets/media/' + m.stem + '.mp4" type="video/mp4"></video>' +
+          '<img class="live__print" src="assets/media/' + m.stem + '-poster.webp" alt="" aria-hidden="true">' +
+          '<span class="live__badge"><i></i>Recording</span></figure>';
+      }
+      if (m.kind === 'css') {
+        return '<figure class="live live--css ' + extra + '" data-live' + th + '>' +
+          '<div class="mint"><div class="mint__bar"><span class="mint__dot"></span><span class="mint__prompt">Spring campaign, EU freelancers</span></div><div class="mint__stage"><div class="mint__canvas"><i></i><b></b></div></div><div class="mint__fmt"><span>1:1</span><span>4:5</span><span>9:16</span><span>16:9</span></div></div></figure>';
+      }
+      return '<figure class="live live--still ' + extra + '"' + th + '>' +
+        '<img src="images/opt/' + m.img + '-1440.webp" srcset="images/opt/' + m.img + '-720.webp 720w, images/opt/' + m.img + '-1440.webp 1440w"' +
+        ' sizes="(max-width: 900px) 100vw, 620px" alt="' + esc(p.alt) + '" loading="lazy" decoding="async" width="1440" height="761"' +
+        (p.href ? '' : ' data-open') + '></figure>';
+    }
+
+    function read(p) {
+      var goes = p.href ? 'View project <i>&rarr;</i>' : 'Open images <i>&rarr;</i>';
+      var t = p.href
+        ? '<a href="' + p.href + '">' + esc(p.title) + '</a>'
+        : esc(p.title);
+      return '<div class="g-tool__read">' +
+        '<span class="g-tool__n">' + p.n + '</span>' +
+        '<h3 class="g-tool__t">' + t + '</h3>' +
+        '<p class="g-tool__d">' + esc(p.line) + '</p>' +
+        '<p class="g-tool__f"><span>' + esc(p.fact) + '</span>' +
+        (p.live
+          ? '<a class="g-tool__go" href="' + p.live + '" target="_blank" rel="noopener">Try it <i>&rarr;</i></a>'
+          : (p.href
+            ? '<a class="g-tool__go" href="' + p.href + '">Read the case <i>&rarr;</i></a>'
+            /* It was a span: the same pill, the same border, the same
+               arrow as the three links beside it, and nothing happened
+               when you pressed it. The action is real, it just lived on
+               the image, so give it the button it already looked like. */
+            : '<button type="button" class="g-tool__go g-tool__go--open">Open images <i>&rarr;</i></button>')) +
+        '</p></div>';
+    }
+
+    /* ── The reel ──────────────────────────────────
+       Four tools, one frame. It cycles on its own, stops when the page
+       is paused or the pointer is over it, and the names below are both
+       the legend and the control. Only the visible frame is allowed to
+       load, so the hero costs one recording rather than four. */
+    (function () {
+      var tools = W.filter(function (p) { return p.group === 'build'; });
+      var stage = document.getElementById('gReelStage');
+      var tabs = document.getElementById('gReelTabs');
+      var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      stage.innerHTML = tools.map(function (p, i) {
+        var m = p.media;
+        var mod = m.kind === 'css' ? ' g-reel__f--css'
+                : (m.h > m.w ? ' g-reel__f--tall'
+                : (m.w < 500 ? ' g-reel__f--small' : ''));
+        return '<div class="g-reel__f' + mod + '" id="gReelF' + i + '" role="tabpanel"' +
+          ' aria-labelledby="gReelT' + i + '" data-live-off>' + tile(p, '') + '</div>';
+      }).join('');
+
+      /* role="tab" is a promise: one stop in the tab order, arrow keys
+         between the names, and a panel each name points at. The markup
+         made the claim and the script did not keep it, so four names
+         took four tabs and the arrows did nothing. */
+      tabs.innerHTML = tools.map(function (p, i) {
+        return '<button class="g-reel__tab" type="button" role="tab" data-i="' + i + '"' +
+          ' id="gReelT' + i + '" aria-controls="gReelF' + i + '" tabindex="-1"' +
+          ' aria-selected="false">' + esc(p.alias || p.title) + '</button>';
+      }).join('');
+
+      var frames = [].slice.call(stage.children);
+      var btns = [].slice.call(tabs.children);
+      var at = -1, timer = null;
+
+      function show(i) {
+        if (i === at) return;
+        at = i;
+        frames.forEach(function (f, n) {
+          f.classList.toggle('is-on', n === i);
+          if (n === i) f.removeAttribute('data-live-off');
+          else f.setAttribute('data-live-off', '');
+        });
+        btns.forEach(function (b, n) {
+          b.classList.toggle('is-on', n === i);
+          b.setAttribute('aria-selected', n === i ? 'true' : 'false');
+          /* Roving: a tablist is one stop, not four. */
+          b.tabIndex = n === i ? 0 : -1;
+        });
+        if (window.Live) window.Live.refresh();
+      }
+
+      tabs.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowRight' ? 1 : (e.key === 'ArrowLeft' ? -1 : 0);
+        if (!d) return;
+        e.preventDefault();
+        var n = (at + d + frames.length) % frames.length;
+        show(n);
+        /* No run() here. focusout fires before focusin, so moving focus
+           between two tabs restarts the timer and then stops it again,
+           and the net state is stopped, which is what focusin already
+           promises. Restarting it would change the frame under a reader
+           still standing on the tablist. */
+        btns[n].focus();
+      });
+
+      function next() { show((at + 1) % frames.length); }
+
+      /* run() is the single gate. The tabs live inside #gReel, so a click
+         always happens with the pointer or the focus already inside, and
+         the old code called run() straight from the handler: 5.2s after
+         you picked a tool the frame changed under your cursor, which is
+         the exact thing the comment below says cannot happen. */
+      function run() {
+        stop();
+        if (reduced || hov || foc) return;
+        timer = setInterval(function () {
+          if (document.documentElement.classList.contains('is-paused')) return;
+          next();
+        }, 5200);
+      }
+
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+      tabs.addEventListener('click', function (e) {
+        var b = e.target.closest('.g-reel__tab');
+        if (!b) return;
+        show(+b.dataset.i);
+        run();
+      });
+
+      /* Reading a name should not have the frame change under you.
+         Pointer and focus are held separately, so a mouse leaving while
+         the keyboard is still inside does not restart the cycle. The
+         pointerType gate keeps touch out of it: a tap fires pointerenter
+         with no matching pointerleave, which would otherwise stop the
+         reel for good on a phone. */
+      var reel = document.getElementById('gReel');
+      var hov = false, foc = false;
+      function release() { if (!hov && !foc) run(); }
+      reel.addEventListener('pointerenter', function (e) {
+        if (e.pointerType === 'mouse') { hov = true; stop(); }
+      });
+      reel.addEventListener('pointerleave', function (e) {
+        if (e.pointerType === 'mouse') { hov = false; release(); }
+      });
+      reel.addEventListener('focusin', function () { foc = true; stop(); });
+      reel.addEventListener('focusout', function () { foc = false; release(); });
+
+      show(0);
+      run();
+    })();
+
+    document.getElementById('gTools').innerHTML = W.filter(function (p) { return p.group === 'build'; })
+      /* data-theme="light" on the tile only: the section stays dark, the
+         ground under each recording does not.
+
+         data-live-plain: .g-tool__t a::after covers this whole card, so
+         the recording underneath can never receive a click. Without the
+         flag, live.js hands it role="button" and a tab stop for a press
+         that cannot land. */
+      .map(function (p) { return '<article class="g-tool rv" data-live-plain>' + tile(p, '', 'light') + read(p) + '</article>'; }).join('');
+
+    document.getElementById('gSys').innerHTML = W.filter(function (p) { return p.group === 'lead'; })
+      .map(function (p) { return '<article class="g-sys rv">' + tile(p, '') + read(p) + '</article>'; }).join('');
+
+    /* The two projects with no page of their own open their images. */
+    document.addEventListener('click', function (e) {
+      /* Two ways in now: the image itself, or the pill that names the
+         action. They open the same picture. */
+      var pill = e.target.closest('.g-tool__go--open');
+      var card = pill && pill.closest('article');
+      var img = card ? card.querySelector('img[data-open]') : e.target.closest('img[data-open]');
+      if (!img) return;
+      var lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg');
+      lbImg.src = img.currentSrc || img.src; lbImg.alt = img.alt || '';
+      lb.classList.add('is-open'); document.body.classList.add('is-locked');
+    });
+
+    /* ── Where an anchor lands ─────────────────────
+       The fixed chrome on this page is the 56px nav plus the switcher bar,
+       and the bar wraps as the viewport narrows. Measured bottom edge:
+       110px at 1440, 144px at 900, 178px at 700, 199px at 480, 219px at
+       390. site.css sets scroll-padding-top: 84px for the nav alone, so on
+       a phone clicking "By night" parks the whole section head, eyebrow and
+       serif title included, behind the bar. Measure the bar rather than
+       guessing at a number. */
+    (function () {
+      var bar = document.querySelector('.dbar');
+      function set() {
+        var h = bar ? bar.getBoundingClientRect().bottom : 56;
+        document.documentElement.style.scrollPaddingTop = Math.round(h + 24) + 'px';
+      }
+      set();
+      if (window.ResizeObserver && bar) new ResizeObserver(set).observe(bar);
+      else window.addEventListener('resize', set);
+    })();
+  })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+/* ══════════════════════════════════════════════════════════
+   Inner page · round 5
+   Earlier rounds were grid arrangements with no idea in them.
+   Each of these has one organising concept, plus the small
+   invisible details: real easing curves, press feedback,
+   scroll reveals that clip rather than fade, gated hover.
+   ══════════════════════════════════════════════════════════ */
+
+:root {
+  /* The built-in CSS easings are too weak to read as intentional. */
+  --e-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --e-io: cubic-bezier(0.77, 0, 0.175, 1);
+  --v5-text: 680px;
+  --v5-wide: 1320px;
+}
+
+.v5 { padding-top: 104px; }
+.v5-text { width: 100%; max-width: var(--v5-text); margin-inline: auto; padding-inline: var(--gut); }
+.v5-wide { width: 100%; max-width: var(--v5-wide); margin-inline: auto; padding-inline: var(--gut); }
+
+.v5-title { font-size: clamp(2.4rem, 4.6vw, 3.8rem); font-weight: 600; letter-spacing: -0.042em; line-height: 1.03; }
+.v5-alias { margin-top: 12px; font-size: 0.95rem; color: var(--text-muted); }
+.v5-lede { margin-top: 24px; font-size: 1.1875rem; line-height: 1.6; color: var(--text-secondary); max-width: 33em; }
+.v5-h { font-size: 1.375rem; font-weight: 600; letter-spacing: -0.028em; }
+.v5-d { margin-top: 11px; font-size: 1.0625rem; line-height: 1.68; color: var(--text-secondary); }
+.v5-d b { color: var(--text-primary); font-weight: 500; }
+.v5-cap { margin-top: 12px; font-size: 0.8rem; color: var(--text-muted); }
+
+/* Press feedback. Any pressable thing should answer the finger. */
+.v5 .btn { transition: transform 160ms var(--e-out), background 200ms var(--e-out), border-color 200ms var(--e-out); }
+.v5 .btn:active { transform: scale(0.97); }
+
+/* Frames wipe open rather than fade in. A fade reads as a loading
+   image; a clip reads as a deliberate reveal. */
+.rv5 { clip-path: inset(0 0 12% 0); opacity: 0; transition: clip-path 620ms var(--e-out), opacity 420ms var(--e-out); }
+.rv5.is-in { clip-path: inset(0 0 0 0); opacity: 1; }
+
+.rvt { opacity: 0; transform: translateY(10px); transition: opacity 380ms var(--e-out), transform 380ms var(--e-out); }
+.rvt.is-in { opacity: 1; transform: none; }
+
+/* ══ G · WINDOW ════════════════════════════════════
+   The work is software, so it is shown as software: every frame
+   sits in real application chrome with the product's own URL.
+   A screenshot in a window has edges, so it stops floating. */
+.win { border-radius: 12px; overflow: hidden; border: 1px solid var(--hair); background: var(--surface-2); box-shadow: 0 1px 2px rgba(12,19,48,.05), 0 12px 28px -10px rgba(12,19,48,.16); }
+[data-theme="dark"] .win { box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 18px 40px -12px rgba(0,0,0,.6); }
+
+.win__bar { display: flex; align-items: center; gap: 12px; padding: 0 14px; height: 40px; background: var(--surface-1); border-bottom: 1px solid var(--hair); }
+.win__dots { display: flex; gap: 7px; flex-shrink: 0; }
+.win__dots i { width: 11px; height: 11px; border-radius: 50%; background: var(--hair-hi); }
+.win__url { flex: 1; min-width: 0; height: 24px; border-radius: 6px; background: var(--surface-sunken); display: flex; align-items: center; padding: 0 11px; font-size: 0.72rem; color: var(--text-muted); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.win__body { background: var(--surface-sunken); }
+.win__body img { width: 100%; height: auto; display: block; cursor: zoom-in; }
+
+.g5-open { margin-top: 8px; }
+.g5-facts { margin-top: 56px; }
+.g5-steps { margin-top: 92px; display: flex; flex-direction: column; gap: 84px; }
+.g5-step__text { max-width: var(--v5-text); margin-inline: auto; padding-inline: var(--gut); margin-bottom: 26px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .win { transition: transform 260ms var(--e-out), box-shadow 260ms var(--e-out); }
+  .g5-step .win:hover { transform: translateY(-3px); box-shadow: 0 2px 4px rgba(12,19,48,.06), 0 22px 44px -12px rgba(12,19,48,.22); }
+}
+
+/* ══ H · MARGIN ════════════════════════════════════
+   An asymmetric book grid. A narrow rail carries the numbers and
+   the metadata; the wide column carries the argument. Nothing
+   decorative, all of the design is in the measure and the rag. */
+.h5-grid { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 0 56px; }
+.h5-rail { position: sticky; top: 88px; align-self: start; }
+.h5-rail__k { font-size: 0.64rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.h5-rail__v { margin-top: 7px; font-size: 0.875rem; color: var(--text-primary); line-height: 1.45; }
+.h5-rail__row + .h5-rail__row { margin-top: 20px; }
+
+.h5-body { max-width: 34em; }
+.h5-open { padding-bottom: 60px; border-bottom: 1px solid var(--hair); }
+
+.h5-note { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 0 56px; padding: 46px 0; border-bottom: 1px solid var(--hair); }
+.h5-note__n { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); font-variant-numeric: tabular-nums; letter-spacing: 0.06em; padding-top: 6px; }
+.h5-note__body { max-width: 34em; }
+.h5-note__media { grid-column: 2; margin-top: 26px; max-width: none; }
+.h5-note__media .win { border-radius: 10px; }
+
+/* Frames break the measure and run to the grid's full width. */
+.h5-bleed { grid-column: 1 / -1; margin-top: 34px; }
+
+/* ══ I · INDEX ═════════════════════════════════════
+   The explanation is keyed to the picture. Numbered markers sit
+   on the frame; the same numbers head the notes beside it, so the
+   words and the pixels point at each other. */
+.i5-open { padding-bottom: 56px; }
+.i5-plate { position: relative; }
+.i5-plate .win { border-radius: 12px; }
+
+.i5-mark {
+  position: absolute; z-index: 2;
+  width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--primary); color: var(--on-primary);
+  font-size: 0.72rem; font-weight: 600; font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--surface-0) 90%, transparent), 0 4px 10px rgba(12,19,48,.28);
+  transition: transform 200ms var(--e-out), background 200ms var(--e-out);
+}
+
+.i5-mark.is-lit { transform: scale(1.18); background: var(--accent); }
+
+.i5-legend { margin-top: 52px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 56px; }
+.i5-item { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 16px; align-items: start; padding: 20px 0 0; border-top: 1px solid var(--hair); transition: border-color 200ms var(--e-out); }
+.i5-item__n { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--hair-hi); font-size: 0.72rem; font-weight: 600; color: var(--text-secondary); font-variant-numeric: tabular-nums; transition: background 200ms var(--e-out), color 200ms var(--e-out), border-color 200ms var(--e-out); }
+.i5-item.is-lit { border-top-color: var(--primary); }
+.i5-item.is-lit .i5-item__n { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.i5-item__h { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.02em; }
+.i5-item__d { margin-top: 8px; font-size: 0.9375rem; line-height: 1.6; color: var(--text-secondary); }
+.i5-item__d b { color: var(--text-primary); font-weight: 500; }
+
+.i5-gal { margin-top: 76px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
+
+/* ── Facts, shared ─────────────────────────────── */
+.v5-facts { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+.v5-fact { padding: 20px 22px 20px 0; border-right: 1px solid var(--hair); }
+.v5-fact:last-child { border-right: 0; }
+.v5-fact:not(:first-child) { padding-left: 22px; }
+.v5-fact__k { font-size: 0.63rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-muted); }
+.v5-fact__v { margin-top: 8px; font-size: 0.9375rem; line-height: 1.45; }
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 900px) {
+  .v5-facts { grid-template-columns: 1fr 1fr; }
+  .v5-fact { border-bottom: 1px solid var(--hair); }
+  .v5-fact:nth-child(2n) { border-right: 0; }
+  .v5-fact:nth-child(n+3) { border-bottom: 0; }
+  .h5-grid, .h5-note { grid-template-columns: 1fr; gap: 0; }
+  .h5-rail { position: static; margin-bottom: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .h5-rail__row + .h5-rail__row { margin-top: 0; }
+  .h5-note__n { padding-top: 0; margin-bottom: 8px; }
+  .h5-note__media, .h5-bleed { grid-column: 1; }
+  .i5-legend, .i5-gal { grid-template-columns: 1fr; }
+  .i5-mark { display: none; }
+  .g5-steps { gap: 60px; }
+}
+
+@media (max-width: 560px) {
+  .v5-facts { grid-template-columns: 1fr; }
+  .v5-fact { border-right: 0; padding-left: 0 !important; }
+  .v5-fact:last-child { border-bottom: 0; }
+  .win__bar { height: 34px; }
+  .win__dots i { width: 9px; height: 9px; }
+}
+
+/* Reduced motion keeps the fades that aid comprehension and drops
+   every movement, rather than switching all animation off. */
+@media (prefers-reduced-motion: reduce) {
+  .rv5, .rvt { transition-property: opacity; transform: none !important; clip-path: none !important; }
+  .v5 .btn:active { transform: none; }
+  .g5-step .win:hover { transform: none; }
+  .i5-mark.is-lit { transform: none; }
+}

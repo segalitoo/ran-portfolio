@@ -1,0 +1,192 @@
+/* ══════════════════════════════════════════════════════════
+   Option I · The CV that runs
+   A recruiter already knows how to read a résumé, so this is one:
+   a spec sheet pinned in the rail that never scrolls away, and a
+   column of dated entries beside it. The difference is that the
+   entries play.
+
+   It also prints. @media print swaps every recording for its still
+   and collapses to one column, so the page an HR screener saves is
+   a real document rather than a screenshot of a website.
+   ══════════════════════════════════════════════════════════ */
+
+.i-wrap { width: 100%; max-width: 1360px; margin-inline: auto; padding-inline: var(--gut); }
+
+.i-grid {
+  display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: 72px; align-items: start;
+  padding-block: 112px 96px;
+}
+
+/* ── The rail ──────────────────────────────────────
+   Everything a recruiter checks, held still. */
+.i-rail { position: sticky; top: 84px; }
+
+.i-name { font-size: 1.32rem; font-weight: 600; letter-spacing: -0.03em; }
+.i-role { margin-top: 4px; font-size: 0.95rem; color: var(--text-secondary); }
+
+.i-avail {
+  display: flex; align-items: flex-start; gap: 9px;
+  margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--hair);
+  font-size: 0.9rem; color: var(--text-primary);
+}
+
+.i-avail i {
+  width: 7px; height: 7px; margin-top: 7px; border-radius: 50%;
+  background: var(--success); font-style: normal; flex: none;
+}
+
+.i-facts { margin-top: 22px; display: grid; gap: 13px; }
+.i-fact { display: grid; grid-template-columns: 5.6em minmax(0, 1fr); gap: 12px; align-items: baseline; }
+
+.i-fact dt {
+  font-family: var(--font-mono); font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);
+}
+
+.i-fact dd { margin: 0; font-size: 0.88rem; color: var(--text-secondary); }
+.i-fact dd b { font-weight: 500; color: var(--text-primary); }
+.i-fact dd span { display: block; font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); }
+
+/* .btn sets display:inline-flex, which outranks the user agent rule for
+   [hidden]. Without this the CV button shows even while hidden. */
+.i-rail .btn[hidden] { display: none; }
+
+.i-rail .acts { margin-top: 26px; flex-direction: column; align-items: stretch; gap: 8px; }
+.i-rail .btn { justify-content: center; }
+.i-links { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.82rem; }
+.i-links a { color: var(--text-secondary); text-decoration: none; }
+.i-links a:hover { color: var(--primary); }
+
+/* ── Entries ───────────────────────────────────────
+   Dates carry the sequence, so nothing here is numbered. Adding
+   01 to 09 on top of a chronology would be decoration wearing the
+   costume of structure. */
+.i-lede {
+  font-size: clamp(1.6rem, 2.6vw, 2.15rem); font-weight: 600;
+  letter-spacing: -0.036em; line-height: 1.14; max-width: 22ch;
+}
+
+.i-lede b { color: var(--primary); font-weight: 600; }
+.i-sub { margin-top: 18px; max-width: 54ch; font-size: 1.02rem; line-height: 1.6; color: var(--text-secondary); }
+
+.i-era {
+  display: flex; align-items: baseline; gap: 14px;
+  margin-top: 64px; padding-bottom: 14px; border-bottom: 1px solid var(--border-strong);
+  font-family: var(--font-mono); font-size: 0.66rem;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-primary);
+}
+
+.i-era span { color: var(--text-muted); letter-spacing: 0.1em; }
+.i-era::after { content: ""; flex: 1; }
+
+.i-entry {
+  position: relative;
+  display: grid; grid-template-columns: 7.5em minmax(0, 1fr);
+  gap: 28px; padding-block: 30px; border-bottom: 1px solid var(--hair);
+  break-inside: avoid;
+}
+
+.i-when {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  letter-spacing: 0.06em; color: var(--text-muted);
+  font-variant-numeric: tabular-nums; padding-top: 5px;
+}
+
+.i-t { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.3rem, 2vw, 1.6rem); letter-spacing: -0.012em; line-height: 1.15; }
+.i-t a { text-decoration: none; color: inherit; }
+.i-t a::after { content: ""; position: absolute; inset: 0; }
+.i-t em { font-style: italic; color: var(--text-muted); font-size: 0.78em; }
+
+.i-d { margin-top: 10px; max-width: 52ch; font-size: 0.96rem; line-height: 1.6; color: var(--text-secondary); }
+
+.i-meta {
+  margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: baseline;
+  font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.06em; color: var(--text-muted);
+}
+
+.i-go { color: var(--primary); font-weight: 500; text-decoration: none; position: relative; z-index: 1; }
+.i-go i { font-style: normal; display: inline-block; transition: transform 200ms var(--ez); }
+
+/* The recording sits with the text, capped so the entry still reads
+   as a document rather than turning into a gallery. */
+.i-media { margin-top: 20px; max-width: 560px; }
+.i-media .live { width: 100%; }
+.i-entry--tall .i-media { max-width: 300px; }
+.i-entry--small .i-media { max-width: 380px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .i-entry:hover .i-t { color: var(--primary); }
+  .i-entry:hover .i-go i { transform: translateX(3px); }
+  .i-entry:hover .live { border-color: color-mix(in srgb, var(--primary) 42%, var(--hair)); }
+}
+
+.i-close { margin-top: 60px; }
+.i-close__t { font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 600; letter-spacing: -0.034em; }
+.i-close__d { margin-top: 12px; max-width: 46ch; font-size: 1rem; color: var(--text-secondary); }
+.i-foot { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--hair); font-size: 0.78rem; color: var(--text-muted); }
+
+/* ── Responsive ────────────────────────────────────*/
+@media (max-width: 980px) {
+  .i-grid { grid-template-columns: 1fr; gap: 40px; padding-block: 96px 40px; }
+  .i-rail { position: static; }
+  .i-rail .acts { flex-direction: row; }
+  .i-entry { grid-template-columns: 1fr; gap: 8px; }
+  .i-when { padding-top: 0; }
+  /* Contact has to stay reachable once the rail has scrolled away. */
+  .i-dock {
+    position: fixed; inset: auto 0 0 0; z-index: 76;
+    display: flex; gap: 10px; padding: 10px var(--gut) calc(10px + env(safe-area-inset-bottom));
+    background: color-mix(in srgb, var(--surface-0) 90%, transparent);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-top: 1px solid var(--hair);
+  }
+  .i-dock .btn { flex: 1; justify-content: center; }
+  .i-close { padding-bottom: 72px; }
+}
+
+.i-dock { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .i-go i, .i-entry .live { transition: none; }
+}
+
+/* ── Print ─────────────────────────────────────────
+   The point of this option. One column, stills instead of players,
+   and the URLs written out so a printed page is still usable.
+   .rv has to be forced visible or half the document prints blank. */
+@media print {
+  .nav, .dbar, .i-dock, .rvw-bar, .rvw-layer, .motion { display: none !important; }
+  .rv { opacity: 1 !important; transform: none !important; }
+  /* Ink on paper, not a theme. These literals are print only. */
+  body { background: #fff; color: #000; }
+
+  /* No media at all. The recordings are the screen's argument; on paper
+     they cost three pages and say nothing a line of text cannot. What
+     prints is a CV: who, when, what was decided, and where to see it. */
+  .i-media { display: none; }
+
+  .i-grid { grid-template-columns: 1fr; gap: 0; padding-block: 0; }
+  .i-rail { position: static; padding-bottom: 10px; border-bottom: 1px solid #999; }
+  .i-rail .acts { display: none; }
+  .i-name { font-size: 15pt; }
+  .i-role { font-size: 10pt; }
+  .i-avail { margin-top: 8px; padding-top: 8px; font-size: 9pt; }
+  .i-facts { margin-top: 10px; grid-template-columns: repeat(3, 1fr); display: grid; gap: 6px 20px; }
+  .i-links { margin-top: 8px; font-size: 9pt; }
+  .i-fact dd { font-size: 8.5pt; }
+
+  .i-lede { margin-top: 14px; font-size: 12pt; max-width: none; }
+  .i-sub { margin-top: 6px; font-size: 9pt; max-width: none; }
+  .i-era { margin-top: 14px; padding-bottom: 5px; font-size: 8pt; }
+  .i-entry { grid-template-columns: 5.5em 1fr; gap: 12px; padding-block: 7px; }
+  .i-when { font-size: 8pt; padding-top: 2px; }
+  .i-t { font-size: 11pt; }
+  .i-d { margin-top: 2px; max-width: none; font-size: 9pt; line-height: 1.4; }
+  .i-meta { margin-top: 3px; font-size: 8pt; }
+  .i-go i { display: none; }
+  .i-go[href^="http"]::after { content: " " attr(href); font-size: 0.92em; color: #555; }
+  .i-close, .i-foot { display: none; }
+  @page { margin: 12mm; }
+}

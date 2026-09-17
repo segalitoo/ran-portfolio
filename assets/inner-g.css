@@ -1,0 +1,205 @@
+/* ══════════════════════════════════════════════════════════
+   Project page · the Option G language
+   Serif title, mono meta, the same pill buttons and square wells
+   as the landing page, so a project does not read as a different
+   site from the page that linked to it.
+
+   The structure is claim, then decisions, then evidence, then scope.
+   The evidence is a composed collage rather than a grid: a grid of
+   four identical 1.893:1 screenshots is exactly what makes every
+   project here look like every other one, which is the problem
+   ASSET-SPEC.md names. The pieces are cut from those same exports
+   by tools/crop-pieces.py, so nothing here is a new asset.
+   ══════════════════════════════════════════════════════════ */
+
+/* Narrower than the overview pages on purpose. This is a reading page,
+   and 1460 ran the text and the frames almost to the window edge. */
+.pg { --pg-max: 1280px; }
+.pg-wrap { width: 100%; max-width: var(--pg-max); margin-inline: auto; padding-inline: var(--gut); }
+
+/* ── Hero ──────────────────────────────────────────
+   On the raised surface with a hard edge under it, the same move the
+   landing page makes between its two grounds. No arc, no gradient:
+   the ground changes and that is the whole event. */
+.pg-hero { background: var(--surface-1); color: var(--text-primary); padding-block: 104px 76px; }
+
+.pg-hero__in {
+  display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+  gap: 30px 64px; align-items: center;
+}
+
+.pg-back {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 0.84rem; color: var(--text-secondary); text-decoration: none;
+  transition: color 200ms var(--ez);
+}
+
+.pg-back i { font-style: normal; display: inline-block; transition: transform 200ms var(--ez); }
+.pg-back:hover { color: var(--text-primary); }
+.pg-back:hover i { transform: translateX(-3px); }
+
+
+
+.pg-h1 {
+  /* The 16px here used to separate the title from the eyebrow above it.
+     With that gone the back link sits directly above, and a nav link
+     needs more air than a kicker did. */
+  margin-top: 28px; max-width: 20ch;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(2.5rem, 5.4vw, 4.2rem);
+  letter-spacing: -0.018em; line-height: 0.98;
+}
+
+.pg-alias {
+  margin-top: 12px;
+  font-family: var(--font-mono); font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted);
+}
+
+.pg-lede { margin-top: 22px; max-width: 52ch; font-size: 1.08rem; line-height: 1.62; color: var(--text-secondary); }
+.pg-hero .acts { margin-top: 26px; }
+
+/* The opening shot floats rather than sitting in a well: it is the
+   only picture on the page with nothing else competing for the eye. */
+.pg-hero__art { justify-self: end; width: 100%; max-width: 620px; }
+
+.pg-shot {
+  /* A figure keeps the user agent's margin: 1em 40px. With width: 100%
+     that is 80px of overflow on every screen narrow enough to notice. */
+  margin: 0; width: 100%; border-radius: var(--radius-lg);
+  border: 1px solid var(--hair); background: var(--surface-2);
+  box-shadow: var(--shadow-lg); overflow: hidden;
+}
+
+.pg-shot img, .pg-shot video { display: block; width: 100%; height: auto; }
+.pg-hero__art .live { box-shadow: var(--shadow-lg); }
+
+/* ── Decisions ─────────────────────────────────────
+   Three columns, first person, about what was decided rather than
+   what was produced. */
+.pg-notes {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 34px 56px; padding-block: 76px 8px;
+}
+
+.pg-note__k {
+  font-family: var(--font-mono); font-size: 0.64rem;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-secondary);
+  padding-bottom: 14px; border-bottom: 1px solid var(--hair);
+}
+
+.pg-note__d { margin-top: 18px; font-size: 1rem; line-height: 1.65; color: var(--text-secondary); }
+.pg-note__d b { font-weight: 500; color: var(--text-primary); }
+
+/* ── The collage ───────────────────────────────────
+   Absolute placement inside one ratio box, in percentages, so the
+   composition holds at every width and every piece keeps its own
+   proportion. Overlap is deliberate and small: enough to read as a
+   stack of real things on a desk, not so much that anything is lost.
+   Below the breakpoint the whole thing becomes an ordinary column. */
+.pg-ev { padding-block: 84px 0; }
+
+/* ── Gallery ───────────────────────────────────────
+   Every export is 1.893:1, so the frames run the full column and stack.
+   The old collage overlapped and cropped them, which suited a composed
+   wall of fragments but fought the shape the images actually are. A
+   wide screenshot wants to be read, and reading needs width. */
+.pg-gal { display: grid; gap: 56px; }
+
+.pg-gal__i {
+  margin: 0;
+  border-radius: var(--radius-lg); overflow: hidden;
+  border: 1px solid var(--hair); background: var(--surface-2);
+  box-shadow: var(--shadow-md);
+  transition: transform 260ms var(--ez), box-shadow 320ms var(--ez);
+}
+
+.pg-gal__i img { display: block; width: 100%; height: auto; cursor: zoom-in; }
+
+@media (hover: hover) and (pointer: fine) {
+  .pg-gal__i:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+}
+
+@media (max-width: 900px) {
+  .pg-gal { gap: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-gal__i:hover { transform: none; }
+}
+
+/* ── Scope ─────────────────────────────────────────
+   Four facts, four across, at the weight the reference gives its
+   results. Every one is checkable, which is the only difference. */
+.pg-scope { padding-block: 72px 0; }
+
+.pg-scope__k {
+  font-family: var(--font-mono); font-size: 0.66rem;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-secondary);
+  padding-bottom: 18px; border-bottom: 1px solid var(--hair);
+}
+
+.pg-scope__g {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px 40px; padding-top: 34px;
+}
+
+.pg-scope__i { font-size: 1.14rem; font-weight: 600; letter-spacing: -0.022em; line-height: 1.3; max-width: 22ch; }
+.pg-scope__i span { display: block; margin-top: 9px; font-size: 0.86rem; font-weight: 400; letter-spacing: 0; color: var(--text-secondary); }
+
+/* ── Next ──────────────────────────────────────────*/
+.pg-next { margin-top: 96px; padding-block: 34px; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+.pg-next a { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; text-decoration: none; }
+.pg-next__k { font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-secondary); }
+.pg-next__t { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.5rem, 3vw, 2.3rem); letter-spacing: -0.012em; transition: color 200ms var(--ez); }
+.pg-next i { font-style: normal; display: inline-block; color: var(--primary); transition: transform 200ms var(--ez); }
+
+@media (hover: hover) and (pointer: fine) {
+  .pg-next a:hover .pg-next__t { color: var(--primary); }
+  .pg-next a:hover i { transform: translateX(4px); }
+}
+
+.pg-foot {
+  padding-block: 34px 88px;
+  display: flex; flex-wrap: wrap; gap: 14px 24px; justify-content: space-between;
+  font-size: 0.82rem; color: var(--text-secondary);
+}
+
+.pg-foot a { color: var(--text-secondary); text-decoration: none; }
+.pg-foot a:hover { color: var(--primary); }
+.pg-foot__links { display: flex; gap: 20px; }
+
+/* ── Responsive ────────────────────────────────────*/
+@media (max-width: 1080px) {
+  .pg-notes { grid-template-columns: 1fr; gap: 28px; padding-block: 56px 0; }
+  .pg-scope__g { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  /* The switcher bar wraps as the viewport narrows, and the fixed chrome
+     goes from 110px to around 170px. The old 96px put the back link and
+     the eyebrow underneath it. */
+  .pg-hero { padding-block: 150px 56px; }
+  .pg-hero__in { grid-template-columns: 1fr; }
+  .pg-hero__art { justify-self: stretch; max-width: none; }
+}
+
+@media (max-width: 560px) {
+  .pg-hero { padding-block: 190px 48px; }
+  .pg-scope__g { grid-template-columns: 1fr; }
+  .pg-next a { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-back i, .pg-next i, .pg-next__t { transition: none; }
+}
+
+@media print {
+  .nav, .dbar, .motion { display: none !important; }
+  .pg-hero { background: none; padding-block: 0 24px; }
+  .pg-gal { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pg-gal__i { box-shadow: none; break-inside: avoid; }
+  .pg-notes, .pg-scope { padding-block: 20px 0; break-inside: avoid; }
+  .pg-next { display: none; }
+  @page { margin: 14mm; }
+}

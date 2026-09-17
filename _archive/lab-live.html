@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab · live tiles</title>
+<link rel="stylesheet" href="brand-system/fonts.css">
+<link rel="stylesheet" href="brand-system/tokens.css">
+<link rel="stylesheet" href="assets/site.css?v=d9113455">
+<link rel="stylesheet" href="assets/live.css?v=8183004f">
+<script src="assets/site.js?v=109179a8" defer></script>
+<script src="assets/live.js?v=a5584639" defer></script>
+<style>
+  main { max-width: 1200px; margin: 0 auto; padding: 40px 32px 120px; }
+  .lab { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; align-items: end; margin-top: 24px; }
+  .lab h3 { font-size: .8rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
+  .dark { background: var(--surface-0); padding: 32px; border-radius: 18px; margin-top: 40px; }
+</style>
+</head>
+<body>
+<main>
+  <h1 style="font-size:1.6rem">Live tile lab</h1>
+  <p style="color:var(--text-secondary);margin-top:8px">Four kinds on light, then the same four on dark.</p>
+
+  <div class="lab" id="labLight"></div>
+  <div class="dark" data-theme="dark"><div class="lab" id="labDark"></div></div>
+</main>
+
+<script src="assets/projects.js?v=e2fd1b8b"></script>
+<script>
+(function(){
+  function tile(p){
+    var m=p.media, ar=(m.w||1098)+' / '+(m.h||868);
+    if(m.kind==='video'){
+      return '<figure class="live" data-live style="--ar:'+ar+'">'+
+        '<video class="live__v" poster="assets/media/'+m.stem+'-poster.webp" muted loop playsinline preload="none" aria-label="'+p.alt+'">'+
+        '<source src="assets/media/'+m.stem+'.webm" type="video/webm">'+
+        '<source src="assets/media/'+m.stem+'.mp4" type="video/mp4"></video>'+
+        '<img class="live__print" src="assets/media/'+m.stem+'-poster.webp" alt="" aria-hidden="true">'+
+        '<span class="live__badge"><i></i>Recording</span></figure>';
+    }
+    if(m.kind==='css'){
+      return '<figure class="live live--css" data-live style="--ar:'+ar+'">'+
+        '<div class="mint"><div class="mint__bar"><span class="mint__dot"></span><span class="mint__prompt">Spring campaign, EU freelancers</span></div><div class="mint__stage"><div class="mint__canvas"><i></i><b></b></div></div><div class="mint__fmt"><span>1:1</span><span>4:5</span><span>9:16</span><span>16:9</span></div></div></figure>';
+    }
+    return '<figure class="live live--still" style="--ar:1098 / 868">'+
+      '<img src="images/opt/'+m.img+'-720.webp" alt="'+p.alt+'" loading="lazy" decoding="async"></figure>';
+  }
+  var four=[window.WORK[0],window.WORK[1],window.WORK[2],window.WORK[4]];
+  var html=four.map(function(p){return '<div><h3>'+(p.alias||p.title)+' · '+p.media.kind+'</h3>'+tile(p)+'</div>';}).join('');
+  document.getElementById('labLight').innerHTML=html;
+  document.getElementById('labDark').innerHTML=html.replace(/data-live/g,'data-live');
+  // shhh too
+  var s=window.WORK[3];
+  document.getElementById('labLight').insertAdjacentHTML('beforeend','<div><h3>Shhh · video</h3>'+tile(s)+'</div>');
+  document.getElementById('labDark').insertAdjacentHTML('beforeend','<div><h3>Shhh · video</h3>'+tile(s)+'</div>');
+})();
+</script>
+</body>
+</html>

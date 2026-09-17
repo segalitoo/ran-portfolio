@@ -1,0 +1,131 @@
+/* ══════════════════════════════════════════════════════════
+   Inner page · three approaches, round 3
+   All three fix the same two faults: type with no scale, and
+   images that render far below their native size.
+   Throwaway comparison styles.
+   ══════════════════════════════════════════════════════════ */
+
+:root {
+  --v3-text: 720px;   /* comfortable measure */
+  --v3-wide: 1360px;  /* 64% of a 2120px export */
+  --v3-mid: 1080px;
+}
+
+/* ── Demo switcher ─────────────────────────────── */
+.dbar {
+  position: fixed; top: 56px; left: 0; right: 0; z-index: 70;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 10px var(--gut);
+  background: color-mix(in srgb, var(--surface-1) 94%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--hair);
+  font-size: 0.8rem;
+}
+
+.dbar__t { font-weight: 600; }
+.dbar__n { color: var(--text-muted); }
+.dbar__links { display: flex; gap: 6px; margin-left: auto; }
+.dbar__a { padding: 5px 12px; border-radius: var(--radius-full); text-decoration: none; color: var(--text-secondary); font-weight: 500; }
+.dbar__a:hover { background: var(--tint); color: var(--text-primary); }
+.dbar__a.is-on { background: var(--primary); color: var(--on-primary); }
+
+.v3 { padding-top: 104px; }
+.v3 .back { margin-bottom: 30px; }
+
+/* Shared pieces */
+.v3-text { width: 100%; max-width: var(--v3-text); margin-inline: auto; padding-inline: var(--gut); }
+.v3-mid { width: 100%; max-width: var(--v3-mid); margin-inline: auto; padding-inline: var(--gut); }
+.v3-wide { width: 100%; max-width: var(--v3-wide); margin-inline: auto; padding-inline: var(--gut); }
+
+.v3-title {
+  font-size: clamp(2.6rem, 5.4vw, 4.4rem);
+  font-weight: 600; letter-spacing: -0.042em; line-height: 1.02;
+}
+
+.v3-alias { margin-top: 14px; font-size: 1rem; color: var(--text-muted); }
+.v3-lede { margin-top: 26px; font-size: 1.25rem; line-height: 1.55; color: var(--text-secondary); max-width: 34em; }
+
+.v3-shot { border-radius: 18px; overflow: hidden; border: 1px solid var(--hair); background: var(--surface-sunken); }
+.v3-shot img { width: 100%; height: auto; display: block; cursor: zoom-in; }
+.v3-cap { margin-top: 12px; font-size: 0.8rem; color: var(--text-muted); }
+
+/* Facts as one horizontal band, scannable in a glance. */
+.v3-facts {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair);
+}
+
+.v3-fact { padding: 22px 24px 22px 0; border-right: 1px solid var(--hair); }
+.v3-fact:last-child { border-right: 0; }
+.v3-fact:not(:first-child) { padding-left: 24px; }
+.v3-fact__k { font-size: 0.64rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-muted); }
+.v3-fact__v { margin-top: 9px; font-size: 0.9375rem; color: var(--text-primary); line-height: 1.45; }
+
+.v3-note__h { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.028em; }
+.v3-note__d { margin-top: 12px; font-size: 1.0625rem; line-height: 1.65; color: var(--text-secondary); }
+.v3-note__d b { color: var(--text-primary); font-weight: 500; }
+
+/* ══ A · POSTER ═══════════════════════════════════
+   Everything at full scale down one axis. The title is a
+   headline, the opener runs 1360px wide, and each note gets a
+   full-width frame under it. Nothing is pinned, nothing is empty. */
+.a3-head { padding-bottom: 44px; }
+.a3-open { margin-top: 8px; }
+.a3-open .v3-shot { border-radius: 20px; }
+.a3-facts { margin-top: 52px; }
+.a3-acts { margin-top: 34px; }
+
+.a3-notes { margin-top: 96px; display: flex; flex-direction: column; gap: 88px; }
+.a3-note__text { max-width: var(--v3-text); margin-inline: auto; padding-inline: var(--gut); }
+.a3-note__media { margin-top: 30px; }
+
+/* ══ B · EXHIBIT ══════════════════════════════════
+   Each frame gets its own tinted band. Colour fills the page
+   edge to edge, so empty white is structurally impossible. */
+.b3-open { padding: 0 0 64px; }
+.b3-band { padding: 76px 0; }
+.b3-band:nth-child(odd) { background: var(--surface-1); }
+.b3-band--ink { background: var(--surface-sunken); }
+
+/* The note sits above its frame, not beside it. Side by side caps the image
+   at roughly 800px, which is the fault this round exists to fix. */
+.b3-row__text { display: grid; grid-template-columns: 300px 1fr; gap: 48px; align-items: baseline; margin-bottom: 34px; }
+.b3-row__head { grid-column: 1; }
+.b3-row__body { grid-column: 2; }
+.b3-row__n { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.b3-row__h { margin-top: 10px; }
+.b3-row__body .v3-note__d { margin-top: 0; }
+.b3-facts { margin-top: 44px; }
+.b3-acts { margin-top: 32px; }
+
+/* ══ C · COLUMN ═══════════════════════════════════
+   One centred column, read top to bottom. Text at a comfortable
+   measure, every frame breaking out wider than the words. */
+.c3-head { padding-bottom: 40px; }
+.c3-facts { margin-top: 40px; }
+.c3-acts { margin-top: 32px; }
+.c3-open { margin-top: 56px; }
+.c3-flow { margin-top: 88px; display: flex; flex-direction: column; gap: 76px; }
+.c3-step__media { margin-top: 26px; }
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 900px) {
+  .v3-facts { grid-template-columns: 1fr 1fr; }
+  .v3-fact { border-bottom: 1px solid var(--hair); }
+  .v3-fact:nth-child(2n) { border-right: 0; }
+  .v3-fact:nth-child(n+3) { border-bottom: 0; }
+  .b3-row__text { grid-template-columns: 1fr; gap: 12px; margin-bottom: 24px; }
+  .b3-band { padding: 56px 0; }
+  .a3-notes { gap: 64px; }
+  .c3-flow { gap: 56px; }
+}
+
+@media (max-width: 560px) {
+  .v3-facts { grid-template-columns: 1fr; }
+  .v3-fact { border-right: 0; padding-left: 0 !important; }
+  .v3-fact:last-child { border-bottom: 0; }
+  .v3-shot { border-radius: 12px; }
+  .dbar__n { display: none; }
+  .v3 { padding-top: 112px; }
+}

@@ -1,0 +1,136 @@
+/* ══════════════════════════════════════════════════════════
+   Card options for mixed-orientation thumbnails
+   Comparison styles only. Some exports are landscape, some are
+   vertical, and a single 16:10 frame cannot hold both without
+   cropping one of them badly. Three strategies, same eight
+   projects, same grid. Once one wins it folds into options.css
+   and this file goes away.
+   ══════════════════════════════════════════════════════════ */
+
+.co-wrap { width: 100%; max-width: 1400px; margin-inline: auto; padding-inline: var(--gut); }
+
+.co-sec { padding-block: 72px 96px; border-top: 1px solid var(--hair); }
+.co-sec:first-of-type { border-top: 0; }
+
+.co-tag {
+  font-family: var(--font-mono, monospace); font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--primary);
+}
+.co-h { margin-top: 12px; font-size: clamp(1.6rem, 2.8vw, 2.2rem); font-weight: 600; letter-spacing: -0.035em; }
+.co-why { margin-top: 12px; max-width: 62ch; font-size: 1rem; line-height: 1.6; color: var(--text-secondary); }
+.co-why b { color: var(--text-primary); font-weight: 500; }
+
+.co-grid {
+  margin-top: 40px;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 36px 24px;
+}
+
+.co-card { position: relative; display: flex; flex-direction: column; gap: 14px; }
+/* The read has to be a column that grows, or margin-top:auto on the meta row
+   has nothing to push against and the rules stop lining up across a row. */
+.co-read { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.co-num { font-size: 0.72rem; font-weight: 600; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.co-t { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.02em; }
+.co-d { font-size: 0.9rem; line-height: 1.55; color: var(--text-secondary); }
+.co-meta {
+  margin-top: auto; padding-top: 12px; display: flex; gap: 14px;
+  border-top: 1px solid var(--hair); font-size: 0.78rem; color: var(--text-muted);
+}
+
+/* The orientation each card is carrying, so the difference is legible
+   while comparing. Drops out of the real build. */
+.co-or {
+  display: inline-block; margin-left: 8px;
+  padding: 2px 7px; border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  color: var(--primary); font-size: 0.6rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; vertical-align: 1px;
+}
+
+/* ══ A · PLINTH ════════════════════════════════════
+   One frame for everything, nothing cropped. The image is
+   contained and lifted off a tinted well, so a vertical and a
+   horizontal shot are both whole and both sit on the same ground.
+   The grid stays perfectly even. The cost is that a vertical
+   image ends up noticeably smaller than a horizontal one. */
+.ca .co-frame {
+  position: relative; aspect-ratio: 4 / 3; border-radius: 14px;
+  border: 1px solid var(--hair); background: var(--surface-1);
+  transition: border-color 260ms var(--e-out), box-shadow 320ms var(--e-out), transform 260ms var(--e-out);
+}
+/* The image is positioned out of flow on purpose. A percentage height
+   only resolves against a definite containing block, and a frame sized by
+   aspect-ratio is not definite for an in-flow child, so a tall image was
+   pushing the frame open and breaking the row. Absolute positioning makes
+   the frame the containing block, which is definite, so the calc sizes
+   resolve and object-fit can do the letterboxing. drop-shadow rather than
+   box-shadow because it traces the image, not the box around it. */
+.ca .co-frame img {
+  position: absolute; top: 20px; left: 20px;
+  width: calc(100% - 40px); height: calc(100% - 40px);
+  object-fit: contain;
+  filter: drop-shadow(0 12px 22px color-mix(in srgb, var(--text-primary) 28%, transparent));
+}
+
+/* ══ B · SHELF ═════════════════════════════════════
+   No frame at all. Every image gets the same height and keeps
+   its own width, and they all stand on one line with the rule
+   under them. Nothing is cropped and nothing is padded out; the
+   ragged top edge is the point, because the silhouette tells you
+   what kind of thing each project is before you read a word. */
+.cb .co-frame {
+  height: 200px; display: flex; align-items: flex-end;
+  transition: transform 260ms var(--e-out);
+}
+.cb .co-frame img {
+  max-height: 100%; max-width: 100%; width: auto; height: auto;
+  border-radius: 8px; border: 1px solid var(--hair);
+  box-shadow: 0 10px 26px -16px color-mix(in srgb, var(--text-primary) 50%, transparent);
+}
+/* The shelf itself. Per card rather than one rule across the row, so
+   it survives the drop to two columns and to one. */
+.cb .co-read { padding-top: 16px; border-top: 1px solid var(--hair-hi); }
+.cb .co-card { gap: 0; }
+
+/* ══ C · COLUMN ════════════════════════════════════
+   Commit to one tall frame and choose the crop. Vertical exports
+   fit almost untouched; a horizontal one is cropped hard to a
+   detail, which is a decision, not an accident, so each card
+   declares its own object-position. Strongest rhythm of the three
+   and the only one that shows UI at readable scale, but you never
+   see a whole screen. */
+.cc .co-frame {
+  position: relative; aspect-ratio: 4 / 5; border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--hair); background: var(--surface-1);
+  transition: border-color 260ms var(--e-out), box-shadow 320ms var(--e-out), transform 260ms var(--e-out);
+}
+.cc .co-frame img {
+  width: 100%; height: 100%; display: block;
+  object-fit: cover; object-position: var(--pos, center);
+  transition: transform 720ms var(--e-out);
+}
+
+/* ── Shared interaction ────────────────────────── */
+@media (hover: hover) and (pointer: fine) {
+  .ca .co-card:hover .co-frame, .cc .co-card:hover .co-frame {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--primary) 45%, var(--hair));
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--primary) 22%, transparent),
+      0 22px 56px -22px color-mix(in srgb, var(--primary) 60%, transparent);
+  }
+  .cc .co-card:hover .co-frame img { transform: scale(1.04); }
+  .cb .co-card:hover .co-frame { transform: translateY(-4px); }
+  .co-card:hover .co-t { color: var(--primary); }
+}
+
+@media (max-width: 1080px) {
+  .co-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .co-grid { grid-template-columns: minmax(0, 1fr); }
+  .cb .co-frame { height: 240px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .co-card:hover .co-frame, .co-card:hover .co-frame img { transform: none; }
+}

@@ -2,7 +2,7 @@
    The universal layer. Works in every stack via CSS custom properties.
    Light is the default. Dark via [data-theme="dark"]. Hebrew/RTL via [dir="rtl"]. */
 
-:root {
+:root, [data-theme="light"] {
   /* Surfaces */
   --surface-0: #FFFFFF;        /* page background */
   --surface-1: #F6F8FB;        /* subtle raised / sections */

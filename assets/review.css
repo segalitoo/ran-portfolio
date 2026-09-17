@@ -1,0 +1,138 @@
+/* ══════════════════════════════════════════════════════════
+   Review layer
+   Click anywhere to drop a numbered pin and type a note.
+   Notes live in localStorage per page and copy out as plain
+   text, so a round of feedback is one paste back into chat.
+   Review chrome only. It ships with the demos, not the site.
+   ══════════════════════════════════════════════════════════ */
+
+.rvw-layer {
+  position: absolute; inset: 0 auto auto 0;
+  width: 100%; height: 0;
+  pointer-events: none;
+  z-index: 900;
+}
+
+/* ── Pins ──────────────────────────────────────── */
+.rvw-pin {
+  position: absolute; transform: translate(-50%, -50%);
+  width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center;
+  border: 0; padding: 0; cursor: pointer;
+  pointer-events: auto;
+  background: var(--accent); color: var(--on-accent);
+  font-family: var(--font-sans);
+  font-size: 0.72rem; font-weight: 600; font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--surface-0) 92%, transparent),
+              0 4px 12px rgba(12, 19, 48, 0.3);
+  transition: transform 200ms var(--e-out, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.rvw-pin:hover { transform: translate(-50%, -50%) scale(1.14); }
+.rvw-pin:active { transform: translate(-50%, -50%) scale(0.96); }
+.rvw-pin.is-open { background: var(--primary); color: var(--on-primary); }
+
+/* ── Composer ──────────────────────────────────── */
+.rvw-note {
+  position: absolute; width: 288px; pointer-events: auto;
+  background: var(--surface-0);
+  border: 1px solid var(--hair-hi, rgba(12, 19, 48, 0.22));
+  border-radius: 12px; padding: 12px;
+  box-shadow: 0 12px 34px -8px rgba(12, 19, 48, 0.28);
+  font-family: var(--font-sans);
+}
+
+.rvw-note__at {
+  font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 8px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.rvw-note textarea {
+  width: 100%; min-height: 76px; resize: vertical;
+  font: inherit; font-size: 0.875rem; line-height: 1.5;
+  color: var(--text-primary); background: var(--surface-1);
+  border: 1px solid var(--hair, rgba(12, 19, 48, 0.1));
+  border-radius: 8px; padding: 9px 10px;
+}
+
+.rvw-note textarea:focus { outline: none; box-shadow: var(--ring); }
+.rvw-note__row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.rvw-note__sp { margin-left: auto; }
+
+/* ── Toolbar ───────────────────────────────────── */
+.rvw-bar {
+  position: fixed; left: 20px; bottom: 20px; z-index: 950;
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px; border-radius: var(--radius-full, 999px);
+  background: color-mix(in srgb, var(--surface-0) 88%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--hair, rgba(12, 19, 48, 0.1));
+  box-shadow: 0 8px 26px -10px rgba(12, 19, 48, 0.3);
+  font-family: var(--font-sans);
+}
+
+/* Drag handle. A one-screen page has nowhere to scroll the bar
+   away from what it covers, so it has to be movable. */
+.rvw-grip {
+  width: 16px; height: 26px; margin-left: 2px; flex-shrink: 0;
+  cursor: grab; touch-action: none; border-radius: 6px;
+  background-image: radial-gradient(circle, var(--text-muted) 1px, transparent 1px);
+  background-size: 5px 5px; background-position: center;
+  background-repeat: repeat-y; opacity: 0.6;
+  transition: opacity 200ms var(--e-out, ease);
+}
+
+.rvw-grip:hover { opacity: 1; }
+.rvw-bar.is-dragging { cursor: grabbing; }
+.rvw-bar.is-dragging .rvw-grip { cursor: grabbing; }
+.rvw-on .rvw-grip { cursor: grab !important; }
+
+.rvw-b {
+  border: 0; padding: 8px 14px; border-radius: var(--radius-full, 999px);
+  font: inherit; font-size: 0.8rem; font-weight: 500;
+  color: var(--text-secondary); background: none; cursor: pointer;
+  white-space: nowrap;
+  transition: background 200ms var(--e-out, ease), color 200ms var(--e-out, ease),
+              transform 150ms var(--e-out, ease);
+}
+
+.rvw-b:hover { background: var(--tint, rgba(12, 19, 48, 0.04)); color: var(--text-primary); }
+.rvw-b:active { transform: scale(0.96); }
+.rvw-b--on { background: var(--accent); color: var(--on-accent); }
+.rvw-b--on:hover { background: var(--accent-hover); color: var(--on-accent); }
+.rvw-b--go { background: var(--primary); color: var(--on-primary); }
+.rvw-b--go:hover { background: var(--primary-hover); color: var(--on-primary); }
+.rvw-b[disabled] { opacity: 0.4; cursor: default; }
+.rvw-b[disabled]:hover { background: none; color: var(--text-secondary); }
+
+.rvw-warn {
+  padding: 0 9px; height: 22px; border-radius: 999px;
+  display: grid; place-items: center;
+  background: var(--warning-tint); color: var(--text-warning);
+  font-size: 0.68rem; font-weight: 600; white-space: nowrap; cursor: help;
+}
+
+.rvw-count {
+  min-width: 22px; height: 22px; padding: 0 7px; border-radius: 999px;
+  display: grid; place-items: center;
+  background: var(--tint, rgba(12, 19, 48, 0.06));
+  color: var(--text-secondary);
+  font-size: 0.7rem; font-weight: 600; font-variant-numeric: tabular-nums;
+}
+
+/* Placing mode: the page stops responding so a click means a pin. */
+.rvw-on, .rvw-on * { cursor: crosshair !important; }
+.rvw-on .rvw-bar, .rvw-on .rvw-bar * { cursor: pointer !important; }
+.rvw-on .rvw-note, .rvw-on .rvw-note * { cursor: auto !important; }
+.rvw-on .rvw-pin { cursor: pointer !important; }
+/* Controls that still work while pinning keep their own cursor. */
+.rvw-on .l6__btn, .rvw-on .l6__dot, .rvw-on .j6__thumb, .rvw-on .nav__theme,
+.rvw-on .dbar__a { cursor: pointer !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rvw-pin, .rvw-b { transition: none; }
+  .rvw-pin:hover, .rvw-pin:active, .rvw-b:active { transform: translate(-50%, -50%); }
+  .rvw-b:active { transform: none; }
+}

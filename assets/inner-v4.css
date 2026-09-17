@@ -1,0 +1,95 @@
+/* ══════════════════════════════════════════════════════════
+   Inner page · round 4
+   Uses the freedom to crop and to run text beside image.
+   Builds on inner-v3.css for the shared title, facts and frame.
+   Throwaway comparison styles.
+   ══════════════════════════════════════════════════════════ */
+
+:root { --v4-max: 1440px; }
+
+.v4-max { width: 100%; max-width: var(--v4-max); margin-inline: auto; padding-inline: var(--gut); }
+
+/* ══ D · SIDECAR ═══════════════════════════════════
+   Text left, frames right, both scrolling. Nothing is pinned,
+   which is the whole point: a pinned pane is what left 429px of
+   white last time. The image column just keeps going. */
+.d4-grid { display: grid; grid-template-columns: 360px 1fr; gap: 80px; align-items: start; }
+
+.d4-side { position: relative; }
+.d4-side .v3-title { font-size: clamp(2rem, 3.1vw, 2.7rem); }
+.d4-side .v3-lede { font-size: 1.0625rem; margin-top: 20px; }
+.d4-facts { margin-top: 32px; }
+.d4-facts .v3-facts { grid-template-columns: 1fr; }
+.d4-facts .v3-fact { border-right: 0; border-bottom: 1px solid var(--hair); padding: 14px 0 !important; }
+.d4-facts .v3-fact:last-child { border-bottom: 0; }
+.d4-acts { margin-top: 26px; }
+
+.d4-stack { display: flex; flex-direction: column; gap: 64px; min-width: 0; }
+.d4-item__h { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.028em; }
+.d4-item__d { margin-top: 10px; font-size: 1rem; line-height: 1.6; color: var(--text-secondary); max-width: 62ch; }
+.d4-item__d b { color: var(--text-primary); font-weight: 500; }
+.d4-item__media { margin-top: 22px; }
+
+/* ══ E · BLEED ═════════════════════════════════════
+   Half the screen is text, half is picture, and the picture runs
+   off the edge of the window. A frame touching the screen edge
+   reads far larger than the same frame floating in a margin. */
+.e4-open { padding-bottom: 72px; }
+
+.e4-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; min-height: 540px;
+  border-top: 1px solid var(--hair);
+}
+
+.e4-row__text { padding: 72px clamp(32px, 5vw, 88px); }
+.e4-row__text-in { max-width: 34em; margin-left: auto; }
+.e4-row__n { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.e4-row__h { margin-top: 12px; font-size: 1.6rem; font-weight: 600; letter-spacing: -0.03em; }
+.e4-row__d { margin-top: 14px; font-size: 1.0625rem; line-height: 1.65; color: var(--text-secondary); }
+.e4-row__d b { color: var(--text-primary); font-weight: 500; }
+
+.e4-row__media { align-self: stretch; overflow: hidden; background: var(--surface-sunken); }
+.e4-row__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; display: block; cursor: zoom-in; }
+
+/* Odd rows put the picture on the right, even rows flip it. */
+.e4-row:nth-of-type(even) .e4-row__text { order: 2; }
+.e4-row:nth-of-type(even) .e4-row__text-in { margin-left: 0; margin-right: auto; }
+
+/* ══ F · PANORAMA ══════════════════════════════════
+   Frames cropped to a cinematic band and run the full width of
+   the window. Cropping is the point: a 1.893:1 export letterboxes
+   inside any wide band, so it gets cut instead of shrunk. */
+.f4-open { padding-bottom: 56px; }
+.f4-head { width: 100%; max-width: var(--v3-mid); margin-inline: auto; padding-inline: var(--gut); }
+
+.f4-band { width: 100vw; margin-left: calc(50% - 50vw); background: var(--surface-sunken); }
+.f4-band img { width: 100%; aspect-ratio: 2.1; object-fit: cover; object-position: 50% 45%; display: block; cursor: zoom-in; }
+.f4-cap { max-width: var(--v3-text); margin: 14px auto 0; padding-inline: var(--gut); font-size: 0.8rem; color: var(--text-muted); }
+
+.f4-step { margin-top: 88px; }
+.f4-step__text { max-width: var(--v3-text); margin-inline: auto; padding-inline: var(--gut); margin-bottom: 34px; }
+.f4-step__h { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.03em; }
+.f4-step__d { margin-top: 12px; font-size: 1.0625rem; line-height: 1.65; color: var(--text-secondary); }
+.f4-step__d b { color: var(--text-primary); font-weight: 500; }
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 1000px) {
+  .d4-grid { grid-template-columns: 300px 1fr; gap: 48px; }
+}
+
+@media (max-width: 860px) {
+  .d4-grid { grid-template-columns: 1fr; gap: 44px; }
+  .d4-facts .v3-facts { grid-template-columns: 1fr 1fr; }
+  .e4-row { grid-template-columns: 1fr; min-height: 0; }
+  .e4-row__text { padding: 44px var(--gut) 32px; order: 0 !important; }
+  .e4-row__text-in { margin-left: 0 !important; margin-right: 0 !important; }
+  .e4-row__media img { aspect-ratio: 16 / 10; height: auto; }
+  .f4-band img { aspect-ratio: 16 / 10; }
+  .f4-step { margin-top: 60px; }
+}
+
+@media (max-width: 560px) {
+  .d4-facts .v3-facts { grid-template-columns: 1fr; }
+  .e4-row__media img, .f4-band img { aspect-ratio: 4 / 3; }
+}

@@ -1,0 +1,154 @@
+/* ══════════════════════════════════════════════════════════
+   Inner page · round 6
+   Two new constraints drive everything here: portrait frames you
+   will shoot to fit, and as little scrolling as possible. A tall
+   frame beside a text column fits a whole project on one screen,
+   which stacked landscape frames never could.
+   ══════════════════════════════════════════════════════════ */
+
+:root {
+  --e-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --v6-max: 1400px;
+}
+
+.v6 { padding-top: 96px; }
+.v6-max { width: 100%; max-width: var(--v6-max); margin-inline: auto; padding-inline: var(--gut); }
+
+.v6-title { font-size: clamp(1.9rem, 3.2vw, 2.85rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1.04; }
+.v6-alias { margin-top: 10px; font-size: 0.9rem; color: var(--text-muted); }
+.v6-lede { margin-top: 18px; font-size: 1.0625rem; line-height: 1.6; color: var(--text-secondary); max-width: 40em; }
+
+.v6 .btn { transition: transform 160ms var(--e-out), background 200ms var(--e-out); }
+.v6 .btn:active { transform: scale(0.97); }
+
+/* An author-level display rule beats the UA's [hidden], so anything
+   toggled with the attribute needs this or it stays in the flow. */
+[hidden] { display: none !important; }
+
+/* ── Placeholder ───────────────────────────────
+   Shows the exact export you need: ratio, pixel size, and what
+   belongs in the shot. Swap the whole block for an <img> later. */
+.ph {
+  position: relative; aspect-ratio: var(--ar, 3 / 4);
+  border-radius: 14px; overflow: hidden;
+  border: 1px dashed var(--hair-hi);
+  background:
+    repeating-linear-gradient(45deg,
+      transparent 0 10px,
+      color-mix(in srgb, var(--text-primary) 3%, transparent) 10px 20px),
+    var(--surface-1);
+  display: grid; place-content: center; text-align: center;
+  padding: 20px; gap: 7px;
+}
+
+.ph__r { font-size: 1.05rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.ph__d { font-size: 0.75rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.ph__c { margin-top: 6px; font-size: 0.8rem; line-height: 1.45; color: var(--text-muted); max-width: 22ch; margin-inline: auto; }
+.ph--fill { height: 100%; aspect-ratio: auto; }
+
+/* ── Compact facts ─────────────────────────────── */
+/* One row wherever there is room, so the strip stays short and uses the
+   full column. auto-fit collapses it to two, then one, on its own. */
+.v6-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: 12px; overflow: hidden; }
+.v6-fact { background: var(--surface-0); padding: 11px 14px; }
+.v6-fact__k { font-size: 0.59rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+.v6-fact__v { margin-top: 4px; font-size: 0.84rem; line-height: 1.35; }
+
+/* Equal columns force the longest value to wrap three deep and that one
+   cell sets the height of the whole strip. Give it the room instead. */
+@media (min-width: 1081px) {
+  .j6__facts .v6-facts { grid-template-columns: 0.9fr 0.5fr 1.8fr 0.8fr; }
+}
+
+/* ══ J · ONE SCREEN ════════════════════════════════
+   The whole project inside one viewport. Text left, one tall
+   frame right, the other frames as thumbnails that swap it.
+   Nothing below the fold, so there is nothing to scroll to. */
+/* Both columns share a top edge, so the title starts level with the
+   frame. Centring floated the title against a much taller stage. */
+.j6 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 460px); gap: 64px; align-items: start; min-height: calc(100vh - 150px); }
+.j6__notes { margin-top: 34px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 34px; }
+.j6__note { display: grid; grid-template-columns: 20px 1fr; gap: 11px; }
+.j6__n { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); font-variant-numeric: tabular-nums; padding-top: 3px; }
+.j6__nh { font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.015em; }
+.j6__nd { margin-top: 4px; font-size: 0.84rem; line-height: 1.5; color: var(--text-secondary); }
+/* The strip was sitting tight under the lede. It gets a clear gap
+   above, and a matching one below so it does not just slide into
+   the notes instead. The column has slack at the bottom to spend. */
+.j6__facts { margin-top: 40px; }
+.j6__acts { margin-top: 24px; }
+
+.j6__stage { display: flex; flex-direction: column; gap: 14px; }
+.j6__main { position: relative; }
+.j6__thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.j6__thumb { border: 0; padding: 0; background: none; cursor: pointer; border-radius: 9px; overflow: hidden; opacity: 0.55; transition: opacity 200ms var(--e-out), transform 200ms var(--e-out); }
+.j6__thumb .ph { border-radius: 9px; padding: 8px; gap: 2px; }
+.j6__thumb .ph__r { font-size: 0.72rem; }
+.j6__thumb .ph__d, .j6__thumb .ph__c { display: none; }
+.j6__thumb.is-on { opacity: 1; }
+.j6__thumb:active { transform: scale(0.97); }
+
+@media (hover: hover) and (pointer: fine) {
+  .j6__thumb:hover { opacity: 0.85; }
+}
+
+/* ══ K · TRIPTYCH ══════════════════════════════════
+   Three tall panels across the screen, read left to right like a
+   folding screen. One glance takes in the whole project. */
+.k6__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 400px); gap: 56px; align-items: end; padding-bottom: 36px; border-bottom: 1px solid var(--hair); }
+.k6__panels { margin-top: 36px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.k6__panel { display: flex; flex-direction: column; gap: 16px; }
+.k6__cap { display: grid; grid-template-columns: 22px 1fr; gap: 10px; }
+.k6__n { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); font-variant-numeric: tabular-nums; padding-top: 3px; }
+.k6__ch { font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.015em; }
+.k6__cd { margin-top: 4px; font-size: 0.84rem; line-height: 1.5; color: var(--text-secondary); }
+
+/* ══ L · DECK ══════════════════════════════════════
+   Text holds still on the left. The frame on the right is paged
+   with the arrows or the keyboard, so four frames cost no scroll. */
+.l6 { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 72px; align-items: center; min-height: calc(100vh - 150px); }
+.l6__pane { position: relative; }
+
+.l6__slide { display: none; }
+.l6__slide.is-on { display: block; }
+.l6__sn { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.l6__sh { margin-top: 9px; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em; }
+.l6__sd { margin-top: 10px; font-size: 0.9375rem; line-height: 1.6; color: var(--text-secondary); }
+
+.l6__deck { position: relative; max-width: 520px; margin-inline: auto; }
+.l6__frame { display: none; }
+.l6__frame.is-on { display: block; animation: l6in 380ms var(--e-out) both; }
+
+/* Frames swap in place, so the entrance starts from almost-there
+   rather than from nothing. */
+@keyframes l6in { from { opacity: 0; transform: scale(0.985); } to { opacity: 1; transform: none; } }
+
+.l6__ctrls { display: flex; align-items: center; gap: 14px; margin-top: 20px; max-width: 520px; margin-inline: auto; }
+.l6__btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--hair-hi); display: grid; place-items: center; cursor: pointer; color: var(--text-secondary); transition: background 200ms var(--e-out), color 200ms var(--e-out), transform 160ms var(--e-out); }
+.l6__btn:hover { background: var(--tint); color: var(--text-primary); }
+.l6__btn:active { transform: scale(0.94); }
+.l6__btn svg { width: 15px; height: 15px; }
+.l6__dots { display: flex; gap: 7px; margin-left: 4px; }
+.l6__dot { width: 7px; height: 7px; border-radius: 50%; border: 0; padding: 0; background: var(--hair-hi); cursor: pointer; transition: background 200ms var(--e-out), transform 200ms var(--e-out); }
+.l6__dot.is-on { background: var(--primary); transform: scale(1.25); }
+.l6__count { margin-left: auto; font-size: 0.78rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 1080px) {
+  .j6, .l6 { grid-template-columns: 1fr; gap: 40px; min-height: 0; }
+  .j6__stage { max-width: 420px; }
+  .k6__head { grid-template-columns: 1fr; gap: 26px; align-items: start; }
+  .k6__panels { grid-template-columns: 1fr 1fr; }
+  .v6 { padding-top: 88px; }
+}
+
+@media (max-width: 700px) {
+  .j6__notes { grid-template-columns: 1fr; }
+  .k6__panels { grid-template-columns: 1fr; }
+  .l6__ctrls { flex-wrap: wrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .l6__frame.is-on { animation: none; }
+  .v6 .btn:active, .l6__btn:active, .j6__thumb:active { transform: none; }
+}

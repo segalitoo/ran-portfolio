@@ -1,0 +1,131 @@
+/* ══════════════════════════════════════════════════════════
+   Inner page · tall stage
+   A modifier on .proj, so site.js drives it unchanged: the same
+   .note[data-frame] to .stage__frame pairing, the same lightbox.
+   Only the geometry of the right column is new.
+
+   The problem it solves: .proj sizes the shot by width
+   (width:100%; height:auto), so a 1.89:1 screenshot in an 840px
+   column is 415px tall inside a 701px sticky column. Four out of
+   ten vertical pixels are empty, and on a short laptop the shot
+   does not grow to meet the space it has.
+
+   Here the shot is sized by whichever axis runs out first, and the
+   leftover height goes to a filmstrip rather than to air.
+   ══════════════════════════════════════════════════════════ */
+
+/* A fixed reading measure instead of 5fr. Everything the text does
+   not need belongs to the image, which is the point of the page. */
+.proj--tall { grid-template-columns: minmax(0, 460px) minmax(0, 1fr); }
+
+/* The stage runs to the right edge: no gutter to spend on nothing. */
+.proj--tall .proj__stage {
+  padding: 20px 18px 22px 34px;
+  display: flex; flex-direction: column; gap: 14px;
+  place-items: stretch;
+}
+
+/* flex:1 + min-height:0 is what lets the frame be measured from the
+   column's height rather than from the image's own ratio. */
+/* Bottom aligned, not centred. On a tall window the shot is capped by the
+   column's width, so flex:1 would split the surplus above and below and
+   leave the caption stranded a hundred-odd pixels under the picture.
+   Sending all of it upward keeps caption and strip tight to the shot. */
+.proj--tall .stage {
+  position: relative; flex: 1; min-height: 0;
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.proj--tall .stage__frame { align-items: flex-end; }
+
+.proj--tall .stage__frame {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  border: 0; background: none; border-radius: 0; overflow: visible;
+}
+
+/* The first frame is absolute here too, unlike .proj, because the
+   flex parent now supplies the height instead of the frame. */
+.proj--tall .stage__frame:first-child { position: absolute; }
+
+/* max on both axes: the shot grows until either the column height or
+   the column width stops it, and keeps its ratio either way. The
+   border rides on the image, so nothing letterboxes around it. */
+.proj--tall .stage__frame img,
+.proj--tall .stage__frame video {
+  width: auto; height: auto;
+  max-width: 100%; max-height: 100%;
+  object-fit: contain;
+  border-radius: 16px;
+  border: 1px solid var(--hair);
+  background: var(--surface-sunken);
+  box-shadow: var(--shadow-lg);
+}
+
+/* The badge anchors to .stage__frame, which here is the whole column
+   rather than the picture, so on its own it floats off below the shot.
+   This wrapper shrinks to exactly the media's painted box, giving the
+   badge a corner to sit in again. Only frames carrying a badge need it. */
+.proj--tall .shotwrap {
+  position: relative; display: flex;
+  max-width: 100%; max-height: 100%;
+}
+
+/* Caption sits in the flow under the shot, not 30px below an
+   absolute box that no longer has a bottom edge to hang from. */
+.proj--tall .stage__cap {
+  position: absolute; inset: auto 0 0 0;
+  text-align: center;
+}
+.proj--tall .stage__caps {
+  position: relative; height: 18px; flex: none;
+}
+
+/* ── Filmstrip ─────────────────────────────────────
+   Takes the height the shot could not use, and doubles as the only
+   place the whole set is visible at once. Clicking one scrolls the
+   note that owns it, so the scroll pairing stays the single source
+   of truth and cannot fight the click. */
+.strip { flex: none; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 10px; }
+
+/* Fixed height, not a ratio. Four thumbs across a 930px column at 16:10
+   came to 140px, which is height taken straight out of the shot the page
+   exists to show. 76px still reads as a recognisable thumbnail. */
+.strip__b {
+  position: relative; padding: 0; border: 0; background: none;
+  cursor: pointer; border-radius: 10px; overflow: hidden;
+  height: 76px;
+  outline: 1px solid var(--hair); outline-offset: 0;
+  opacity: 0.5;
+  transition: opacity 200ms var(--ez), outline-color 200ms var(--ez), transform 160ms var(--ez);
+}
+
+.strip__b img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.strip__b.is-on { opacity: 1; outline: 2px solid var(--primary); }
+.strip__b:active { transform: scale(0.98); }
+
+@media (hover: hover) and (pointer: fine) {
+  .strip__b:hover { opacity: 0.85; }
+}
+
+/* ── Responsive ────────────────────────────────────
+   Below the split, .proj already drops the stage and each note
+   carries its own inline shot, so the strip goes with it. */
+@media (max-width: 1080px) {
+  .proj--tall { grid-template-columns: 1fr; }
+  .proj--tall .proj__stage { display: none; }
+}
+
+/* Below this the strip starts costing the shot height rather than taking
+   surplus. Solved from the column: the shot tops out at 491px (width
+   capped by the 928px column at 1.89:1), and the stage keeps that only
+   while viewport - 220 >= 491, where 220 is nav 56 + padding 42 +
+   caption 18 + gaps 28 + strip 76. Above 710 the strip is free; below
+   it, it eats into the image, so it goes. The notes still swap the
+   frame, so no shot becomes unreachable. */
+@media (max-height: 710px) {
+  .proj--tall .strip { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strip__b:active { transform: none; }
+}

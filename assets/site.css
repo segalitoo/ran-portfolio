@@ -1,0 +1,413 @@
+/* ══════════════════════════════════════════════════════════
+   Ran Segal · shared stylesheet
+   Used by the overview (design-c.html) and every page in /work.
+   Vanilla CSS on top of brand-system/tokens.css. No build step.
+   ══════════════════════════════════════════════════════════ */
+
+:root {
+  --shell: 1180px;
+  /* Text column. */
+  --wide: 1560px;
+  /* Media cap. 1560 against a 2120 native export is 74%. */
+  --gut: clamp(20px, 4vw, 56px);
+  --ez: cubic-bezier(0.16, 1, 0.3, 1);
+  --hair: color-mix(in srgb, var(--text-primary) 10%, transparent);
+  --hair-hi: color-mix(in srgb, var(--text-primary) 22%, transparent);
+  --tint: color-mix(in srgb, var(--text-primary) 4%, transparent);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  /* Fixed nav is 56px. Anchors must not land under it. */
+  scroll-padding-top: 84px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--surface-0);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body.is-locked { overflow: hidden; }
+
+img, video { display: block; max-width: 100%; }
+h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; }
+p { margin: 0; }
+a { color: inherit; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 4px; }
+
+.shell { width: 100%; max-width: var(--shell); margin-inline: auto; padding-inline: var(--gut); }
+.wide { width: 100%; max-width: var(--wide); margin-inline: auto; padding-inline: var(--gut); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ── Nav ───────────────────────────────────────── */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 80; height: 56px;
+  display: flex; align-items: center;
+  background: color-mix(in srgb, var(--surface-0) 78%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s var(--ez);
+}
+
+.nav.is-scrolled { border-bottom-color: var(--hair); }
+.nav__in { display: flex; align-items: center; gap: 16px; width: 100%; max-width: var(--wide); margin-inline: auto; padding-inline: var(--gut); }
+.nav__me { font-size: 0.875rem; font-weight: 600; letter-spacing: -0.01em; text-decoration: none; white-space: nowrap; }
+.nav__me span { color: var(--text-muted); font-weight: 400; }
+.nav__links { display: flex; gap: 4px; margin-left: auto; }
+
+.nav__a {
+  padding: 6px 12px; border-radius: var(--radius-full);
+  font-size: 0.82rem; font-weight: 500; color: var(--text-secondary);
+  text-decoration: none; white-space: nowrap;
+  transition: color 0.2s var(--ez), background 0.2s var(--ez);
+}
+
+.nav__a:hover, .nav__a.is-current { color: var(--text-primary); background: var(--tint); }
+.lbl-s { display: none; }
+
+.nav__theme {
+  display: grid; place-items: center; width: 34px; height: 34px;
+  border-radius: var(--radius-full); color: var(--text-secondary); flex-shrink: 0;
+  transition: color 0.2s var(--ez), background 0.2s var(--ez), transform 0.14s var(--ez);
+}
+
+.nav__theme:hover { color: var(--text-primary); background: var(--tint); }
+.nav__theme:active { transform: scale(0.94); }
+.nav__theme svg { width: 16px; height: 16px; }
+.nav__theme .i-moon { display: none; }
+[data-theme="dark"] .nav__theme .i-moon { display: block; }
+[data-theme="dark"] .nav__theme .i-sun { display: none; }
+
+/* ── Buttons ───────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 22px; border-radius: var(--radius-full);
+  font-size: 0.875rem; font-weight: 500; text-decoration: none;
+  border: 1px solid transparent;
+  transition: background 0.24s var(--ez), border-color 0.24s var(--ez);
+}
+
+.btn i { font-style: normal; transition: transform 0.24s var(--ez); }
+/* Press feedback, unscoped. It used to exist only inside .v5, .v6 and
+   .g-page, so the CTA on a project page answered nothing on tap. */
+.btn { transition: background 0.24s var(--ez), border-color 0.24s var(--ez), transform 0.16s var(--ez); }
+.btn:active { transform: scale(0.97); }
+.btn:hover i { transform: translateX(3px); }
+.btn--fill { background: var(--primary); color: var(--on-primary); }
+.btn--fill:hover { background: var(--primary-hover); }
+.btn--line { border-color: var(--hair-hi); }
+.btn--line:hover { background: var(--tint); }
+
+.acts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+
+/* ── Chips ─────────────────────────────────────── */
+.chip {
+  display: inline-block; padding: 5px 11px; border-radius: var(--radius-full);
+  font-size: 0.66rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+.chip--build { background: var(--accent-tint); color: var(--text-accent); }
+.chip--lead { background: var(--primary-tint); color: var(--text-primary-on-tint); }
+
+/* ── Hero (overview) ───────────────────────────── */
+.hero { padding: 148px 0 80px; }
+
+.hero__tag {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 0.7rem; font-weight: 500; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 24px;
+}
+
+.hero__tag i { width: 6px; height: 6px; border-radius: 50%; background: var(--success); font-style: normal; }
+
+.hero__h {
+  font-size: clamp(2.4rem, 5.8vw, 4.3rem);
+  font-weight: 600; letter-spacing: -0.038em; line-height: 1.03; max-width: 17ch;
+}
+
+.hero__h b { color: var(--primary); font-weight: 600; }
+.hero__p { margin-top: 28px; max-width: 46ch; font-size: clamp(1.0625rem, 1.6vw, 1.15rem); color: var(--text-secondary); }
+
+.hero__stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 64px; border-top: 1px solid var(--hair); }
+.hstat { padding: 24px 24px 4px 0; border-right: 1px solid var(--hair); }
+.hstat:last-child { border-right: 0; }
+.hstat:not(:first-child) { padding-left: 24px; }
+.hstat__n { font-size: clamp(1.6rem, 2.4vw, 2.1rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.hstat__c { margin-top: 10px; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-muted); line-height: 1.5; }
+
+/* ── Section heads ─────────────────────────────── */
+.sect { padding: 84px 0 0; }
+.sect__head { padding-bottom: 40px; }
+.sect__rule { display: flex; align-items: baseline; gap: 18px; padding-bottom: 22px; border-bottom: 1px solid var(--hair); }
+.sect__n, .sect__k { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; color: var(--text-muted); }
+.sect__k { text-transform: uppercase; }
+.sect__h { margin-top: 30px; font-size: clamp(1.7rem, 3.2vw, 2.5rem); letter-spacing: -0.035em; }
+.sect__p { margin-top: 16px; max-width: 52ch; font-size: 1.0625rem; color: var(--text-secondary); }
+
+/* ── Card grid ─────────────────────────────────
+   The overview. One card per project, then out to its own page. */
+.grid { display: grid; gap: 28px; }
+.grid--2 { grid-template-columns: repeat(2, 1fr); }
+.grid--3 { grid-template-columns: repeat(3, 1fr); }
+
+.card {
+  display: flex; flex-direction: column;
+  text-decoration: none; border-radius: 16px;
+  border: 1px solid var(--hair); background: var(--surface-0);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ez), transform 0.3s var(--ez), box-shadow 0.3s var(--ez);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--hair-hi);
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--text-primary) 9%, transparent);
+}
+
+.card__shot { overflow: hidden; background: var(--surface-sunken); aspect-ratio: 16 / 10; }
+.card__shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.6s var(--ez); }
+.card:hover .card__shot img { transform: scale(1.04); }
+
+.card__body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+.card__h { margin-top: 14px; font-size: 1.2rem; letter-spacing: -0.025em; }
+.card__h small { display: block; margin-top: 4px; font-size: 0.8rem; font-weight: 400; color: var(--text-muted); letter-spacing: 0; }
+.card__p { margin-top: 10px; font-size: 0.9375rem; color: var(--text-secondary); }
+
+.card__foot { display: flex; align-items: baseline; gap: 10px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--hair); }
+.card__stat { font-size: 1.05rem; font-weight: 600; letter-spacing: -0.02em; color: var(--accent); }
+.card--lead .card__stat { color: var(--primary); }
+.card__statc { font-size: 0.64rem; font-weight: 500; letter-spacing: 0.11em; text-transform: uppercase; color: var(--text-muted); }
+.card__go { margin-left: auto; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); white-space: nowrap; }
+.card__go i { font-style: normal; display: inline-block; transition: transform 0.24s var(--ez); }
+.card:hover .card__go { color: var(--text-primary); }
+.card:hover .card__go i { transform: translateX(3px); }
+
+/* ══ Project page · Swap stage ══════════════════
+   Build notes scroll on the left; the frame that proves each one
+   holds still on the right and swaps to match. Claim beside proof. */
+
+.back {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.82rem; font-weight: 500; color: var(--text-secondary);
+  text-decoration: none; transition: color 0.2s var(--ez);
+}
+
+.back:hover { color: var(--text-primary); }
+.back i { font-style: normal; display: inline-block; transition: transform 0.24s var(--ez); }
+.back:hover i { transform: translateX(-3px); }
+
+.proj { display: grid; grid-template-columns: 5fr 7fr; align-items: start; }
+
+/* Left: everything written, scrolling normally. */
+.proj__read { padding: 96px var(--gut) 88px; min-width: 0; }
+.proj__title { margin-top: 22px; font-size: clamp(1.7rem, 2.6vw, 2.35rem); letter-spacing: -0.038em; }
+.proj__alias { margin-top: 8px; font-size: 0.95rem; color: var(--text-muted); }
+.proj__lede { margin-top: 20px; font-size: 1.0625rem; color: var(--text-secondary); max-width: 68ch; }
+
+/* Facts first: this reader is scanning, so nothing is buried. */
+.facts { margin-top: 26px; border-top: 1px solid var(--hair); }
+.fact { display: grid; grid-template-columns: 92px 1fr; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--hair); font-size: 0.875rem; }
+.fact__k { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); padding-top: 3px; }
+.fact__v { color: var(--text-secondary); }
+.fact__v b { color: var(--text-primary); font-weight: 500; }
+
+/* The notes. Each one drives the stage. */
+.notes { margin-top: 44px; counter-reset: note; }
+
+.note {
+  padding: 26px 0 28px; border-top: 1px solid var(--hair);
+  transition: opacity 0.4s var(--ez);
+}
+
+.note:last-child { border-bottom: 1px solid var(--hair); }
+
+/* Where no call to action sits between them, the facts table's closing rule
+   and the first note's opening rule stack into an empty band. */
+.facts + .notes .note:first-child { border-top: 0; }
+
+.note__h {
+  display: flex; align-items: baseline; gap: 12px;
+  font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.02em;
+}
+
+.note__h::before {
+  counter-increment: note; content: counter(note, decimal-leading-zero);
+  font-size: 0.72rem; font-weight: 600; color: var(--text-muted);
+  font-variant-numeric: tabular-nums; flex-shrink: 0;
+}
+
+.note__d { margin-top: 10px; margin-left: 32px; font-size: 0.9375rem; color: var(--text-secondary); max-width: 62ch; }
+.note__d b { color: var(--text-primary); font-weight: 500; }
+
+/* Dim what is not being read, so the pairing is unambiguous. */
+.proj.is-live .note { opacity: 0.42; }
+.proj.is-live .note.is-active { opacity: 1; }
+
+/* Right: the pinned stage. */
+.proj__stage {
+  position: sticky; top: 56px; height: calc(100vh - 56px);
+  display: grid; place-items: center;
+  padding: 24px var(--gut) 24px 0;
+  min-width: 0;
+}
+
+.stage { position: relative; width: 100%; }
+
+.stage__frame {
+  position: absolute; inset: 0;
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--hair); background: var(--surface-sunken);
+  opacity: 0; transform: scale(0.985);
+  transition: opacity 0.4s var(--ez), transform 0.4s var(--ez);
+}
+
+.stage__frame:first-child { position: relative; }
+.stage__frame.is-on { opacity: 1; transform: none; }
+.stage__frame img, .stage__frame video { width: 100%; height: auto; cursor: zoom-in; }
+
+.stage__cap {
+  position: absolute; left: 0; right: 0; bottom: -30px;
+  font-size: 0.78rem; color: var(--text-muted);
+  opacity: 0; transition: opacity 0.4s var(--ez);
+}
+
+.stage__cap.is-on { opacity: 1; }
+
+.stage__badge {
+  position: absolute; left: 14px; bottom: 14px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 12px; border-radius: var(--radius-full);
+  background: color-mix(in srgb, #0C1330 74%, transparent);
+  color: #fff; font-size: 0.66rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+
+.stage__badge i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); font-style: normal; }
+
+/* Mobile carries the frame inline under its own note instead. */
+.note__shot { display: none; }
+
+
+/* ── Prev / next ───────────────────────────────── */
+.pn { margin-top: 88px; border-top: 1px solid var(--hair); display: grid; grid-template-columns: 1fr 1fr; }
+.pn__i { padding: 28px 0; text-decoration: none; }
+.pn__i + .pn__i { padding-left: 28px; border-left: 1px solid var(--hair); }
+.pn__i:last-child { text-align: right; }
+.pn__k { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-muted); }
+.pn__t { margin-top: 8px; font-size: 1.05rem; font-weight: 600; letter-spacing: -0.02em; transition: color 0.2s var(--ez); }
+.pn__i:hover .pn__t { color: var(--primary); }
+.pn__i--empty { pointer-events: none; opacity: 0.4; }
+
+/* ── About + contact ───────────────────────────── */
+.about__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; }
+.about__p { font-size: 1.0625rem; color: var(--text-secondary); }
+.about__p + .about__p { margin-top: 16px; }
+.about__p b { color: var(--text-primary); font-weight: 500; }
+
+.contact { margin-top: 88px; padding: 68px 0 80px; border-top: 1px solid var(--hair); background: var(--surface-1); }
+.contact__h { font-size: clamp(1.6rem, 3.2vw, 2.4rem); letter-spacing: -0.035em; max-width: 18ch; }
+.contact__p { margin-top: 16px; max-width: 44ch; font-size: 1.0625rem; color: var(--text-secondary); }
+.foot { padding: 24px 0 36px; font-size: 0.78rem; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 8px 22px; }
+
+/* ── Reveal ────────────────────────────────────── */
+.rv { opacity: 0; transform: translateY(20px); transition: opacity 0.48s var(--ez), transform 0.48s var(--ez); }
+.rv.is-in { opacity: 1; transform: none; }
+
+/* ── Lightbox ──────────────────────────────────── */
+.lb {
+  position: fixed; inset: 0; z-index: 200; display: grid; place-items: center;
+  padding: 4vmin; background: color-mix(in srgb, #05070D 92%, transparent);
+  opacity: 0; visibility: hidden; transition: opacity 0.3s var(--ez), visibility 0.3s;
+}
+
+.lb.is-open { opacity: 1; visibility: visible; }
+.lb img { max-width: 96vw; max-height: 92vh; width: auto; height: auto; border-radius: 8px; }
+
+.lb__x {
+  position: absolute; top: 18px; right: 18px; width: 42px; height: 42px;
+  display: grid; place-items: center; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12); color: #fff;
+  transition: background 0.2s var(--ez), transform 0.14s var(--ez);
+}
+
+.lb__x:hover { background: rgba(255, 255, 255, 0.22); }
+.lb__x:active { transform: scale(0.94); }
+
+/* ── Browser surfaces ──────────────────────────
+   The parts not drawn by hand still carry the design. */
+::selection { background: color-mix(in srgb, var(--primary) 22%, transparent); color: var(--text-primary); }
+:root { accent-color: var(--primary); caret-color: var(--primary); scrollbar-color: var(--hair-hi) transparent; }
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--hair-hi); border-radius: 8px; border: 3px solid var(--surface-0); }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+a { text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 1000px) {
+  .grid--3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 860px) {
+  .hero { padding: 120px 0 64px; }
+  .hero__stats { grid-template-columns: 1fr 1fr; }
+  .hstat { border-bottom: 1px solid var(--hair); }
+  .hstat:nth-child(2n) { border-right: 0; }
+  .hstat:nth-child(n+3) { border-bottom: 0; }
+  .grid--2, .grid--3 { grid-template-columns: 1fr; }
+  .about__grid { grid-template-columns: 1fr; gap: 28px; }
+  /* Swap stage collapses: the stage un-pins and each note carries its own
+     frame inline, so claim and proof stay adjacent without a sticky pane. */
+  .proj { grid-template-columns: 1fr; }
+  .proj__read { padding: 92px var(--gut) 72px; }
+  .proj__stage { display: none; }
+  .note__shot { display: block; margin: 18px 0 0 32px; border-radius: 14px; overflow: hidden; border: 1px solid var(--hair); background: var(--surface-sunken); }
+  .note__shot img { width: 100%; height: auto; }
+  .proj.is-live .note { opacity: 1; }
+}
+
+@media (max-width: 560px) {
+  .hero__stats { grid-template-columns: 1fr; }
+  .hstat { border-right: 0; padding-left: 0 !important; }
+  .hstat:last-child { border-bottom: 0; }
+  .nav__me span { display: none; }
+  /* Short labels, or the theme toggle is pushed off-screen. */
+  .lbl-l { display: none; }
+  .lbl-s { display: inline; }
+  .nav__in { gap: 8px; }
+  .nav__a { padding: 6px 8px; font-size: 0.76rem; }
+  .note__shot { margin-left: 0; border-radius: 12px; }
+  .note__d { margin-left: 0; }
+  .sect { padding-top: 64px; }
+  .pn { grid-template-columns: 1fr; }
+  .pn__i + .pn__i { padding-left: 0; border-left: 0; border-top: 1px solid var(--hair); }
+  .pn__i:last-child { text-align: left; }
+}
+
+/* Reduced motion means less movement, not a dead page. Killing every
+   duration with !important also killed the opacity and colour fades
+   that help a reader follow a change, and it overrode the per-component
+   rules the other stylesheets write. Movement is dropped here; fades
+   and colour stay, and each component tunes its own. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rv { opacity: 1; transform: none; transition: none; }
+  .card:hover .card__shot img, .card:hover { transform: none; }
+  .btn i, .back i, .card__go i { transition: none; }
+  .lb__in { transform: none; }
+  .nav__theme:active, .lb__x:active, .btn:active { transform: none; }
+  .hfield__glow { animation: none; }
+}

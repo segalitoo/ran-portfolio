@@ -1,0 +1,10 @@
+# Video masters. The Zoomi ProRes 4444 is 361MB.
+mov/*.mov
+*.prores.mov
+
+# Tooling installed into the repo, not part of the site.
+.claude/
+.github/agents/
+.github/hooks/
+.github/skills/
+.impeccable/

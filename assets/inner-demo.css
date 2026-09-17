@@ -1,0 +1,173 @@
+/* ══════════════════════════════════════════════════════════
+   Inner page · three layout approaches
+   Throwaway comparison styles. Once a direction is picked, the
+   winning block folds into site.css and this file goes away.
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Demo switcher ─────────────────────────────── */
+.dbar {
+  position: fixed; top: 56px; left: 0; right: 0; z-index: 70;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 10px var(--gut);
+  background: color-mix(in srgb, var(--surface-1) 92%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--hair);
+  font-size: 0.8rem;
+}
+
+.dbar__t { font-weight: 600; }
+.dbar__n { color: var(--text-muted); }
+.dbar__links { display: flex; gap: 6px; margin-left: auto; }
+
+.dbar__a {
+  padding: 5px 12px; border-radius: var(--radius-full);
+  text-decoration: none; color: var(--text-secondary); font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.dbar__a:hover { background: var(--tint); color: var(--text-primary); }
+.dbar__a.is-on { background: var(--primary); color: var(--on-primary); }
+
+.dpage { padding-top: 104px; }
+
+/* Shared bits across the three approaches */
+.k {
+  font-size: 0.66rem; font-weight: 600; letter-spacing: 0.13em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  padding: 4px 9px; border-radius: var(--radius-full);
+  border: 1px solid var(--hair); font-size: 0.72rem; color: var(--text-secondary);
+}
+
+.shot {
+  border-radius: 14px; overflow: hidden; border: 1px solid var(--hair);
+  background: var(--surface-sunken);
+}
+
+.shot img { width: 100%; height: auto; display: block; }
+.cap { margin-top: 10px; font-size: 0.78rem; color: var(--text-muted); }
+
+/* ══════════════════════════════════════════════════════════
+   A · DOSSIER
+   Two-column header. The media and the facts live in a card on
+   the right that sticks while the narrative scrolls.
+   ══════════════════════════════════════════════════════════ */
+.a-head { display: grid; grid-template-columns: 1fr 420px; gap: 56px; align-items: start; }
+.a-title { font-size: clamp(2rem, 3.6vw, 2.9rem); letter-spacing: -0.038em; margin-top: 16px; }
+.a-name { margin-top: 8px; font-size: 0.95rem; color: var(--text-muted); }
+.a-role { margin-top: 14px; font-size: 0.8rem; color: var(--text-muted); }
+.a-lede { margin-top: 22px; font-size: 1.125rem; color: var(--text-secondary); max-width: 46ch; }
+
+.a-card {
+  position: sticky; top: 120px;
+  border: 1px solid var(--hair); border-radius: 18px;
+  background: var(--surface-0); overflow: hidden;
+  box-shadow: 0 18px 44px color-mix(in srgb, var(--text-primary) 8%, transparent);
+}
+
+.a-card__media { background: var(--surface-sunken); aspect-ratio: 16 / 10; overflow: hidden; }
+.a-card__media img, .a-card__media video { width: 100%; height: 100%; object-fit: cover; }
+.a-card__body { padding: 20px 22px 22px; }
+
+.a-card__stat { display: flex; align-items: baseline; gap: 10px; padding-bottom: 16px; border-bottom: 1px solid var(--hair); }
+.a-card__n { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.04em; color: var(--accent); line-height: 1; }
+.a-card__c { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+
+.a-card__row { padding: 16px 0; border-bottom: 1px solid var(--hair); }
+.a-card__row:last-of-type { border-bottom: 0; }
+.a-card__rk { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+.a-card__rv { margin-top: 8px; font-size: 0.875rem; color: var(--text-secondary); }
+.a-card .btn { width: 100%; justify-content: center; margin-top: 4px; }
+
+.a-notes { margin-top: 64px; max-width: 62ch; }
+.a-note { padding: 18px 0; border-bottom: 1px solid var(--hair); }
+.a-note:first-of-type { border-top: 1px solid var(--hair); }
+.a-note__t { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: var(--text-muted); }
+.a-note__d { margin-top: 7px; font-size: 1rem; color: var(--text-secondary); }
+.a-note__d b { color: var(--text-primary); font-weight: 500; }
+
+.a-gal { margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.a-gal > :first-child { grid-column: 1 / -1; }
+
+/* ══════════════════════════════════════════════════════════
+   B · SPLIT
+   Everything you need to read stays put on the left. The media
+   column scrolls past it. No giant bleed, no repetition.
+   ══════════════════════════════════════════════════════════ */
+.b-grid { display: grid; grid-template-columns: 400px 1fr; gap: 64px; align-items: start; }
+
+.b-rail { position: sticky; top: 112px; max-height: calc(100vh - 140px); overflow-y: auto; padding-right: 6px; }
+.b-rail::-webkit-scrollbar { width: 4px; }
+.b-rail::-webkit-scrollbar-thumb { background: var(--hair-hi); border-radius: 4px; }
+
+.b-title { font-size: clamp(1.8rem, 2.9vw, 2.4rem); letter-spacing: -0.038em; margin-top: 16px; }
+.b-name { margin-top: 8px; font-size: 0.9rem; color: var(--text-muted); }
+.b-role { margin-top: 12px; font-size: 0.78rem; color: var(--text-muted); }
+.b-lede { margin-top: 20px; font-size: 1rem; color: var(--text-secondary); }
+
+.b-spec { margin-top: 26px; border-top: 1px solid var(--hair); }
+.b-spec__r { display: grid; grid-template-columns: 96px 1fr; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--hair); font-size: 0.875rem; }
+.b-spec__k { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); padding-top: 3px; }
+.b-spec__v { color: var(--text-secondary); }
+.b-spec__v b { color: var(--text-primary); font-weight: 500; }
+
+.b-media { display: flex; flex-direction: column; gap: 26px; }
+.b-media .shot { border-radius: 16px; }
+
+/* ══════════════════════════════════════════════════════════
+   C · FEATURE ROWS
+   Centred opening, then every claim about the build is paired
+   with the screenshot that proves it. Alternating sides.
+   ══════════════════════════════════════════════════════════ */
+.c-head { max-width: 720px; margin-inline: auto; text-align: center; }
+.c-title { font-size: clamp(2.1rem, 4vw, 3.2rem); letter-spacing: -0.04em; margin-top: 16px; }
+.c-name { margin-top: 10px; font-size: 0.95rem; color: var(--text-muted); }
+.c-lede { margin-top: 22px; font-size: 1.125rem; color: var(--text-secondary); }
+.c-head .acts { justify-content: center; }
+.c-head .chip { margin-inline: auto; }
+
+.c-hero { margin-top: 52px; }
+.c-hero .shot { border-radius: 18px; box-shadow: 0 24px 60px color-mix(in srgb, var(--text-primary) 12%, transparent); }
+
+.c-strip {
+  margin-top: 44px; display: grid; grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--hair); border-radius: 14px; overflow: hidden;
+  background: var(--hair); gap: 1px;
+}
+
+.c-strip__i { background: var(--surface-0); padding: 18px 20px; }
+.c-strip__n { font-size: 1.2rem; font-weight: 600; letter-spacing: -0.03em; }
+.c-strip__c { margin-top: 6px; font-size: 0.64rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+
+.c-rows { margin-top: 88px; display: flex; flex-direction: column; gap: 72px; }
+.c-row { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.c-row:nth-child(even) .c-row__text { order: 2; }
+.c-row__h { margin-top: 12px; font-size: 1.4rem; letter-spacing: -0.03em; }
+.c-row__p { margin-top: 14px; font-size: 1rem; color: var(--text-secondary); }
+.c-row__p b { color: var(--text-primary); font-weight: 500; }
+.c-row--solo { grid-template-columns: 1fr; max-width: 62ch; margin-inline: auto; text-align: center; }
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 1080px) {
+  .a-head { grid-template-columns: 1fr 340px; gap: 40px; }
+  .b-grid { grid-template-columns: 340px 1fr; gap: 40px; }
+}
+
+@media (max-width: 900px) {
+  .a-head, .b-grid { grid-template-columns: 1fr; gap: 32px; }
+  .a-card, .b-rail { position: static; max-height: none; top: auto; }
+  .a-gal, .c-strip { grid-template-columns: 1fr 1fr; }
+  .c-row { grid-template-columns: 1fr; gap: 24px; }
+  .c-row:nth-child(even) .c-row__text { order: 0; }
+  .dpage { padding-top: 116px; }
+}
+
+@media (max-width: 560px) {
+  .a-gal, .c-strip { grid-template-columns: 1fr; }
+  .dbar__n { display: none; }
+}
