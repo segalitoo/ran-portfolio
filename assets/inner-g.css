@@ -43,11 +43,15 @@
 .pg-h1 {
   /* The 16px here used to separate the title from the eyebrow above it.
      With that gone the back link sits directly above, and a nav link
-     needs more air than a kicker did. */
+     needs more air than a kicker did.
+
+     Sans at 600 and -0.045em is .o-hero__title exactly, only smaller:
+     a project page opened from the landing page should not announce
+     itself in a different typeface than the page that linked to it. */
   margin-top: 28px; max-width: 20ch;
-  font-family: var(--font-display); font-weight: 400;
+  font-weight: 600;
   font-size: clamp(2.5rem, 5.4vw, 4.2rem);
-  letter-spacing: -0.018em; line-height: 0.98;
+  letter-spacing: -0.045em; line-height: 1.02;
 }
 
 .pg-alias {
@@ -66,18 +70,28 @@
 .pg-shot {
   /* A figure keeps the user agent's margin: 1em 40px. With width: 100%
      that is 80px of overflow on every screen narrow enough to notice.
-     No hairline: these exports already carry their own frame, and a
-     second one around it read as a border on a border. */
+
+     No hairline, no ground, no shadow. These exports already carry
+     their own frame, so a card around them was a frame around a frame,
+     and it made the picture read as a separate object dropped onto the
+     page rather than as the page's own opening image. It sits on the
+     same ground as the title beside it. The radius stays, to clip the
+     corners of an opaque screenshot. */
   margin: 0; width: 100%; border-radius: var(--radius-lg);
-  background: var(--surface-2);
-  box-shadow: var(--shadow-lg); overflow: hidden;
+  overflow: hidden;
 }
 
 .pg-shot img, .pg-shot video { display: block; width: 100%; height: auto; }
-/* Same as .pg-shot: the hero tile carries no hairline. The well keeps
-   its ground, because the recording has a real alpha channel and needs
-   something to sit on. */
-.pg-hero__art .live { border: 0; box-shadow: var(--shadow-lg); }
+/* Same as .pg-shot, and for the same reason. The recording has a real
+   alpha channel, so with the well gone it plays directly on the hero
+   ground instead of inside a grey box. The 5% inset the well needed
+   goes with it: there is no longer an edge for the video to keep
+   clear of. */
+.pg-hero__art .live {
+  border: 0; background: none; box-shadow: none; border-radius: 0;
+}
+
+.pg-hero__art .live__v { padding: 0; }
 
 /* ── Decisions ─────────────────────────────────────
    Three columns, first person, about what was decided rather than
@@ -156,7 +170,7 @@
 .pg-next { margin-top: 96px; padding-block: 34px; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
 .pg-next a { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; text-decoration: none; }
 .pg-next__k { font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-secondary); }
-.pg-next__t { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.5rem, 3vw, 2.3rem); letter-spacing: -0.012em; transition: color 200ms var(--ez); }
+.pg-next__t { font-weight: 600; font-size: clamp(1.5rem, 3vw, 2.3rem); letter-spacing: -0.035em; transition: color 200ms var(--ez); }
 .pg-next i { font-style: normal; display: inline-block; color: var(--primary); transition: transform 200ms var(--ez); }
 
 @media (hover: hover) and (pointer: fine) {
