@@ -65,14 +65,19 @@
 
 .pg-shot {
   /* A figure keeps the user agent's margin: 1em 40px. With width: 100%
-     that is 80px of overflow on every screen narrow enough to notice. */
+     that is 80px of overflow on every screen narrow enough to notice.
+     No hairline: these exports already carry their own frame, and a
+     second one around it read as a border on a border. */
   margin: 0; width: 100%; border-radius: var(--radius-lg);
-  border: 1px solid var(--hair); background: var(--surface-2);
+  background: var(--surface-2);
   box-shadow: var(--shadow-lg); overflow: hidden;
 }
 
 .pg-shot img, .pg-shot video { display: block; width: 100%; height: auto; }
-.pg-hero__art .live { box-shadow: var(--shadow-lg); }
+/* Same as .pg-shot: the hero tile carries no hairline. The well keeps
+   its ground, because the recording has a real alpha channel and needs
+   something to sit on. */
+.pg-hero__art .live { border: 0; box-shadow: var(--shadow-lg); }
 
 /* ── Decisions ─────────────────────────────────────
    Three columns, first person, about what was decided rather than
@@ -195,7 +200,7 @@
 }
 
 @media print {
-  .nav, .dbar, .motion { display: none !important; }
+  .nav, .dbar { display: none !important; }
   .pg-hero { background: none; padding-block: 0 24px; }
   .pg-gal { grid-template-columns: 1fr 1fr; gap: 12px; }
   .pg-gal__i { box-shadow: none; break-inside: avoid; }

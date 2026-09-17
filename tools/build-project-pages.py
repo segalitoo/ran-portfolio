@@ -88,7 +88,7 @@ P = [
 {
  "slug":"shhh","kind":N,"imgs":"shhh","h1":"Voice typing for Mac",
  "eyebrow":["By night","2026","Built by me, solo","Live"],
- "video":("shhh","370 / 300","Dictation running from the menu bar, text landing in the document"),
+ "video":None,
  "lede":"macOS makes you pick English or Hebrew. I write both, often inside one sentence, so Shhh "
         "listens from the menu bar, works out which language is which while you talk, and pastes "
         "into whatever app is in front. Grammar is cleaned up once you stop, not mid-thought.",
@@ -252,7 +252,6 @@ def hero(p):
               <source src="../assets/media/{stem}.mp4" type="video/mp4">
             </video>
             <img class="live__print" src="../assets/media/{stem}-poster.webp" alt="" aria-hidden="true">
-            <span class="live__badge"><i></i>Recording</span>
           </figure>'''
     n = img_name(p, 0)
     return f'''<figure class="pg-shot">

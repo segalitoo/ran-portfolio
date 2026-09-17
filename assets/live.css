@@ -41,48 +41,6 @@
 .live--bare { background: none; border: 0; border-radius: 0; overflow: visible; }
 .live--bare .live__v { padding: 0; }
 
-/* ── The badge ─────────────────────────────────────
-   "Recording" and not "Live", because that is what it is. It only
-   appears once the video is genuinely playing, so a tile that failed
-   to load never makes a claim the page cannot back. */
-.live__badge {
-  position: absolute; left: 12px; bottom: 12px; z-index: 2;
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 5px 11px; border-radius: var(--radius-full);
-  /* The one intentional literal in this file, and the same one
-     site.css uses for .stage__badge: the badge sits on top of media,
-     so it has to stay dark in both themes. No token is dark in both. */
-  background: color-mix(in srgb, #0C1330 74%, transparent);
-  color: var(--text-on-fill); font-size: 0.62rem; font-weight: 600;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  /* Exit is a fade, and a fast one. A badge that slides back down the 4px
-     it came up reads as its own entrance played backwards, and a tile you
-     just paused should drop its claim at once rather than spend the same
-     200ms leaving that it spent arriving. The transform is held until the
-     fade is over, so the reset is never seen.
-
-     visibility as well as opacity, or the promise in the comment above is
-     only kept for the eye: at opacity 0 the word "Recording" stays in the
-     accessibility tree, so every tile announced it, including one whose
-     source never decoded. */
-  opacity: 0; transform: translateY(4px); visibility: hidden;
-  transition: opacity 120ms linear, transform 0ms 120ms, visibility 0s linear 120ms;
-  pointer-events: none;
-}
-
-.live__badge i {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--accent); font-style: normal;
-}
-
-/* Entrance on --ease-out rather than --ez: at 200ms an expo out puts the
-   4px away in about 45ms, so the rise never read as motion at all. */
-.live.is-playing .live__badge {
-  opacity: 1; transform: none; visibility: visible;
-  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out), visibility 0s;
-}
-
 /* The poster copy that only exists for print. */
 .live__print { display: none; }
 
@@ -195,62 +153,20 @@
   100% { opacity: 0; }
 }
 
-/* ── The pause control ─────────────────────────────
-   WCAG 2.2.2: anything that moves on its own for more than five
-   seconds needs a way to stop it. The Zoomi loop runs ten. */
-@keyframes motion-in {
-  from { opacity: 0; transform: translateY(10px) scale(0.96); }
-  to   { opacity: 1; transform: none; }
-}
-
-.motion {
-  /* live.js appends this after DOMContentLoaded, so on any real
-     connection it materialises in a fixed corner a beat after the page
-     has painted. Something that arrives uninvited should arrive rather
-     than simply be there. The delay lets the first screen settle first.
-     backwards fill holds it hidden through that delay; there is
-     deliberately no forwards fill, because a filled transform would
-     outrank :active and kill the press scale for the rest of the
-     session. */
-  animation: motion-in 300ms var(--ease-out) 500ms backwards;
-  position: fixed; right: 18px; bottom: 18px; z-index: 75;
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 9px 15px; border-radius: var(--radius-full);
-  background: color-mix(in srgb, var(--surface-0) 86%, transparent);
-  border: 1px solid var(--hair-hi); color: var(--text-secondary);
-  font-size: 0.74rem; font-weight: 500;
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  box-shadow: var(--shadow-sm);
-  transition: color 200ms var(--ez), border-color 200ms var(--ez), transform 140ms var(--ez);
-}
-
-.motion:hover { color: var(--text-primary); border-color: var(--border-strong); }
-.motion:active { transform: scale(0.97); }
-.motion svg { width: 13px; height: 13px; }
-.motion .i-play { display: none; }
-.is-paused .motion .i-play { display: block; }
-.is-paused .motion .i-pause { display: none; }
-
-/* Paused stops the drawn tiles as well as the filmed ones. */
-.is-paused .mint__canvas, .is-paused .mint__fmt span { animation-play-state: paused; }
-
 /* ── Reduced motion ────────────────────────────────
-   No autoplay at all. The poster carries the tile, the badge never
-   claims to be recording, and Mint shows its four formats filled. */
+   No autoplay at all. The poster carries the tile, and Mint shows
+   its four formats filled. */
 @media (prefers-reduced-motion: reduce) {
   .live { transition: none; }
-  .live__badge { display: none; }
   .mint__canvas { animation: none; }
   .mint__fmt span:not(:first-child) { opacity: 0; }
   .mint__fmt span:first-child { opacity: 1; animation: none; }
-  .motion { display: none; }
 }
 
 /* ── Print ─────────────────────────────────────────
    Option I prints as a CV, so every tile swaps to its still. */
 @media print {
   .live { border-color: var(--border-strong); background: none; break-inside: avoid; }
-  .live__v, .live__badge, .motion, .live--css { display: none !important; }
+  .live__v, .live--css { display: none !important; }
   .live__print { display: block; width: 100%; height: 100%; object-fit: contain; }
 }

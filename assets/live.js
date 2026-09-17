@@ -12,15 +12,7 @@
 (function () {
   'use strict';
 
-  var KEY = 'rs-motion';
-  var root = document.documentElement;
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* Read the stored preference before anything can start, so a visitor
-     who paused last time never sees a frame of motion first. */
-  var paused = false;
-  try { paused = localStorage.getItem(KEY) === 'paused'; } catch (e) { /* blocked */ }
-  if (paused) root.classList.add('is-paused');
 
   document.addEventListener('DOMContentLoaded', function () {
 
@@ -61,11 +53,11 @@
     });
 
     function wanted(v) {
-      /* Play only if motion is allowed, the page is not paused, the tile
-         is in view, and nothing has gated it off. The gate exists for
-         layouts that stack every tile in one stage: without it all nine
-         would be "in view" at once and all nine would fetch. */
-      if (reduced || root.classList.contains('is-paused')) return false;
+      /* Play only if motion is allowed, the tile is in view, and nothing
+         has gated it off. The gate exists for layouts that stack every
+         tile in one stage: without it all nine would be "in view" at
+         once and all nine would fetch. */
+      if (reduced) return false;
       if (v.closest('[data-live-off]')) return false;
       return v.dataset.near === '1';
     }
@@ -93,45 +85,6 @@
     }, { rootMargin: '200px 0px', threshold: 0.25 });
 
     vids.forEach(function (v) { io.observe(v); });
-
-    /* ── The global control ──────────────────────── */
-    if (reduced) return;
-
-    var btn = document.createElement('button');
-    btn.className = 'motion';
-    btn.type = 'button';
-    btn.innerHTML =
-      '<svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
-      '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>' +
-      '<svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
-      '<path d="M8 5l11 7-11 7z"/></svg>' +
-      '<span class="motion__t"></span>';
-    document.body.appendChild(btn);
-
-    var label = btn.querySelector('.motion__t');
-
-    /* No aria-pressed. The label already changes to name the next action,
-       "Pause motion" becomes "Play motion", and a pressed state on top of
-       that reads back as a contradiction: "Play motion on this page,
-       pressed" at the exact moment motion has just stopped. A control
-       whose label changes is not a toggle button. */
-    function sync() {
-      var off = root.classList.contains('is-paused');
-      label.textContent = off ? 'Play motion' : 'Pause motion';
-      btn.setAttribute('aria-label', off ? 'Play motion on this page' : 'Pause motion on this page');
-    }
-
-    btn.addEventListener('click', function () {
-      var off = root.classList.toggle('is-paused');
-      try { localStorage.setItem(KEY, off ? 'paused' : 'playing'); } catch (e) { /* blocked */ }
-      vids.forEach(function (v) {
-        if (off) v.pause();
-        else { v.dataset.manual = ''; start(v); }
-      });
-      sync();
-    });
-
-    sync();
 
     /* For layouts that gate tiles on and off as the reader moves. */
     window.Live = {
