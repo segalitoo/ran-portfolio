@@ -222,3 +222,113 @@
   .pg-next { display: none; }
   @page { margin: 14mm; }
 }
+
+/* ══ The Shhh pill ═════════════════════════════════
+   Lifted from segalitoo.github.io/Shhh as markup rather than as a
+   picture of markup. It is nine bars and one keyframe over there, so
+   copying the component costs less than the webp did, never goes soft
+   on a retina screen, and is the only hero on this site that is the
+   actual product rather than a photograph of it.
+
+   Colours are Shhh's own, not this site's: #0C1020 for the pill,
+   #FF7A70 to #E84A40 for the bars. Borrowing the portfolio palette
+   here would make it a drawing of the tool instead of the tool.
+
+   Everything is sized in em off the pill's own font-size, so one
+   number scales the whole component and the type scales as type
+   rather than being resampled by a transform. The source is set at
+   12px, and every em below is that measurement over 12. */
+.pill-stage {
+  display: grid; place-items: center;
+  /* Roughly the height the screenshot held, so swapping one for the
+     other does not move the headline beside it. */
+  min-height: clamp(220px, 26vw, 330px);
+}
+
+.pill {
+  font-size: clamp(17px, 1.85vw, 26px);   /* the only size to change */
+  font-family: var(--font-sans);
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.583em;                            /* 7 / 12 */
+  min-width: 18.333em;                     /* 220 / 12 */
+  padding: 1.25em 1.833em;                 /* 15 / 12, 22 / 12 */
+  border-radius: 2em;                      /* 24 / 12 */
+  background: #0C1020;
+  box-shadow: 0 1.333em 3.333em rgba(12, 16, 32, 0.28);
+}
+
+.pill__wave {
+  display: flex; align-items: center;
+  gap: 0.25em;                             /* 3 / 12 */
+  height: 1.833em;                         /* 22 / 12 */
+}
+
+.pill__wave i {
+  width: 0.292em;                          /* 3.5 / 12 */
+  border-radius: 0.167em;
+  background: linear-gradient(180deg, #FF7A70, #E84A40);
+  animation: pill-wv 700ms ease-in-out infinite;
+}
+
+/* Heights and delays mirror out from the middle bar, which is what
+   makes nine bars read as one level meter. */
+.pill__wave i:nth-child(1), .pill__wave i:nth-child(9) { height: 0.5em;   animation-delay: 0ms; }
+.pill__wave i:nth-child(2), .pill__wave i:nth-child(8) { height: 0.833em; animation-delay: 60ms; }
+.pill__wave i:nth-child(3), .pill__wave i:nth-child(7) { height: 1.167em; animation-delay: 120ms; }
+.pill__wave i:nth-child(4), .pill__wave i:nth-child(6) { height: 1.5em;   animation-delay: 180ms; }
+.pill__wave i:nth-child(5) { height: 1.833em; animation-delay: 240ms; }
+
+@keyframes pill-wv {
+  0%, 100% { transform: scaleY(0.5); opacity: 0.7; }
+  50%      { transform: scaleY(1);   opacity: 1; }
+}
+
+.pill__t {
+  margin: 0;
+  font-size: 1em;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+/* On the dark theme the pill is nearly the ground it is standing on,
+   and a shadow does nothing against a dark page. It keeps its own
+   colour, because that colour is the product, and gets a hairline and
+   a lift instead so it still reads as an object rather than as a hole.
+   Written against all three of the site's theme states. */
+[data-theme="dark"] .pill,
+:root.dark .pill {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    0 1.333em 3.333em rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .pill {
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+      0 1.333em 3.333em rgba(0, 0, 0, 0.5);
+  }
+}
+
+@media (max-width: 900px) {
+  .pill-stage { min-height: 240px; }
+  .pill { font-size: 19px; }
+}
+
+@media (max-width: 560px) {
+  .pill { font-size: clamp(13px, 4.2vw, 17px); }
+}
+
+/* The bars are the one thing on this page that runs forever. Stopped
+   at full height they still read as a level meter, so the component
+   survives the setting rather than vanishing with it. */
+@media (prefers-reduced-motion: reduce) {
+  .pill__wave i { animation: none; opacity: 1; }
+}
+
+@media print {
+  .pill { box-shadow: none; }
+  .pill-stage { min-height: 0; }
+}

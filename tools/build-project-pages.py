@@ -89,6 +89,19 @@ P = [
  "slug":"shhh","kind":N,"imgs":"shhh","h1":"Voice typing for Mac",
  "eyebrow":["By night","2026","Built by me, solo","Live"],
  "video":None,
+ "hero_html":"""<!-- The dictation pill, rebuilt rather than screenshotted. It is
+               nine divs and one keyframe on the Shhh site, so it comes across
+               as markup: always sharp, no image to load, and it actually
+               moves. No card and no ground behind it, so the UI floats on the
+               page the way it floats over whatever app you are in. -->
+          <div class="pill-stage">
+            <div class="pill" role="img" aria-label="The Shhh dictation pill, listening, with the phrase it has picked up so far">
+              <div class="pill__wave" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <p class="pill__t">I want to send a quick note</p>
+            </div>
+          </div>""",
  "lede":"macOS makes you pick English or Hebrew. I write both, often inside one sentence, so Shhh "
         "listens from the menu bar, works out which language is which while you talk, and pastes "
         "into whatever app is in front. Grammar is cleaned up once you stop, not mid-thought.",
@@ -243,6 +256,11 @@ def img_name(p, i):
 
 
 def hero(p):
+    # A project may supply its own hero markup. Shhh does: its dictation
+    # pill is nine divs and one keyframe on the product site, so the page
+    # carries the real component instead of a screenshot of it.
+    if p.get("hero_html"):
+        return p["hero_html"]
     if p["video"]:
         stem, ar, label = p["video"]
         return f'''<figure class="live" data-live style="--ar:{ar}">

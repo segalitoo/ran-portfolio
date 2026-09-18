@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="../brand-system/tokens.css">
   <link rel="stylesheet" href="../assets/site.css?v=be4e8e10">
   <link rel="stylesheet" href="../assets/live.css?v=7a13fa7d">
-  <link rel="stylesheet" href="../assets/inner-g.css?v=7e5ce61d">
+  <link rel="stylesheet" href="../assets/inner-g.css?v=94e06914">
   <script src="../assets/analytics.js?v=0abadbbb" defer></script>
   <script src="../assets/site.js?v=0f7e54d3" defer></script>
   <script src="../assets/live.js?v=5d4dbb24" defer></script>
@@ -52,12 +52,19 @@
           <div class="acts"><a class="btn btn--fill" href="https://segalitoo.github.io/Shhh/" target="_blank" rel="noopener">Try it <i>&rarr;</i></a></div>
         </div>
         <div class="pg-hero__art">
-          <figure class="pg-shot">
-            <img src="../images/opt/shhh_1-1440.webp"
-                 srcset="../images/opt/shhh_1-720.webp 720w, ../images/opt/shhh_1-1440.webp 1440w"
-                 sizes="(max-width: 900px) 100vw, 620px"
-                 alt="Dictating into a document, the pill showing the phrase as it lands" width="1440" height="761" fetchpriority="high" decoding="async">
-          </figure>
+          <!-- The dictation pill, rebuilt rather than screenshotted. It is
+               nine divs and one keyframe on the Shhh site, so it comes across
+               as markup: always sharp, no image to load, and it actually
+               moves. No card and no ground behind it, so the UI floats on the
+               page the way it floats over whatever app you are in. -->
+          <div class="pill-stage">
+            <div class="pill" role="img" aria-label="The Shhh dictation pill, listening, with the phrase it has picked up so far">
+              <div class="pill__wave" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <p class="pill__t">I want to send a quick note</p>
+            </div>
+          </div>
         </div>
       </div>
     </header>
