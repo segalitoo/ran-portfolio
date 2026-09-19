@@ -27,7 +27,23 @@
 .o-hero__lede { margin-top: 24px; max-width: 46ch; font-size: 1.125rem; line-height: 1.6; color: var(--text-secondary); }
 
 /* ── Section heads ─────────────────────────────── */
-.o-head { padding-block: 88px 8px; }
+/* The section header column is about 580px wide and the grid under it
+   is 1288px, so the two only ever shared a left edge and read as two
+   stacked things. The rule is a block-level ::after, which means it
+   sits inside the section's own padding and comes out at exactly the
+   grid's width: the header and the grid now share both edges.
+
+   It runs to the content width rather than bleeding to the viewport,
+   which is what makes it line up with the cards instead of with
+   nothing. */
+.o-head { padding-block: 88px 0; }
+.o-head::after {
+  content: "";
+  display: block;
+  margin-top: 30px;
+  height: 1px;
+  background: var(--hair);
+}
 .o-eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
 .o-h2 { margin-top: 14px; font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1.1; }
 .o-lede { margin-top: 14px; max-width: 54ch; font-size: 1.0625rem; line-height: 1.6; color: var(--text-secondary); }
@@ -79,27 +95,35 @@
    four systems, nothing weighted above its neighbours. Typography comes
    from the E card classes; only the frame, the grid and the disclosure
    are new, so nothing here touches how E renders. */
-.f-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 36px 24px; padding-top: 40px; }
-
-/* ── Card, to the Figma "cards" artboard ───────────
-   Measured off the board at 1:1 rather than guessed: the card is
-   360 wide with a 20px inset, the media box is 320 x 300, and the
-   three text blocks sit 13px apart with 39px under the frame. The
-   grid here is narrower than 360, so the fixed values are the ones
-   that do not scale (type, padding, radii) and the media keeps its
-   ratio instead of its pixel size. */
-.f-card {
-  position: relative; display: flex; flex-direction: column;
-  padding: 20px; border-radius: 16px;
-  background: var(--surface-0);
-  border: 1px solid var(--hair);
-  box-shadow: 0 1px 2px rgba(12, 19, 48, 0.04), 0 10px 30px -18px rgba(12, 19, 48, 0.22);
-  transition: opacity 420ms var(--ez), border-color 260ms var(--e-out),
-              box-shadow 320ms var(--e-out), transform 160ms var(--e-out);
+/* Nothing is drawn around a card any more, so the air between the
+   columns is the only thing separating them and has to be worth more
+   than it was when two borders did the work. */
+.f-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(30px, 3.4vw, 52px) clamp(24px, 2.6vw, 38px);
+  padding-top: 40px;
 }
 
-[data-theme="dark"] .f-card {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.36), 0 14px 36px -18px rgba(0, 0, 0, 0.6);
+/* ── Card ──────────────────────────────────────────
+   There is no card. It started as the Figma "cards" artboard, a 360
+   box with a stroke, a white ground, a shadow and a 20px inset, and
+   all four are gone: the thumbnail, the title, the copy and the link
+   sit straight on the page.
+
+   The padding had to go with the border. It existed to hold content
+   off an edge that no longer exists, and keeping it would have left
+   the thumbnail floating 20px inside a boundary nobody can see.
+   Without it the frame, the title and the copy share one left edge,
+   which is what gives a row its structure now that no box provides
+   one.
+
+   What is left is a layout box: a flex column that still stretches to
+   its row's height, so the action rows stay level across the grid.
+   Only opacity transitions, because it is the only property that
+   changes on the card itself; the lift moved to the frame. */
+.f-card {
+  position: relative; display: flex; flex-direction: column;
+  transition: opacity 420ms var(--ez);
 }
 
 /* The artboard carries a second, inset rectangle behind each thumbnail,
@@ -111,20 +135,29 @@
   position: relative; display: block; width: 100%; padding: 0; margin: 0;
   aspect-ratio: 16 / 15; border-radius: 12px; overflow: hidden;
   background: var(--surface-sunken);
-  box-shadow: 0 22px 26px -21px rgba(12, 19, 48, 0.32);
+  /* Carries the depth the card used to, and slightly deeper than the
+     card's was, because it is doing the job on its own now. */
+  box-shadow: 0 18px 38px -20px rgba(12, 19, 48, 0.28);
+  transition: transform 260ms var(--e-out), box-shadow 320ms var(--e-out);
 }
 
 [data-theme="dark"] .f-frame { box-shadow: 0 22px 26px -21px rgba(0, 0, 0, 0.66); }
 .f-frame img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 480ms var(--e-out); }
 
-/* 39px under the frame, then 13px between each text block. */
+/* 26px under the frame, then 13px between each text block. The gap
+   used to be 39px, which was interior spacing inside a bordered card.
+   Without the border it is just a gap, and at 39 it landed within a
+   few pixels of the ~49px between one row and the next, so the eye
+   lost which title belonged to which thumbnail. At 26 the intra-card
+   gap is about half the inter-card gap, which does the grouping. */
 /* Same family as the hero, which is the page's own voice. The artboard
    set this in the display serif; the hero is Inter, so Inter wins. The
    weight and tracking come up to match, since a 400 serif and a 400
    sans do not carry the same weight at this size. */
 .f-card__t {
-  margin-top: 39px;
+  margin-top: 26px;
   font-family: var(--font-sans); font-weight: 600;
+  transition: color 200ms var(--e-out);
   /* Sized off the longest title in the set, "On-brand ad generator",
      which needs 262px of the 262px a card column leaves. Anything
      larger wraps it to two lines. */
@@ -133,33 +166,58 @@
 }
 .f-card__t a { color: inherit; text-decoration: none; }
 /* The title's link covers the card, so the frame needs no anchor of its own. */
-.f-card__t a::after { content: ""; position: absolute; inset: 0; border-radius: 16px; }
+.f-card__t a::after { content: ""; position: absolute; inset: 0; }
 
 /* pretty asks the browser to avoid leaving a lone word on the last
    line, which is cheaper than binding every short word by hand. */
-.f-card__d { margin-top: 13px; font-size: 0.9rem; line-height: 1.39; color: var(--text-secondary); text-wrap: pretty; }
+/* The 22px below is a floor, not a gap. The action row is pinned with
+   margin-top: auto, which collapses to zero on whichever card in a row
+   is tallest, and that would put the hairline hard against this
+   paragraph. Reserving the space here means the auto margin only ever
+   absorbs what is left over. */
+.f-card__d {
+  margin-top: 13px; margin-bottom: 22px;
+  font-size: 0.9rem; line-height: 1.39; color: var(--text-secondary); text-wrap: pretty;
+}
 
-/* Pinned to the bottom so a longer description cannot stagger the
-   button rows across the grid. The gap above is wider than the 13px
-   between title and description on purpose: those two read as one
-   block, and the actions should sit apart from it rather than look
-   like a third line of text. */
-.f-card__acts { margin-top: auto; padding-top: 24px; display: flex; flex-wrap: wrap; gap: 6px; }
+/* Pinned to the bottom so a longer description cannot stagger the link
+   rows across the grid. With no card edge left for them to sit
+   against, the hairline gives them one. Because the grid stretches
+   every card in a row to the same height, all four rules land on the
+   same y and read as a single line running the width of the row
+   rather than as four separate rules: that is what makes it worth
+   drawing a line back in after removing all the others. It sits under
+   the content instead of around it, so it divides without enclosing. */
+.f-card__acts {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--hair);
+  display: flex; flex-wrap: wrap; gap: 22px;
+  align-items: baseline;
+}
 
+/* A link, not a pill. The filled shape was competing with the
+   thumbnail to be the loudest thing in the card; as text it sits under
+   the copy as text, and the card has one visual centre again.
+
+   z-index keeps it above the title's whole-card overlay, which is the
+   only reason it is still clickable. */
 .f-btn {
   position: relative; z-index: 1;
   display: inline-flex; align-items: center; gap: 6px;
-  height: 31px; padding-inline: 17px; border-radius: var(--radius-full);
-  font-size: 0.8125rem; font-weight: 500; text-decoration: none; white-space: nowrap;
-  border: 1px solid transparent;
-  transition: background-color 200ms var(--e-out), border-color 200ms var(--e-out), transform 150ms var(--e-out);
+  font-size: 0.875rem; font-weight: 500; text-decoration: none; white-space: nowrap;
+  color: var(--primary);
+  /* Underlined on hover only, drawn under the descenders rather than
+     through them, so the row reads as quiet text until you reach for
+     it. */
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 180ms var(--e-out), opacity 150ms var(--e-out);
 }
 .f-btn i { font-style: normal; transition: transform 240ms var(--e-out); }
-.f-btn:active { transform: scale(0.97); }
-.f-btn--fill { background: var(--primary); color: var(--on-primary); }
-.f-btn--fill:hover { background: var(--primary-hover); }
-.f-btn--line { border-color: var(--primary); color: var(--primary); }
-.f-btn--line:hover { background: var(--primary-tint); }
+/* A text link does not scale under the finger. Pressing dims it, which
+   is what a link has always done. */
+.f-btn:active { opacity: 0.6; }
 
 /* .rv reveals by translating, which is the same property the card uses
    to lift and press. Two classes on one element both declaring
@@ -169,20 +227,26 @@
 .f-card.rv { transform: none; }
 .f-card.rv.is-in { transform: none; }
 
-/* Pressing settles the card back toward the page. On touch, where no
+/* Pressing settles the frame back toward the page. On touch, where no
    hover ever fires, this is the only feedback the card gives. */
-.f-card:active { transform: translateY(-1px); }
+.f-card:active .f-frame { transform: translateY(-1px); }
 
+/* A card that is not an object cannot lift. The hover moves to the two
+   things that are still drawn: the frame rises and the title takes the
+   accent. The whole card stays the target. */
 @media (hover: hover) and (pointer: fine) {
-  .f-card:hover {
-    transform: translateY(-3px);
-    border-color: color-mix(in srgb, var(--primary) 34%, var(--hair));
-    box-shadow:
-      0 0 0 1px color-mix(in srgb, var(--primary) 16%, transparent),
-      0 22px 56px -24px color-mix(in srgb, var(--primary) 55%, transparent);
+  .f-card:hover .f-frame {
+    transform: translateY(-4px);
+    box-shadow: 0 26px 48px -20px rgba(12, 19, 48, 0.34);
   }
   .f-card:hover .f-frame img { transform: scale(1.035); }
+  .f-card:hover .f-card__t { color: var(--primary); }
+  .f-btn:hover { color: var(--primary-hover); text-decoration: underline; }
   .f-btn:hover i { transform: translateX(3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .f-card:hover .f-frame, .f-card:active .f-frame { transform: none; }
 }
 
 /* ── More projects ─────────────────────────────────
@@ -263,3 +327,35 @@
 @media (prefers-reduced-motion: reduce) {
   .e-card:hover .e-card__frame, .e-card:active .e-card__frame { transform: none; }
 }
+
+
+/* ── The end of the page ───────────────────────────
+   The page used to stop when the contact section stopped. One hairline
+   row is enough to close it: who, where, and a way back up. */
+.o-end {
+  border-top: 1px solid var(--hair);
+  padding-block: 26px 34px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 24px;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.o-end a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 180ms var(--e-out);
+}
+
+.o-end__r { display: flex; gap: 22px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .o-end a:hover { color: var(--primary); text-decoration: underline;
+                   text-underline-offset: 3px; }
+}
+
+/* The contact block sits directly on the footer rule otherwise. */
+.o-foot { padding-bottom: 88px; }
