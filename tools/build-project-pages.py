@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Project pages in the chosen -g template, one per project on design-f.
+"""Project pages in the chosen -g template, one per project on the homepage.
 
 Copy is lifted from the pages each project already had rather than
 reinvented. The two Payoneer projects that never had a page get notes
@@ -8,6 +8,7 @@ built from the overview/challenge/solution lines design-a carries.
 import os, hashlib
 
 ROOT = "/Users/rannsegal/Claude/ran-portfolio"
+SITE = "https://segalitoo.github.io/ran-portfolio"
 
 def ver(rel):
     try:
@@ -20,7 +21,7 @@ N = "night"; D = "day"
 
 P = [
 {
- "slug":"naymo","kind":N,"imgs":"naymo","h1":"Voice tab switching for Chrome",
+ "slug":"naymo","og":"naymo_2","kind":N,"imgs":"naymo","h1":"Voice tab switching for Chrome",
  "eyebrow":["By night","2026","Built by me, solo","Live, v0.1.5"],
  "video":("naymo","1098 / 868","The Naymo overlay listening, then jumping to the named tab"),
  "lede":"I keep 40 tabs open and never click the right one first time. Naymo listens for a hotkey, "
@@ -42,7 +43,7 @@ P = [
  "cta":("Try it","https://naymo.vercel.app/"),
 },
 {
- "slug":"zoom-for-kids","kind":N,"imgs":"zoom","h1":"Kid-friendly Zoom controls",
+ "slug":"zoom-for-kids","og":"zoom_2","kind":N,"imgs":"zoom","h1":"Kid-friendly Zoom controls",
  "eyebrow":["By night","2026","Built by me, solo","Live, v1.1.0"],
  "video":("zoomi","760 / 950","The panel open in a Zoom class, a reaction sent and the mic toggled"),
  "lede":"My son could not find the mute button in his Zoom class. Zoom is drawn for adults in "
@@ -57,14 +58,14 @@ P = [
  "scope":[("Four controls, nothing else","Reactions, hand raise and mute, at a size a child can hit"),
           ("Zero Chrome permissions","Host access scoped to zoom.us meeting URLs only"),
           ("Four skins, chosen by the kid","Classic, Gamer, Space and Candy, remembered between calls"),
-          ("Five languages, Hebrew included","Live at v1.1.0")],
+          ("Five languages","Live at v1.1.0")],
  "shots":["The panel in Hebrew, reactions across the top and mute held apart at the bottom",
           "A reaction going out, mapped to the Zoom control underneath",
           "The skins a child can switch between, remembered for the next call"],
  "cta":("Try it","https://segalitoo.github.io/Zoom-for-kids/"),
 },
 {
- "slug":"mint","kind":N,"imgs":"mint","h1":"On-brand ad generator",
+ "slug":"mint","og":"mint_1","kind":N,"imgs":"mint","h1":"On-brand ad generator",
  "eyebrow":["By night","2026","Built by me, solo","Live"],
  "video":None,
  "lede":"At Payoneer I watched designers rebuild the same ad in four sizes, week after week. Mint "
@@ -86,7 +87,7 @@ P = [
  "cta":("Try it","https://payoneer-ad-generator.vercel.app/"),
 },
 {
- "slug":"shhh","kind":N,"imgs":"shhh","h1":"Voice typing for Mac",
+ "slug":"shhh","og":"shhh_2","kind":N,"imgs":"shhh","h1":"Voice typing for Mac",
  "eyebrow":["By night","2026","Built by me, solo","Live"],
  "video":None,
  "hero_html":"""<!-- The dictation pill, rebuilt rather than screenshotted. It is
@@ -121,7 +122,7 @@ P = [
  "cta":("Try it","https://segalitoo.github.io/Shhh/"),
 },
 {
- "slug":"payoneer-website","kind":D,"imgs":"website","h1":"Payoneer website redesign",
+ "slug":"payoneer-website","og":"website_1","kind":D,"imgs":"website","h1":"Payoneer website redesign",
  "eyebrow":["By day","Payoneer","2023","Led by me"],
  "video":None,
  "lede":"After the rebrand, the site no longer matched the company. I led the redesign that turned "
@@ -142,7 +143,7 @@ P = [
  "cta":None,
 },
 {
- "slug":"email-design-system","kind":D,"imgs":"email_template","h1":"Scalable email design system",
+ "slug":"email-design-system","og":"email_template_1","kind":D,"imgs":"email_template","h1":"Scalable email design system",
  "eyebrow":["By day","Payoneer","2023","Led by me"],
  "video":None,
  "lede":"Every team built its emails from scratch, so no two matched and designers spent their week "
@@ -164,7 +165,7 @@ P = [
  "cta":None,
 },
 {
- "slug":"brand-portal","kind":D,"imgs":"brand_portal","h1":"Payoneer brand portal",
+ "slug":"brand-portal","og":"brand_portal_1","kind":D,"imgs":"brand_portal","h1":"Payoneer brand portal",
  "eyebrow":["By day","Payoneer","2022 to 2025","Led by me"],
  "video":None,
  "lede":"The guidelines lived in PDFs on shared drives, so every office read the brand slightly "
@@ -190,7 +191,7 @@ P = [
  "cta":None,
 },
 {
- "slug":"customer-image-library","kind":D,"imgs":"photoshoot","h1":"Customer image library",
+ "slug":"customer-image-library","og":"photoshoot_1","kind":D,"imgs":"photoshoot","h1":"Customer image library",
  "eyebrow":["By day","Payoneer","2022","Led by me"],
  "video":None,
  "lede":"Stock imagery made Payoneer look like every competitor it had, which works against a brand "
@@ -214,7 +215,7 @@ P = [
  "cta":None,
 },
 {
- "slug":"icon-packages","kind":D,"imgs":"icon_packages","h1":"Icon packages",
+ "slug":"icon-packages","og":"icon_packages_1","kind":D,"imgs":"icon_packages","h1":"Icon packages",
  "eyebrow":["By day","Payoneer","2022 to 2025","Led by me"],
  "video":None,
  "lede":"Icons were drawn fresh for every feature and campaign, so nothing matched and every new "
@@ -317,6 +318,14 @@ def page(p):
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{p['h1']} &middot; Ran Segal</title>
   <meta name="description" content="{p['lede'][:155]}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{SITE}/work/{p['slug']}-g.html">
+  <meta property="og:title" content="{p['h1']} &middot; Ran Segal">
+  <meta property="og:description" content="{p['lede'][:155]}">
+  <meta property="og:image" content="{SITE}/images/opt/{p['og']}-1440.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{p['h1']} &middot; Ran Segal">
+  <meta name="twitter:image" content="{SITE}/images/opt/{p['og']}-1440.webp">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -325,20 +334,18 @@ def page(p):
   <link rel="stylesheet" href="../assets/site.css?v={ver('assets/site.css')}">
   <link rel="stylesheet" href="../assets/live.css?v={ver('assets/live.css')}">
   <link rel="stylesheet" href="../assets/inner-g.css?v={ver('assets/inner-g.css')}">
-  <link rel="stylesheet" href="../assets/review.css?v={ver('assets/review.css')}">
   <script src="../assets/analytics.js?v={ver('assets/analytics.js')}" defer></script>
   <script src="../assets/site.js?v={ver('assets/site.js')}" defer></script>
   <script src="../assets/live.js?v={ver('assets/live.js')}" defer></script>
-  <script src="../assets/review.js?v={ver('assets/review.js')}" defer></script>
 </head>
 
 <body class="pg">
   <nav class="nav" id="nav">
     <div class="nav__in">
-      <a class="nav__me" href="../design-f.html">Ran Segal <span>&middot; Creative Manager</span></a>
+      <a class="nav__me" href="../">Ran Segal <span>&middot; Creative Manager</span></a>
       <div class="nav__links">
-        <a class="nav__a" href="../design-f.html#ai">AI tools</a>
-        <a class="nav__a" href="../design-f.html#work">Work</a>
+        <a class="nav__a" href="../#ai">AI tools</a>
+        <a class="nav__a" href="../#work">Work</a>
       </div>
       <button class="nav__theme" id="themeBtn" aria-label="Toggle light and dark theme">
         {THEME}
@@ -350,7 +357,7 @@ def page(p):
     <header class="pg-hero">
       <div class="pg-wrap pg-hero__in">
         <div>
-          <a class="pg-back" href="../design-f.html#{anchor}"><i>&larr;</i> All work</a>
+          <a class="pg-back" href="../#{anchor}"><i>&larr;</i> All work</a>
           <h1 class="pg-h1">{p['h1']}</h1>
           <p class="pg-lede">{p['lede']}</p>{cta}
         </div>
