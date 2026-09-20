@@ -21,7 +21,11 @@
    On the raised surface with a hard edge under it, the same move the
    landing page makes between its two grounds. No arc, no gradient:
    the ground changes and that is the whole event. */
-.pg-hero { background: var(--surface-1); color: var(--text-primary); padding-block: 104px 76px; }
+.pg-hero {
+  --hero-pb: 76px;
+  background: var(--surface-1); color: var(--text-primary);
+  padding-block: 104px var(--hero-pb);
+}
 
 .pg-hero__in {
   display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
@@ -92,6 +96,14 @@
 }
 
 .pg-hero__art .live__v { padding: 0; }
+
+/* Three of the recordings are alpha cutouts that carry their own shape,
+   which is why the well above is stripped to nothing. Mint's render is
+   an opaque rectangle of canvas, so it needs a corner back or it reads
+   as a screenshot someone forgot to mask. */
+.pg-hero__art .live--solid { border-radius: var(--radius-lg); }
+.pg-hero__art .live--solid .live__v { object-fit: cover; }
+
 
 /* ── Decisions ─────────────────────────────────────
    Three columns, first person, about what was decided rather than
@@ -198,13 +210,13 @@
   /* The switcher bar wraps as the viewport narrows, and the fixed chrome
      goes from 110px to around 170px. The old 96px put the back link and
      the eyebrow underneath it. */
-  .pg-hero { padding-block: 150px 56px; }
+  .pg-hero { --hero-pb: 56px; padding-block: 150px var(--hero-pb); }
   .pg-hero__in { grid-template-columns: 1fr; }
   .pg-hero__art { justify-self: stretch; max-width: none; }
 }
 
 @media (max-width: 560px) {
-  .pg-hero { padding-block: 190px 48px; }
+  .pg-hero { --hero-pb: 48px; padding-block: 190px var(--hero-pb); }
   .pg-scope__g { grid-template-columns: 1fr; }
   .pg-next a { flex-direction: column; align-items: flex-start; gap: 6px; }
 }
@@ -215,7 +227,7 @@
 
 @media print {
   .nav, .dbar { display: none !important; }
-  .pg-hero { background: none; padding-block: 0 24px; }
+  .pg-hero { --hero-pb: 24px; background: none; padding-block: 0 var(--hero-pb); }
   .pg-gal { grid-template-columns: 1fr 1fr; gap: 12px; }
   .pg-gal__i { box-shadow: none; break-inside: avoid; }
   .pg-notes, .pg-scope { padding-block: 20px 0; break-inside: avoid; }
@@ -238,100 +250,91 @@
    number scales the whole component and the type scales as type
    rather than being resampled by a transform. The source is set at
    12px, and every em below is that measurement over 12. */
-.pill-stage {
-  display: grid; place-items: center;
-  /* Roughly the height the screenshot held, so swapping one for the
-     other does not move the headline beside it. */
-  min-height: clamp(220px, 26vw, 330px);
+/* ── Hero art hung from the fold ───────────────────
+   Shhh's opening image is drawn to run off its own bottom edge: the
+   notes window has no bottom, because it is meant to be cut by the
+   line where the hero ends rather than to stop short of it and float.
+
+   So the column stops centring and drops to the bottom, then a
+   negative margin exactly the size of the hero's bottom padding pulls
+   the image down through it. Both read --hero-pb, so the image cannot
+   drift off the fold when the padding changes at a breakpoint.
+
+   Width is capped at the artwork's own 384px. It is a 1x export, and
+   stretching it to the 620px the column allows would soften the one
+   picture on the page that is mostly small text. */
+.pg-hero__art--flush {
+  align-self: end;
+  max-width: 384px;
+  margin-bottom: calc(var(--hero-pb) * -1);
 }
 
-.pill {
-  font-size: clamp(13px, 1.39vw, 19.5px); /* the only size to change */
-  font-family: var(--font-sans);
-  display: flex; flex-direction: column; align-items: center;
-  gap: 0.583em;                            /* 7 / 12 */
-  min-width: 18.333em;                     /* 220 / 12 */
-  padding: 1.25em 1.833em;                 /* 15 / 12, 22 / 12 */
-  border-radius: 2em;                      /* 24 / 12 */
-  background: #0C1020;
-  box-shadow: 0 1.333em 3.333em rgba(12, 16, 32, 0.28);
-}
+/* ── The wave, live over the artwork ──────────────
+   The whole opening image is the drawing, except its nine wave bars,
+   which are painted out of the WebP and rebuilt here as elements. It
+   keeps the artwork exactly as drawn, animates the one part that
+   should move, and stays transparent, because nothing here is a video:
+   the picture keeps its own alpha and the bars are divs on top of it.
 
-.pill__wave {
-  display: flex; align-items: center;
-  gap: 0.25em;                             /* 3 / 12 */
-  height: 1.833em;                         /* 22 / 12 */
-}
+   Every bar is placed as a percentage of the artwork, so the wave
+   tracks the image at any width without a second set of numbers to
+   keep in sync. The values come from measuring the bars in the PNG:
+   6.5px wide on an 11px pitch, centred on the pill, heights running
+   8/17/24/29/33 out from the middle. */
+/* inline-size makes cqw mean "per cent of the artwork's width", which
+   is how the bars keep their corner radius in proportion as the
+   picture scales. */
+.shhh-art { position: relative; display: block; width: 100%; container-type: inline-size; }
+.shhh-art__i { display: block; width: 100%; height: auto; }
 
-.pill__wave i {
-  width: 0.292em;                          /* 3.5 / 12 */
-  border-radius: 0.167em;
+.wv { position: absolute; inset: 0; pointer-events: none; }
+
+.wv i {
+  position: absolute;
+  width: 1.693%;
+  /* Measured off the artwork rather than assumed: a bar reaches full
+     width two rows down from its top, so the corner is about 2px on a
+     384px drawing, not the stadium end that a half-width radius would
+     give. At half width the two 8px bars would round into circles at
+     the bottom of their travel. The px value is the fallback for
+     anything that does not know cqw. */
+  border-radius: 2px;
+  border-radius: 0.55cqw;
   background: linear-gradient(180deg, #FF7A70, #E84A40);
-  animation: pill-wv 700ms ease-in-out infinite;
+  animation: shhh-wv 700ms ease-in-out infinite;
 }
 
-/* Heights and delays mirror out from the middle bar, which is what
-   makes nine bars read as one level meter. */
-.pill__wave i:nth-child(1), .pill__wave i:nth-child(9) { height: 0.5em;   animation-delay: 0ms; }
-.pill__wave i:nth-child(2), .pill__wave i:nth-child(8) { height: 0.833em; animation-delay: 60ms; }
-.pill__wave i:nth-child(3), .pill__wave i:nth-child(7) { height: 1.167em; animation-delay: 120ms; }
-.pill__wave i:nth-child(4), .pill__wave i:nth-child(6) { height: 1.5em;   animation-delay: 180ms; }
-.pill__wave i:nth-child(5) { height: 1.833em; animation-delay: 240ms; }
-
-@keyframes pill-wv {
-  0%, 100% { transform: scaleY(0.5); opacity: 0.7; }
+/* Scaled from the centre, so a bar grows and shrinks around the line
+   the artwork centres them on rather than climbing off it. */
+/* The floor is 0.7, not the 0.5 the product's own pill uses. The
+   drawing sets its bars at full height, so the animation can only go
+   down from there, and at 0.5 the wave spent most of its time visibly
+   smaller than the picture it sits in. At 0.7 it still clearly moves
+   and it keeps the presence the artwork drew. */
+@keyframes shhh-wv {
+  0%, 100% { transform: scaleY(0.7); opacity: 0.78; }
   50%      { transform: scaleY(1);   opacity: 1; }
 }
 
-.pill__t {
-  margin: 0;
-  font-size: 1em;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
-  letter-spacing: 0;
-  line-height: 1.2;
-}
+  .wv i:nth-child(1) { left: 37.695%; top: 7.868%; height: 2.030%; animation-delay: 0ms; }
+  .wv i:nth-child(2) { left: 40.560%; top: 6.726%; height: 4.315%; animation-delay: 60ms; }
+  .wv i:nth-child(3) { left: 43.424%; top: 5.838%; height: 6.091%; animation-delay: 120ms; }
+  .wv i:nth-child(4) { left: 46.289%; top: 5.203%; height: 7.360%; animation-delay: 180ms; }
+  .wv i:nth-child(5) { left: 49.154%; top: 4.695%; height: 8.376%; animation-delay: 240ms; }
+  .wv i:nth-child(6) { left: 52.018%; top: 5.203%; height: 7.360%; animation-delay: 180ms; }
+  .wv i:nth-child(7) { left: 54.883%; top: 5.838%; height: 6.091%; animation-delay: 120ms; }
+  .wv i:nth-child(8) { left: 57.747%; top: 6.726%; height: 4.315%; animation-delay: 60ms; }
+  .wv i:nth-child(9) { left: 60.612%; top: 7.868%; height: 2.030%; animation-delay: 0ms; }
 
-/* On the dark theme the pill is nearly the ground it is standing on,
-   and a shadow does nothing against a dark page. It keeps its own
-   colour, because that colour is the product, and gets a hairline and
-   a lift instead so it still reads as an object rather than as a hole.
-   Written against all three of the site's theme states. */
-[data-theme="dark"] .pill,
-:root.dark .pill {
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
-    0 1.333em 3.333em rgba(0, 0, 0, 0.5);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .pill {
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.09),
-      0 1.333em 3.333em rgba(0, 0, 0, 0.5);
-  }
-}
-
-@media (max-width: 900px) {
-  .pill-stage { min-height: 240px; }
-  .pill { font-size: 14px; }
-}
-
-/* The floor is 12px, which is the size the pill is drawn at in the
-   product. Going under it would be showing the tool smaller than it
-   ever actually appears. */
-@media (max-width: 560px) {
-  .pill { font-size: clamp(12px, 3.15vw, 13px); }
-}
-
-/* The bars are the one thing on this page that runs forever. Stopped
-   at full height they still read as a level meter, so the component
-   survives the setting rather than vanishing with it. */
+/* Still listening, just not moving. The bars hold the height the
+   artwork drew them at. */
 @media (prefers-reduced-motion: reduce) {
-  .pill__wave i { animation: none; opacity: 1; }
+  .wv i { animation: none; transform: none; opacity: 1; }
 }
 
-@media print {
-  .pill { box-shadow: none; }
-  .pill-stage { min-height: 0; }
+/* Single column below this, where the art follows the text. It keeps
+   hanging from the fold, but it stops being pinned right: centred
+   under the paragraph is the only place it can sit. */
+@media (max-width: 1080px) {
+  .pg-hero__art--flush { justify-self: center; max-width: 384px; }
 }

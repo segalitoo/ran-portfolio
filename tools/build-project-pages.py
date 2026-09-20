@@ -67,7 +67,12 @@ P = [
 {
  "slug":"mint","og":"mint_1","kind":N,"imgs":"mint","h1":"On-brand ad generator",
  "eyebrow":["By night","2026","Built by me, solo","Live"],
- "video":None,
+ # Seven seconds built in Remotion from layers lifted out of the
+ # recording: the cables draw, then each placement lands with a
+ # spring and glows once. motion/ holds the composition,
+ # tools/mint-board-reveal.py the layers.
+ "video":("mint","1256 / 1218","The Mint canvas: a cable drawing to each placement in turn, the placement landing as it arrives"),
+ "video_class":"live--solid",
  "lede":"At Payoneer I watched designers rebuild the same ad in four sizes, week after week. Mint "
         "takes a brand kit, a format and a prompt, and returns finished creative with the copy "
         "already written for the platform. The output is real layout, not a model guessing at text.",
@@ -90,17 +95,23 @@ P = [
  "slug":"shhh","og":"shhh_2","kind":N,"imgs":"shhh","h1":"Voice typing for Mac",
  "eyebrow":["By night","2026","Built by me, solo","Live"],
  "video":None,
- "hero_html":"""<!-- The dictation pill, rebuilt rather than screenshotted. It is
-               nine divs and one keyframe on the Shhh site, so it comes across
-               as markup: always sharp, no image to load, and it actually
-               moves. No card and no ground behind it, so the UI floats on the
-               page the way it floats over whatever app you are in. -->
-          <div class="pill-stage">
-            <div class="pill" role="img" aria-label="The Shhh dictation pill, listening, with the phrase it has picked up so far">
-              <div class="pill__wave" aria-hidden="true">
-                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-              </div>
-              <p class="pill__t">I want to send a quick note</p>
+ "hero_art_class":"pg-hero__art--flush",
+ "hero_html":f"""<!-- Drawn to run off its own bottom edge, so it is hung from the
+               bottom of the hero rather than centred in it: the window
+               is cut by the fold line instead of stopping short of it.
+
+               The nine wave bars are painted out of the WebP and
+               rebuilt as elements, so the one part of the drawing that
+               should move does, and the picture keeps its own alpha
+               rather than becoming a video with a transparency codec
+               to negotiate. Lossless WebP: flat UI with text comes out
+               both smaller and sharper that way than it does lossy. -->
+          <div class="shhh-art">
+            <img class="shhh-art__i" src="../images/opt/shhh_inner_base.webp?v={ver('images/opt/shhh_inner_base.webp')}"
+                 width="384" height="394" fetchpriority="high" decoding="async"
+                 alt="The Shhh dictation pill listening above a notes window, the phrase it has picked up so far showing inside it">
+            <div class="wv" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
             </div>
           </div>""",
  "lede":"macOS makes you pick English or Hebrew. I write both, often inside one sentence, so Shhh "
@@ -264,7 +275,8 @@ def hero(p):
         return p["hero_html"]
     if p["video"]:
         stem, ar, label = p["video"]
-        return f'''<figure class="live" data-live style="--ar:{ar}">
+        cls = " " + p["video_class"] if p.get("video_class") else ""
+        return f'''<figure class="live{cls}" data-live style="--ar:{ar}">
             <video class="live__v" poster="../assets/media/{stem}-poster.webp" muted loop playsinline preload="none"
                    aria-label="{label}">
               <source src="../assets/media/{stem}.webm" type="video/webm">
@@ -305,6 +317,7 @@ def page(p):
         </div>
 ''' for k, d in p["notes"])
     scope = "".join(f'          <p class="pg-scope__i">{a}<span>{b}</span></p>\n' for a, b in p["scope"])
+    art_mod = (" " + p["hero_art_class"]) if p.get("hero_art_class") else ""
     cta = ""
     if p["cta"]:
         cta = ('\n          <div class="acts"><a class="btn btn--fill" href="%s" target="_blank" '
@@ -361,7 +374,7 @@ def page(p):
           <h1 class="pg-h1">{p['h1']}</h1>
           <p class="pg-lede">{p['lede']}</p>{cta}
         </div>
-        <div class="pg-hero__art">
+        <div class="pg-hero__art{art_mod}">
           {hero(p)}
         </div>
       </div>

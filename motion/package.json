@@ -1,0 +1,23 @@
+{
+  "name": "mint-motion",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion render MintBoard out/mint-board.webm --codec=vp9 --crf=28",
+    "build:webm": "remotion render MintBoard out/mint-board.webm --codec=vp9 --crf=20",
+    "still": "remotion still MintBoard out/frame.png",
+    "build:mp4": "remotion render MintBoard out/mint-board.mp4 --codec=h264 --crf=20",
+    "poster": "remotion still MintBoard out/mint-poster.png --frame=150"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.400",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "4.0.400"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.5.2"
+  }
+}

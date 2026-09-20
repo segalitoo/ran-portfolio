@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="../brand-system/tokens.css">
   <link rel="stylesheet" href="../assets/site.css?v=be4e8e10">
   <link rel="stylesheet" href="../assets/live.css?v=7a13fa7d">
-  <link rel="stylesheet" href="../assets/inner-g.css?v=acd29214">
+  <link rel="stylesheet" href="../assets/inner-g.css?v=301b2c1b">
   <script src="../assets/analytics.js?v=0abadbbb" defer></script>
   <script src="../assets/site.js?v=0f7e54d3" defer></script>
   <script src="../assets/live.js?v=5d4dbb24" defer></script>
@@ -51,18 +51,23 @@
           <p class="pg-lede">macOS makes you pick English or Hebrew. I write both, often inside one sentence, so Shhh listens from the menu bar, works out which language is which while you talk, and pastes into whatever app is in front. Grammar is cleaned up once you stop, not mid-thought.</p>
           <div class="acts"><a class="btn btn--fill" href="https://segalitoo.github.io/Shhh/" target="_blank" rel="noopener">Try it <i>&rarr;</i></a></div>
         </div>
-        <div class="pg-hero__art">
-          <!-- The dictation pill, rebuilt rather than screenshotted. It is
-               nine divs and one keyframe on the Shhh site, so it comes across
-               as markup: always sharp, no image to load, and it actually
-               moves. No card and no ground behind it, so the UI floats on the
-               page the way it floats over whatever app you are in. -->
-          <div class="pill-stage">
-            <div class="pill" role="img" aria-label="The Shhh dictation pill, listening, with the phrase it has picked up so far">
-              <div class="pill__wave" aria-hidden="true">
-                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-              </div>
-              <p class="pill__t">I want to send a quick note</p>
+        <div class="pg-hero__art pg-hero__art--flush">
+          <!-- Drawn to run off its own bottom edge, so it is hung from the
+               bottom of the hero rather than centred in it: the window
+               is cut by the fold line instead of stopping short of it.
+
+               The nine wave bars are painted out of the WebP and
+               rebuilt as elements, so the one part of the drawing that
+               should move does, and the picture keeps its own alpha
+               rather than becoming a video with a transparency codec
+               to negotiate. Lossless WebP: flat UI with text comes out
+               both smaller and sharper that way than it does lossy. -->
+          <div class="shhh-art">
+            <img class="shhh-art__i" src="../images/opt/shhh_inner_base.webp?v=40ac6594"
+                 width="384" height="394" fetchpriority="high" decoding="async"
+                 alt="The Shhh dictation pill listening above a notes window, the phrase it has picked up so far showing inside it">
+            <div class="wv" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
             </div>
           </div>
         </div>
