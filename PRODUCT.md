@@ -69,8 +69,9 @@ them can.
   primary, coral `#FF5D52` accent, near-navy `#0C1330` ink, Inter for text and
   DM Serif Display for display type. Tokens live in `brand-system/tokens.css`
   and are the source of truth; colours are not to be hardcoded.
-- Name: Ran Segal. Title in use: Creative Manager, previously Design Manager at
-  Payoneer.
+- Name: Ran Segal. Title in use: Creative Lead, previously Design Manager at
+  Payoneer. The Taptica 2016-2022 entry in `history` is a past job title and
+  stays Creative Manager.
 - **No em dashes** in any generated copy. Standing instruction.
 - Project copy is written in the first person about decisions made, not
   deliverables produced.

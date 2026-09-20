@@ -95,10 +95,10 @@ window.WORK = [
 
 window.PROFILE = {
   name: 'Ran Segal',
-  role: 'Creative Manager',
+  role: 'Creative Lead',
   headline: 'I lead creative teams and build the tools that make them faster.',
   lede: '13 years managing design and marketing at Payoneer and Taptica. Brand systems, global websites and design operations by day. AI production tools, browser extensions and apps by night.',
-  spec: ['Creative Manager / Head of Design', 'Tel Aviv, hybrid or remote', 'Open to full-time and consulting'],
+  spec: ['Creative Lead / Head of Design', 'Tel Aviv, hybrid or remote', 'Open to full-time and consulting'],
   email: 'segalitoo@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ran-segal/',
   cv: '',

@@ -366,7 +366,7 @@ def page(p):
 <body class="pg">
   <nav class="nav" id="nav">
     <div class="nav__in">
-      <a class="nav__me" href="../">Ran Segal <span>&middot; Creative Manager</span></a>
+      <a class="nav__me" href="../">Ran Segal <span>&middot; Creative Lead</span></a>
       <div class="nav__links">
         <a class="nav__a" href="../#ai">AI tools</a>
         <a class="nav__a" href="../#work">Work</a>
