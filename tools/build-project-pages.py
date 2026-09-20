@@ -135,7 +135,9 @@ P = [
 {
  "slug":"payoneer-website","og":"website_1","kind":D,"imgs":"website","h1":"Payoneer website redesign",
  "eyebrow":["By day","Payoneer","2023","Led by me"],
- "video":None,
+ # The artwork itself, with the part of it that the project was about
+ # put in motion. Built in motion/, rendered by npm run art.
+ "video":("payoneer-website","640 / 600","The Payoneer homepage, the brand gradient travelling round its arc"),
  "lede":"After the rebrand, the site no longer matched the company. I led the redesign that turned "
         "the new identity into a working web experience, and built it as a modular system so "
         "regional teams could adapt pages to their market without redrawing them.",
@@ -156,7 +158,9 @@ P = [
 {
  "slug":"email-design-system","og":"email_template_1","kind":D,"imgs":"email_template","h1":"Scalable email design system",
  "eyebrow":["By day","Payoneer","2023","Led by me"],
- "video":None,
+ # The artwork itself, with the part of it that the project was about
+ # put in motion. Built in motion/, rendered by npm run art.
+ "video":("payoneer-email","640 / 600","A Payoneer email template, its notification toggles switching off and back on"),
  "lede":"Every team built its emails from scratch, so no two matched and designers spent their week "
         "on production. I led a Figma template system with pre-approved components that lets "
         "marketers assemble on-brand email without a designer in the loop.",
@@ -178,7 +182,9 @@ P = [
 {
  "slug":"brand-portal","og":"brand_portal_1","kind":D,"imgs":"brand_portal","h1":"Payoneer brand portal",
  "eyebrow":["By day","Payoneer","2022 to 2025","Led by me"],
- "video":None,
+ # The artwork itself, with the part of it that the project was about
+ # put in motion. Built in motion/, rendered by npm run art.
+ "video":("payoneer-portal","640 / 600","The Payoneer brand portal, its colour swatches cycling through the palette"),
  "lede":"The guidelines lived in PDFs on shared drives, so every office read the brand slightly "
         "differently. I led the build of a portal that made the current guidance the easiest thing "
         "to find, covering logo, typography, colour, photography and tone of voice, with the assets "
@@ -204,7 +210,9 @@ P = [
 {
  "slug":"customer-image-library","og":"photoshoot_1","kind":D,"imgs":"photoshoot","h1":"Customer image library",
  "eyebrow":["By day","Payoneer","2022","Led by me"],
- "video":None,
+ # The artwork itself, with the part of it that the project was about
+ # put in motion. Built in motion/, rendered by npm run art.
+ "video":("payoneer-images","640 / 600","The customer image library, light travelling across the commissioned photography"),
  "lede":"Stock imagery made Payoneer look like every competitor it had, which works against a brand "
         "built on global inclusion. I led photoshoots across several regions, casting models to "
         "represent the customers we actually serve, and catalogued the results so any team could "
@@ -228,7 +236,10 @@ P = [
 {
  "slug":"icon-packages","og":"icon_packages_1","kind":D,"imgs":"icon_packages","h1":"Icon packages",
  "eyebrow":["By day","Payoneer","2022 to 2025","Led by me"],
- "video":None,
+ # Four artefacts of one system, crossing one into the next.
+ # Built in motion/, rendered by npm run payoneer.
+ "video":("payoneer-icons","1120 / 592","The icon system: the drawn sets, the named library, the sheets, and the four tiers side by side"),
+ "video_class":"live--solid",
  "lede":"Icons were drawn fresh for every feature and campaign, so nothing matched and every new "
         "piece of work started with a redraw. I led one tiered system covering functional UI, "
         "illustrative brand and animated icons, sharing a stroke weight and a set of proportions.",

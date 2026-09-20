@@ -51,11 +51,13 @@
           <p class="pg-lede">Stock imagery made Payoneer look like every competitor it had, which works against a brand built on global inclusion. I led photoshoots across several regions, casting models to represent the customers we actually serve, and catalogued the results so any team could find the right frame without asking.</p>
         </div>
         <div class="pg-hero__art">
-          <figure class="pg-shot">
-            <img src="../images/opt/photoshoot_1-1440.webp"
-                 srcset="../images/opt/photoshoot_1-720.webp 720w, ../images/opt/photoshoot_1-1440.webp 1440w"
-                 sizes="(max-width: 900px) 100vw, 620px"
-                 alt="A grid from the library, cast to represent customers across regions" width="1440" height="761" fetchpriority="high" decoding="async">
+          <figure class="live" data-live style="--ar:640 / 600">
+            <video class="live__v" poster="../assets/media/payoneer-images-poster.webp" muted loop playsinline preload="none"
+                   aria-label="The customer image library, light travelling across the commissioned photography">
+              <source src="../assets/media/payoneer-images.webm" type="video/webm">
+              <source src="../assets/media/payoneer-images.mp4" type="video/mp4">
+            </video>
+            <img class="live__print" src="../assets/media/payoneer-images-poster.webp" alt="" aria-hidden="true">
           </figure>
         </div>
       </div>
