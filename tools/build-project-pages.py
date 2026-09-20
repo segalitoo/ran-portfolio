@@ -214,21 +214,21 @@ P = [
  # put in motion. Built in motion/, rendered by npm run art.
  "video":("payoneer-images","640 / 600","The customer image library, light travelling across the commissioned photography"),
  "lede":"Stock imagery made Payoneer look like every competitor it had, which works against a brand "
-        "built on global inclusion. I led photoshoots across several regions, casting models to "
-        "represent the customers we actually serve, and catalogued the results so any team could "
+        "built on global inclusion. I led one original shoot in South Africa, cast to represent "
+        "customers across the markets we serve, and catalogued the results so any team could "
         "find the right frame without asking.",
  "notes":[("What I inherited","Generic stock, interchangeable with what every competitor was running, "
            "and a promise about global inclusion that the pictures did not support."),
-          ("What I decided","To commission original photography rather than buy better stock. "
-           "<b>The people in frame are cast models, not customers</b>, chosen to look like the "
-           "businesses the company actually serves."),
-          ("What I led","Shoots across multiple regions, then the catalogue: organised by region, use "
-           "case and theme so it stayed findable once the excitement wore off.")],
- "scope":[("Original shoots, several regions","Commissioned for Payoneer and owned outright"),
-          ("Models cast to represent customers","Chosen for the businesses the company serves"),
+          ("What I decided","To commission original photography rather than better stock, and to "
+           "cover every market from one shoot. <b>The people in frame are cast models, not "
+           "customers</b>."),
+          ("What I led","The casting, the shot list and the look, then the catalogue that kept "
+           "them findable once the excitement wore off.")],
+ "scope":[("One original shoot, on location in South Africa","Commissioned for Payoneer and owned outright"),
+          ("Cast to represent customers worldwide","Chosen for the businesses the company serves"),
           ("Catalogued by region, use case and theme","Findable without asking a designer"),
           ("An owned library","No further reliance on generic stock")],
- "shots":["A grid from the library, cast to represent customers across regions",
+ "shots":["A grid from the library, cast to represent customers worldwide",
           "The same set applied across channels",
           "Scenarios shot to match real use cases rather than generic office stock"],
  "cta":None,
