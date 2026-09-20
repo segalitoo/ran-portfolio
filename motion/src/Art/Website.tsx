@@ -19,6 +19,13 @@ import { ART, DURATION } from './pieces';
    15 degrees, then mirrored so the wheel closes on itself. */
 const CENTRE = { x: 319.6, y: -4.9 };
 
+/* Whole turns only. The wheel is a ramp and its mirror, which makes it
+   symmetric about an axis rather than rotationally symmetric, so a half
+   or a third of a turn does not come back to the frame it started on
+   and the loop would jump. Speed therefore steps: one turn, two, three,
+   with nothing in between. Two is the setting. */
+const TURNS = 2;
+
 const RAMP = [
   '#18A2C7', '#0996EA', '#2689E5', '#4D7BE2', '#6F6FDA', '#9965D6',
   '#C05AD1', '#D253B7', '#DB5495', '#E45075', '#EB4F54', '#E65548',
@@ -33,7 +40,7 @@ const wheel = () => {
 
 export const Website: React.FC = () => {
   const frame = useCurrentFrame();
-  const spin = (frame / DURATION) * 360;
+  const spin = (frame / DURATION) * 360 * TURNS;
 
   return (
     <AbsoluteFill>
