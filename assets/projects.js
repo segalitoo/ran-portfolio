@@ -97,13 +97,13 @@ window.PROFILE = {
   name: 'Ran Segal',
   role: 'Creative Lead',
   headline: 'I lead creative teams and build the tools that make them faster.',
-  lede: '13 years managing design and marketing at Payoneer and Taptica. Brand systems, global websites and design operations by day. AI production tools, browser extensions and apps by night.',
+  lede: '14 years managing design and marketing at Payoneer and Taptica. Brand systems, global websites and design operations by day. AI production tools, browser extensions and apps by night.',
   spec: ['Creative Lead / Head of Design', 'Tel Aviv, hybrid or remote', 'Open to full-time and consulting'],
   email: 'segalitoo@gmail.com',
   linkedin: 'https://www.linkedin.com/in/ran-segal/',
   cv: '',
   history: [
-    { org: 'Payoneer', years: '2022 to 2025', what: 'Design Manager' },
-    { org: 'Taptica', years: '2016 to 2022', what: 'Creative Manager' }
+    { org: 'Payoneer', years: '2020 to 2025', what: 'Design Manager' },
+    { org: 'Taptica', years: '2011 to 2020', what: 'Creative Manager' }
   ]
 };
