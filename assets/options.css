@@ -24,7 +24,12 @@
   letter-spacing: -0.045em; line-height: 1.02;
 }
 .o-hero__title em { font-style: normal; color: var(--primary); }
-.o-hero__lede { margin-top: 24px; max-width: 46ch; font-size: 1.125rem; line-height: 1.6; color: var(--text-secondary); }
+/* 62ch, not the 46ch it started at. At 46 the lede ran 522px under an
+   844px headline, 62 per cent of its width, which read as a narrow
+   column tucked under a wide one rather than as the same block of
+   text. 62ch is 83 per cent of the headline and still inside the 45
+   to 75 character measure that stays comfortable to read. */
+.o-hero__lede { margin-top: 24px; max-width: 62ch; font-size: 1.125rem; line-height: 1.6; color: var(--text-secondary); }
 
 /* ── Section heads ─────────────────────────────── */
 /* The section header column is about 580px wide and the grid under it
