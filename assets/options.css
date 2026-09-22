@@ -305,7 +305,6 @@
 /* ── Foot ──────────────────────────────────────── */
 .o-foot { padding-block: 96px 120px; border-top: 1px solid var(--hair); margin-top: 96px; }
 .o-foot__t { font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight: 600; letter-spacing: -0.035em; }
-.o-foot__d { margin-top: 14px; max-width: 46ch; font-size: 1.0625rem; line-height: 1.6; color: var(--text-secondary); }
 
 /* Contact details read as a short list rather than a button, so the
    address and the number can be copied without opening a mail client. */
