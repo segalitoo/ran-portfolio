@@ -287,6 +287,24 @@
    the space that separates it from the button above it. */
 .f-more__panel .f-grid { padding-top: 36px; }
 
+/* ── A section on its own ground ─────────────────
+   The sections on either side of it run straight on from each other,
+   with only the hairline under each header, so a third one in the
+   middle had nothing to mark where it began or ended. This is the move
+   the project pages make under their heroes: the ground changes to the
+   raised surface, edge to edge, and that change is the separator. No
+   rules, no gradient. It also says the work inside is a different kind
+   of project from the tools above it. */
+.o-band { margin-top: 104px; padding-bottom: 104px; background: var(--surface-1); }
+.o-band .o-head { padding-top: 88px; }
+.o-band + .o-head { padding-top: 96px; }
+
+@media (max-width: 1080px) {
+  .o-band { margin-top: 72px; padding-bottom: 72px; }
+  .o-band .o-head { padding-top: 64px; }
+  .o-band + .o-head { padding-top: 72px; }
+}
+
 /* ── The creative section: one wide card and one normal one ─────
    Bingo Bay is a whole production rather than one tool, so it gets
    a wider frame than the four-across rows either side of it. The
