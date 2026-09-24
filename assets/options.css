@@ -51,6 +51,9 @@
 }
 .o-eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
 .o-h2 { margin-top: 14px; font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1.1; }
+/* A break a heading only takes when there is room for both halves. On a
+   phone the halves wrap on their own and a forced break strands a word. */
+@media (max-width: 640px) { .o-br { display: none; } }
 .o-lede { margin-top: 14px; max-width: 54ch; font-size: 1.0625rem; line-height: 1.6; color: var(--text-secondary); }
 
 /* ══ D · SCREENS ═══════════════════════════════════
