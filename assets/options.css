@@ -287,8 +287,25 @@
    the space that separates it from the button above it. */
 .f-more__panel .f-grid { padding-top: 36px; }
 
+/* ── The creative section: one wide card and one normal one ─────
+   Bingo Bay is a whole production rather than one tool, so it gets
+   a wider frame than the four-across rows either side of it. The
+   columns are 7 and 5, and the frames are 16:9 and 80:63, which puts
+   both frames at exactly the same height at every width: the gap is
+   shared between the two columns in the same 7:5 proportion, so it
+   cancels out. The titles and the hairlines below then stay level. */
+.f-grid--bay { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.f-card--wide .f-frame { aspect-ratio: 16 / 9; }
+.f-grid--bay .f-card:not(.f-card--wide) .f-frame { aspect-ratio: 80 / 63; }
+.f-grid--bay .f-card:not(.f-card--wide) .f-frame img { object-position: 50% 0; }
+.f-card--wide .f-card__d { max-width: 52ch; }
+
 @media (max-width: 1080px) {
   .f-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  .f-grid--bay { grid-template-columns: minmax(0, 1fr); }
+  .f-grid--bay .f-card:not(.f-card--wide) .f-frame { aspect-ratio: 16 / 15; }
 }
 @media (max-width: 640px) {
   .f-grid { grid-template-columns: minmax(0, 1fr); }

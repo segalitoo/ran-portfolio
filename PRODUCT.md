@@ -42,8 +42,9 @@ them can.
   link-preview cards and per-project deep links are functional requirements, not
   polish. A single project is often the thing worth sending, not the whole site.
 - Read on desktop first, phone second.
-- Content is split in two: four tools Ran built solo, and three brand systems he
-  led at Payoneer as Design Manager.
+- Content is split in three: four tools Ran built solo; a creative-direction
+  pair from a hiring take-home (Bingo Bay and its brief generator); and the
+  brand systems he led at Payoneer as Design Manager.
 
 ## Capabilities and Constraints
 
@@ -90,6 +91,20 @@ Real and verifiable:
 - Three Payoneer programmes: website redesign (2023), email design system (2023),
   brand portal (2022 to 2025).
 - 36 product screenshots in `images/`.
+- Bingo Bay (`work/bingo-bay.html`): a take-home brief for an AI Creative
+  Manager role at a large casual games studio. The studio is deliberately not
+  named anywhere on the site, and neither is its own live game (referred to as
+  "the category leader" if at all). Real: 55 logged generations with the
+  rejection reason for each, 6 keepers, the locked palette and prompt template,
+  the finished key art and two UI screens, an 81-second Suno loop mastered by
+  hand, a Bria re-pose and a Meshy mesh of the host character. Sources are
+  pulled in by `tools/bingo-bay-assets.py`.
+- Brief generator (`work/brief-generator.html`): the automation part of the same
+  take-home. The assembly step runs live in the page; the n8n, Slack and Jira
+  flow around it is a design, not a deployed system. The "7 to 9 hours a week"
+  figure is an estimate from stated assumptions and is labelled as one; keep it
+  that way. The Iteration Log (`work/brief-generator/iteration-log.html`) is a
+  working in-browser tool with the 55 entries seeded.
 
 Absent, and not to be fabricated by future work:
 
@@ -103,7 +118,8 @@ Absent, and not to be fabricated by future work:
   Zoom for Kids, Shhh) are personal-use software. Only Mint targets a team
   workflow, and it was built after leaving that team rather than deployed to it.
   The "tools the team uses" claim currently runs ahead of what the artefacts
-  prove. Future work should either strengthen the Mint evidence or phrase the
+  prove. The brief generator is the closest thing to team tooling on the site,
+  but it too is a prototype, not something a team adopted. Future work should either strengthen the Mint evidence or phrase the
   claim so it stays true.
 
 ## Product Principles

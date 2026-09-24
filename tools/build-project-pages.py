@@ -92,7 +92,7 @@ P = [
  "cta":("Try it","https://payoneer-ad-generator.vercel.app/"),
 },
 {
- "slug":"shhh","og":"shhh_2","kind":N,"imgs":"shhh","h1":"Voice typing for Mac",
+ "slug":"shhh","og":"shhh_2","kind":N,"next":("bingo-bay.html","Bingo Bay, art&#8209;directed with AI"),"imgs":"shhh","h1":"Voice typing for Mac",
  "eyebrow":["By night","2026","Built by me, solo","Live"],
  "video":None,
  "hero_art_class":"pg-hero__art--flush",
@@ -321,6 +321,9 @@ def gallery(p):
 
 def page(p):
     nxt = BY[ORDER[(ORDER.index(p["slug"]) + 1) % len(ORDER)]]
+    # A page can hand off to one this script does not write. Shhh does:
+    # the hand-written Bingo Bay pages sit between the tools and Payoneer.
+    nxt_href, nxt_t = p.get("next") or (nxt["slug"] + "-g.html", nxt["h1"])
     anchor = "ai" if p["kind"] == N else "work"
     notes = "".join(f'''        <div>
           <h2 class="pg-note__k">{k}</h2>
@@ -407,8 +410,8 @@ def page(p):
       </section>
 
       <nav class="pg-next">
-        <a href="{nxt['slug']}-g.html">
-          <span><span class="pg-next__k">Next</span><span class="pg-next__t" style="display:block">{nxt['h1']}</span></span>
+        <a href="{nxt_href}">
+          <span><span class="pg-next__k">Next</span><span class="pg-next__t" style="display:block">{nxt_t}</span></span>
           <i>&rarr;</i>
         </a>
       </nav>
