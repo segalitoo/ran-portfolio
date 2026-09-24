@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<!-- Hand-written, outside tools/build-project-pages.py on purpose: the
+     stage map in the hero and the stage list below it have no slot in
+     the -g template. A rebuild of the other pages never touches this. -->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI production workflow &middot; Ran Segal</title>
+  <meta name="description" content="How I would run AI production for a casual games studio: nine stages from idea to delivery, AI doing the volume at each, and one named person signing off every one. Bingo Bay is this workflow run once.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://segalitoo.github.io/ran-portfolio/work/ai-workflow.html">
+  <meta property="og:title" content="AI production workflow &middot; Ran Segal">
+  <meta property="og:description" content="Nine stages from idea to delivery, AI doing the volume, a named person signing off every stage.">
+  <meta property="og:image" content="https://segalitoo.github.io/ran-portfolio/images/card/ai-workflow-1280.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI production workflow &middot; Ran Segal">
+  <meta name="twitter:image" content="https://segalitoo.github.io/ran-portfolio/images/card/ai-workflow-1280.webp">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../brand-system/fonts.css">
+  <link rel="stylesheet" href="../brand-system/tokens.css">
+  <link rel="stylesheet" href="../assets/site.css?v=be4e8e10">
+  <link rel="stylesheet" href="../assets/inner-g.css?v=301b2c1b">
+  <link rel="stylesheet" href="../assets/ai-workflow.css?v=2247c56d">
+  <script src="../assets/analytics.js?v=0abadbbb" defer></script>
+  <script src="../assets/site.js?v=0f7e54d3" defer></script>
+</head>
+
+<body class="pg">
+  <nav class="nav" id="nav">
+    <div class="nav__in">
+      <a class="nav__me" href="../">Ran Segal <span>&middot; Creative Lead</span></a>
+      <div class="nav__links">
+        <a class="nav__a" href="../#ai">AI tools</a>
+        <a class="nav__a" href="../#bay">Creative</a>
+        <a class="nav__a" href="../#work">Work</a>
+      </div>
+      <button class="nav__theme" id="themeBtn" aria-label="Toggle light and dark theme">
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <header class="pg-hero">
+      <div class="pg-wrap pg-hero__in">
+        <div>
+          <a class="pg-back" href="../#bay"><i>&larr;</i> All work</a>
+          <h1 class="pg-h1">AI production workflow</h1>
+          <p class="pg-alias">Part of the Bingo Bay take-home &middot; 2026</p>
+          <p class="pg-lede">How I would run AI production for a casual games studio, from idea to delivery. AI does the volume at every stage, and one named person signs off each one. Bingo Bay is this workflow run once, and every stage below links to where it happened.</p>
+          <div class="acts"><a class="btn btn--fill" href="#stages">Walk the nine stages <i>&darr;</i></a></div>
+        </div>
+        <div class="pg-hero__art">
+          <div class="wf-map" role="img" aria-label="The nine stages in three phases. Define: ideation, art direction, UX exploration. Produce, in parallel: visual assets, music and sound, copy. Ship: review and QA, iteration, delivery. Each has one named person who signs it off.">
+            <div class="wf-ph wf-ph--a">
+              <p class="wf-ph__k">Define<span>3 stages</span></p>
+              <div class="wf-st"><span class="wf-st__n">01</span><span class="wf-st__t">Ideation</span><span class="wf-st__g">Creative lead</span></div>
+              <div class="wf-st"><span class="wf-st__n">02</span><span class="wf-st__t">Art direction</span><span class="wf-st__g">Art director</span></div>
+              <div class="wf-st"><span class="wf-st__n">03</span><span class="wf-st__t">UX exploration</span><span class="wf-st__g">Game designer</span></div>
+            </div>
+            <div class="wf-ph wf-ph--b">
+              <p class="wf-ph__k">Produce<span>In parallel</span></p>
+              <div class="wf-st"><span class="wf-st__n">04</span><span class="wf-st__t">Visual assets</span><span class="wf-st__g">Curator picks 1 of 12</span></div>
+              <div class="wf-st"><span class="wf-st__n">05</span><span class="wf-st__t">Music and sound</span><span class="wf-st__g">Audio direction</span></div>
+              <div class="wf-st"><span class="wf-st__n">06</span><span class="wf-st__t">Copy</span><span class="wf-st__g">Copy lead</span></div>
+            </div>
+            <div class="wf-ph wf-ph--c">
+              <p class="wf-ph__k">Ship<span>3 stages</span></p>
+              <div class="wf-st"><span class="wf-st__n">07</span><span class="wf-st__t">Review and QA</span><span class="wf-st__g">Craft, economy, IP</span></div>
+              <div class="wf-st"><span class="wf-st__n">08</span><span class="wf-st__t">Iteration</span><span class="wf-st__g">Owner of the winner</span></div>
+              <div class="wf-st"><span class="wf-st__n">09</span><span class="wf-st__t">Delivery</span><span class="wf-st__g">Release owner</span></div>
+            </div>
+            <p class="wf-map__foot"><span><b>&#9675;</b> one human gate per stage</span><span>Iteration loops back to Produce, twice at most</span></p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="pg-wrap">
+      <section class="pg-notes">
+        <div>
+          <h2 class="pg-note__k">What I was asked</h2>
+          <p class="pg-note__d">An end-to-end AI production workflow for a casual games studio: the stages, the tools at each, where people stay involved, the bottlenecks, and where it can scale.</p>
+        </div>
+        <div>
+          <h2 class="pg-note__k">What I decided</h2>
+          <p class="pg-note__d"><b>The stages stay fixed. The judgement is what moves.</b> Every stage gets exactly one human gate with a named owner, and the person there works as an editor, not an operator.</p>
+        </div>
+        <div>
+          <h2 class="pg-note__k">What I made</h2>
+          <p class="pg-note__d">Nine stages across three phases, each with its tools, what gets automated, what stays manual and the jam to expect. Then I ran an event through it, so none of the stages is theory.</p>
+        </div>
+      </section>
+
+      <section class="pg-scope">
+        <h2 class="pg-scope__k">Scope</h2>
+        <div class="pg-scope__g">
+          <p class="pg-scope__i">9 stages, 3 phases<span>Define, produce, ship</span></p>
+          <p class="pg-scope__i">9 human gates<span>One named owner at every stage</span></p>
+          <p class="pg-scope__i">3 stages in parallel<span>Visuals, sound and copy run side by side</span></p>
+          <p class="pg-scope__i">2 cycles, then ship or kill<span>Iteration never gets to run forever</span></p>
+        </div>
+      </section>
+
+      <section class="wf-sec" id="stages">
+        <h2 class="wf-sec__k">The nine stages</h2>
+        <p class="wf-sec__t">Same stages every time. A person at every gate.</p>
+        <p class="wf-sec__d">AI makes the volume, and a person decides every image a player actually sees. <b>Choosing the one of twelve that ships is the part that matters.</b> Where Bingo Bay ran a stage, its link goes straight to the chapter where it happened.</p>
+        <ol class="wf-list">
+          <li class="wf-row wf-row--a">
+            <p class="wf-row__n">01<span>Define</span></p>
+            <div>
+              <h3 class="wf-row__t">Ideation</h3>
+              <p class="wf-row__d">Thirty scored event concepts per sprint, with trend and competitor scans behind them. Output: <b>a one-page direction doc</b>.</p>
+            </div>
+            <p class="wf-gate"><span class="wf-k">Human gate</span>The creative lead locks one direction. <b>Volume is cheap. Direction is not.</b></p>
+            <div class="wf-proof"><span class="wf-k">In Bingo Bay</span><a href="bingo-bay.html">The concept: Bingo Bay <i>&rarr;</i></a></div>
+            <div class="wf-det">
+              <p><span class="wf-k">Tools</span>Claude, Perplexity, Miro AI, store intel</p>
+              <p><span class="wf-k">Automated</span>Concept volume, trend and competitor scans, scoring drafts</p>
+              <p><span class="wf-k">Stays manual</span>Framing the problem, picking the direction</p>
+              <p><span class="wf-k">Bottleneck</span>Alignment drift. The one-page doc comes first, with fresh player data in it.</p>
+            </div>
+          </li>
+          <li class="wf-row wf-row--a">
+            <p class="wf-row__n">02<span>Define</span></p>
+            <div>
+              <h3 class="wf-row__t">Art direction</h3>
+              <p class="wf-row__d">Moodboards and style exploration at volume, narrowed to three concepts. Output: <b>three concepts and one locked art direction page</b>.</p>
+            </div>
+            <p class="wf-gate"><span class="wf-k">Human gate</span>The art director signs the lock. <b>The highest-leverage call in the pipeline.</b></p>
+            <div class="wf-proof"><span class="wf-k">In Bingo Bay</span><a href="bingo-bay.html#lock">The lock, as tokens <i>&rarr;</i></a></div>
+            <div class="wf-det">
+              <p><span class="wf-k">Tools</span>Nano Banana Pro, Midjourney, Figma</p>
+              <p><span class="wf-k">Automated</span>Style exploration, moodboard volume</p>
+              <p><span class="wf-k">Stays manual</span>The lock itself: palette, render, light, cast</p>
+              <p><span class="wf-k">Bottleneck</span>Decision fatigue. The shortlist is capped at three.</p>
+            </div>
+          </li>
+          <li class="wf-row wf-row--a">
+            <p class="wf-row__n">03<span>Define</span></p>
+            <div>
+              <h3 class="wf-row__t">UX exploration</h3>
+              <p class="wf-row__d">Flow drafts and variant screens for the lobby, progression and album. Output: <b>approved flows and wireframes</b>.</p>
+            </div>
+            <p class="wf-gate"><span class="wf-k">Human gate</span>A game designer checks the loop against the live economy.</p>
+            <div class="wf-proof"><span class="wf-k">In Bingo Bay</span><a href="bingo-bay.html#pieces">The lobby and progression screens <i>&rarr;</i></a></div>
+            <div class="wf-det">
+              <p><span class="wf-k">Tools</span>Figma AI, Claude, HTML prototypes</p>
+              <p><span class="wf-k">Automated</span>Variant drafts, flow diagrams</p>
+              <p><span class="wf-k">Stays manual</span>Economy hooks, friction calls, game feel</p>
+              <p><span class="wf-k">Bottleneck</span>AI mockups look finished too early. Wireframes come first.</p>
+            </div>
+          </li>
+          <li class="wf-row wf-row--b">
+            <p class="wf-row__n">04<span>Produce</span></p>
+            <div>
+              <h3 class="wf-row__t">Visual assets <small>Parallel</small></h3>
+              <p class="wf-row__d">Key art, characters and UI art in batches against the locked tokens, with background removal and cutouts. Output: <b>an approved asset pack</b>.</p>
+            </div>
+            <p class="wf-gate"><span class="wf-k">Human gate</span>A person curates the batch and picks one of eight to twelve. <b>Never the first output.</b></p>
+            <div class="wf-proof"><span class="wf-k">In Bingo Bay</span><a href="bingo-bay.html#record">All 55 frames and why each lost <i>&rarr;</i></a><a href="brief-generator.html">The brief every request starts from <i>&rarr;</i></a></div>
+            <div class="wf-det">
+              <p><span class="wf-k">Tools</span>Nano Banana Pro on Google Flow, Bria, Photoshop</p>
+              <p><span class="wf-k">Automated</span>Batch generation, four prompts at a time, background removal</p>
+              <p><span class="wf-k">Stays manual</span>Selection, paint-over, retouching to the lock</p>
+              <p><span class="wf-k">Bottleneck</span>Consistency at volume. Locked references, seeds and a template prompt.</p>
+            </div>
+          </li>
+          <li class="wf-row wf-row--b">
+            <p class="wf-row__n">05<span>Produce</span></p>
+            <div>
+              <h3 class="wf-row__t">Music and sound <small>Parallel</small></h3>
+              <p class="wf-row__d">Loops, sound effects and voice drafts from a style brief. Output: <b>a cleared audio kit</b>.</p>
+            </div>
+            <p class="wf-gate"><span class="wf-k">Human gate</span>Audio direction sets the brief and clears the rights. <b>Every loop is judged on a phone speaker.</b></p>
+            <div class="wf-proof"><span class="wf-k">In Bingo Bay</span><a href="bingo-bay.html#sound">The loop, and the close call <i>&rarr;</i></a></div>
+            <div class="wf-det">
+              <p><span class="wf-k">Tools</span>Suno, ElevenLabs</p>
+              <p><span class="wf-k">Automated</span>Track generation, SFX drafts, voice in several languages</p>
+              <p><span class="wf-k">Stays manual</span>The mix, the loop point, rights clearance</p>
+              <p><span class="wf-k">Bottleneck</span>Licensing. A pre-cleared kit.</p>
+            </div>
+          </li>
+          <li class="wf-row wf-row--b">
+            <p class="wf-row__n">06<span>Produce</span></p>
+            <div>
+              <h3 class="wf-row__t">Copy <small>Parallel</small></h3>
+              <p class="wf-row__d">Headlines, buttons, popups and store copy, drafted in bulk and fanned out to every locale. Output: <b>a localised copy matrix</b>.</p>
+            </div>
+            <p class="wf-gate"><span class="wf-k">Human gate</span>The copy lead picks and trims. <b>Claims never ship unreviewed.</b></p>
+            <div class="wf-proof"><span class="wf-k">In Bingo Bay</span><a href="bingo-bay.html#copy">The lines that shipped and lost <i>&rarr;</i></a></div>
+            <div class="wf-det">
+              <p><span class="wf-k">Tools</span>Claude with the voice guide as its system prompt</p>
+              <p><span class="wf-k">Automated</span>Bulk drafts, locale fan-out</p>
+              <p><span class="wf-k">Stays manual</span>The final voice, anything legal will read</p>
+              <p><span class="wf-k">Bottleneck</span>Native review. Done by market priority, not alphabetically.</p>
+            </div>
+          </li>
+          <li class="wf-row wf-row--c">
+            <p class="wf-row__n">07<span>Ship</span></p>
+            <div>
+              <h3 class="wf-row__t">Review and QA</h3>
+              <p class="wf-row__d">Automated pre-checks on palette, safe areas, contrast and artefacts, then one structured review. Output: <b>a signed-off batch</b>.</p>
+            </div>
+            <p class="wf-gate"><span class="wf-k">Human gate</span>Sign-off is mandatory: the art director for craft, product for the economy, brand for IP.</p>
+            <div class="wf-proof"><span class="wf-k">In Bingo Bay</span><a href="bingo-bay.html#record">The four rules every frame was judged by <i>&rarr;</i></a></div>
+            <div class="wf-det">
+              <p><span class="wf-k">Tools</span>Spec-check scripts, LLM vision, Figma review</p>
+              <p><span class="wf-k">Automated</span>Palette, safe areas, contrast, artefact detection</p>
+              <p><span class="wf-k">Stays manual</span>Creative judgement on whatever passed</p>
+              <p><span class="wf-k">Bottleneck</span>The review queue, which is the biggest jam of all. Pre-checks and batch approvals.</p>
+            </div>
+          </li>
+          <li class="wf-row wf-row--c">
+            <p class="wf-row__n">08<span>Ship</span></p>
+            <div>
+              <h3 class="wf-row__t">Iteration</h3>
+              <p class="wf-row__d">Performance data turned into improved variants. Output: <b>the next test batch</b>.</p>
+            </div>
+            <p class="wf-gate"><span class="wf-k">Human gate</span>Data proposes, a person disposes. <b>Someone still owns the winning variant.</b></p>
+            <div class="wf-proof"><span class="wf-k">In Bingo Bay</span><a href="brief-generator/iteration-log.html">The iteration log, with every verdict <i>&rarr;</i></a></div>
+            <div class="wf-det">
+              <p><span class="wf-k">Tools</span>The iteration log, A/B data, fast regeneration</p>
+              <p><span class="wf-k">Automated</span>Variant regeneration, data pulls, logging</p>
+              <p><span class="wf-k">Stays manual</span>Deciding what to fix and why</p>
+              <p><span class="wf-k">Bottleneck</span>Endless loops. Two cycles at most, then ship it or kill it.</p>
+            </div>
+            <p class="wf-loop"><b>Loops back to stages 4 to 6.</b> The direction stays locked, and there are two cycles at most.</p>
+          </li>
+          <li class="wf-row wf-row--c">
+            <p class="wf-row__n">09<span>Ship</span></p>
+            <div>
+              <h3 class="wf-row__t">Delivery</h3>
+              <p class="wf-row__d">Export, naming and a versioned upload. Output: <b>a named, sized, uploaded pack with its decision log</b>.</p>
+            </div>
+            <p class="wf-gate"><span class="wf-k">Human gate</span>One release owner confirms the manifest. <b>One person, one checklist.</b></p>
+            <div class="wf-proof"><span class="wf-k">In Bingo Bay</span><p>Not part of the take-home. The event stopped at the submission.</p></div>
+            <div class="wf-det">
+              <p><span class="wf-k">Tools</span>Export and naming scripts, the asset library</p>
+              <p><span class="wf-k">Automated</span>The export matrix, naming, versioned upload</p>
+              <p><span class="wf-k">Stays manual</span>One release approval</p>
+              <p><span class="wf-k">Bottleneck</span>None, once it is templated.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="wf-sec">
+        <h2 class="wf-sec__k">Where it jams, and where it compounds</h2>
+        <div class="wf-two">
+          <div>
+            <h3>The top four jams</h3>
+            <ol class="wf-bn">
+              <li><span>01</span><p><b>The review queue.</b> Automated pre-checks and batch approvals, so people only see what passed.</p></li>
+              <li><span>02</span><p><b>Consistency at volume.</b> Locked references, seeds and template prompts.</p></li>
+              <li><span>03</span><p><b>Rights and compliance.</b> Pre-cleared kits, handled by market priority.</p></li>
+              <li><span>04</span><p><b>Endless iteration.</b> Two cycles at most, then ship it or kill it.</p></li>
+            </ol>
+          </div>
+          <div>
+            <h3>Where it gets faster each time</h3>
+            <ol class="wf-bn">
+              <li><span>&times;N</span><p><b>Variants from one approved base:</b> skins, seasons, ad matrices.</p></li>
+              <li><span>LIB</span><p><b>Prompt libraries,</b> so each campaign starts further ahead.</p></li>
+              <li><span>KIT</span><p><b>Approved kits</b> for audio, voice and UX patterns.</p></li>
+              <li><span>AUTO</span><p><b>Zero-touch delivery</b> once sign-off is given.</p></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <nav class="pg-next">
+        <a href="bingo-bay.html">
+          <span><span class="pg-next__k">Next</span><span class="pg-next__t" style="display:block">Bingo Bay, art&#8209;directed with&nbsp;AI</span></span>
+          <i>&rarr;</i>
+        </a>
+      </nav>
+
+      <footer class="pg-foot">
+        <span>Ran Segal &copy; 2026</span>
+        <span class="pg-foot__links">
+          <a href="https://www.linkedin.com/in/ran-segal-d/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:segalitoo@gmail.com">Email</a>
+        </span>
+      </footer>
+    </div>
+  </main>
+</body>
+
+</html>

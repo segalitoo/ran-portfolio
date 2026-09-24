@@ -20,7 +20,7 @@ Usage:  python3 tools/bingo-bay-assets.py <path-to-take-home-folder>
 import os
 import shutil
 import sys
-from PIL import Image
+from PIL import Image, ImageFilter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("BINGO_BAY_SRC", "")
@@ -127,15 +127,30 @@ def main():
                 save(fit(Image.open(src).convert("RGB"), w), out)
                 made += 1
 
-    # Homepage card: the key art is already 16:9, which is the wide card's frame
-    src = os.path.join(SUB, "app_store.jpeg")
-    for w in (1280, 640):
-        out = os.path.join(CARD, f"bingo-bay-{w}.webp")
-        if not fresh(src, out):
-            im = Image.open(src).convert("RGB")
-            tw, th = im.width, round(im.width * 9 / 16)
-            top = max(0, (im.height - th) // 2)
-            save(fit(im.crop((0, top, tw, top + th)), w), out)
+    # Homepage card: the event logo on the event's own cream-to-sand
+    # ground, at the 16:15 every card in the row shares
+    src = os.path.join(SEL, "BINGO_BAY_logo_summer_nobg.png")
+    if not all(fresh(src, os.path.join(CARD, f"bingo-bay-sq-{w}.webp")) for w in (1280, 640, 320)):
+        W, H = 1280, 1200
+        c1, c2 = (0xFF, 0xF4, 0xE2), (0xF3, 0xD9, 0xA4)
+        card = Image.new("RGBA", (W, H))
+        for y in range(H):
+            t = y / (H - 1)
+            card.paste(tuple(round(c1[i] + (c2[i] - c1[i]) * t) for i in range(3)) + (255,), (0, y, W, y + 1))
+        logo = Image.open(src).convert("RGBA")
+        logo = logo.crop(logo.getbbox())
+        lw = 860
+        logo = logo.resize((lw, round(logo.height * lw / logo.width)), Image.LANCZOS)
+        x, y = (W - lw) // 2, (H - logo.height) // 2
+        shadow = Image.new("RGBA", logo.size, (58, 42, 92, 0))
+        shadow.putalpha(logo.split()[-1].point(lambda v: int(v * 0.22)))
+        layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        layer.paste(shadow, (x, y + 26), shadow)
+        card.alpha_composite(layer.filter(ImageFilter.GaussianBlur(30)))
+        card.alpha_composite(logo, (x, y))
+        card = card.convert("RGB")
+        for w in (1280, 640, 320):
+            save(card.resize((w, round(w * H / W)), Image.LANCZOS), os.path.join(CARD, f"bingo-bay-sq-{w}.webp"))
             made += 1
 
     src = os.path.join(SUB, "event_loop.mp3")

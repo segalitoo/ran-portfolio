@@ -43,8 +43,10 @@ them can.
   polish. A single project is often the thing worth sending, not the whole site.
 - Read on desktop first, phone second.
 - Content is split in three: four tools Ran built solo; a creative-direction
-  pair from a hiring take-home (Bingo Bay and its brief generator); and the
-  brand systems he led at Payoneer as Design Manager.
+  trio from a hiring take-home (the AI production workflow, Bingo Bay run
+  through it, and the brief generator that automates one step); and the brand
+  systems he led at Payoneer as Design Manager. The trio's order is the
+  argument (system, proof, tool), so keep it.
 
 ## Capabilities and Constraints
 
@@ -99,6 +101,11 @@ Real and verifiable:
   the finished key art and two UI screens, an 81-second Suno loop mastered by
   hand, a Bria re-pose and a Meshy mesh of the host character. Sources are
   pulled in by `tools/bingo-bay-assets.py`.
+- AI production workflow (`work/ai-workflow.html`): part 1 of the same
+  take-home. It is a design, not a system anyone adopted; what keeps it honest
+  is that eight of the nine stages link to where Bingo Bay actually ran them,
+  and the one that did not (delivery) says so. Keep that rule for any stage
+  added later.
 - Brief generator (`work/brief-generator.html`): the automation part of the same
   take-home. The assembly step runs live in the page; the n8n, Slack and Jira
   flow around it is a design, not a deployed system. The "7 to 9 hours a week"

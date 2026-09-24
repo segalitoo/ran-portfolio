@@ -1,7 +1,8 @@
 /* ══════════════════════════════════════════════════════════
    Bingo Bay · page behaviour
    Swatches that copy, the 55-frame contact sheet, the soundtrack
-   player, the nine workflow stages and the chapter rail. Ported
+   player and the chapter rail. The nine workflow stages moved to
+   their own page, work/ai-workflow.html. Ported
    from the take-home, where it all ran inline; the data is the
    same data, the rejection notes are the reasons given at the time.
    ══════════════════════════════════════════════════════════ */
@@ -228,32 +229,6 @@
       if (!seek.matches(':active')) seek.value = audio.currentTime;
     });
     seek.addEventListener('input', function () { audio.currentTime = +seek.value; });
-  }
-
-  /* ══ Workflow stages ══ */
-  var STAGES = [
-    ['01', 'Define', 'Ideation', '30 scored event concepts per sprint, trend and competitor scans.', 'The creative lead locks one direction. Volume is cheap, direction is not.'],
-    ['02', 'Define', 'Art direction', 'Moodboards and style exploration at volume.', 'The art director signs the lock: palette, render, light, cast. The highest-leverage call in the pipeline.'],
-    ['03', 'Define', 'UX exploration', 'Flow drafts and variant screens for lobby, progression and album.', 'A game designer checks the loop against the live economy.'],
-    ['04', 'Produce', 'Visual assets', 'Batch generation against the locked tokens, background removal, cutouts.', 'A person picks 1 of 8 to 12. Never the first output.'],
-    ['05', 'Produce', 'Music and sound', 'Loops, SFX and voice drafts from a style brief.', 'Audio direction clears the rights and judges every loop on a phone speaker.'],
-    ['06', 'Produce', 'Copy', 'Bulk drafts from a voice guide, fanned out to every locale.', 'The copy lead picks and trims. Claims never ship unreviewed.'],
-    ['07', 'Ship', 'Review and QA', 'Automated checks on palette, safe areas, contrast and artefacts.', 'Sign-off is mandatory: craft, economy and IP each have an owner.'],
-    ['08', 'Ship', 'Iteration', 'Variant regeneration from performance data.', 'Data proposes, a person disposes. Two cycles, then ship or kill.'],
-    ['09', 'Ship', 'Delivery', 'Export matrix, naming and versioned upload.', 'One release owner confirms the manifest.']
-  ];
-
-  var flow = document.getElementById('bbFlow');
-  if (flow) {
-    STAGES.forEach(function (s) {
-      var a = document.createElement('article');
-      a.className = 'bb-stage';
-      a.innerHTML = '<div class="bb-stage__h"><b>' + s[0] + '</b><span>' + s[1] + '</span></div>' +
-        '<h3 class="bb-stage__t">' + s[2] + '</h3>' +
-        '<p class="bb-stage__ai">' + s[3] + '</p>' +
-        '<p class="bb-stage__g"><span class="bb-k">Human gate</span>' + s[4] + '</p>';
-      flow.appendChild(a);
-    });
   }
 
   /* ══ Chapter rail ══
