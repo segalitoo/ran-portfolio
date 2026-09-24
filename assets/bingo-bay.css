@@ -90,7 +90,7 @@
 /* A phrase that has to travel as one, like the answer in
    "Three lines per placement. One ships." */
 .bb-nb { white-space: nowrap; }
-.bb-line { text-wrap: pretty; }
+
 .bb-ch__d { margin-top: 18px; max-width: 60ch; font-size: 1.04rem; line-height: 1.65; color: var(--text-secondary); }
 .bb-ch__d b { font-weight: 500; color: var(--text-primary); }
 .bb-body { margin-top: 40px; }
@@ -239,17 +239,44 @@
   font-size: 0.78rem; color: var(--text-secondary); border: 1px solid var(--hair);
 }
 
-/* ── 05 · The copy ─────────────────────────────── */
-.bb-line {
-  margin-top: 4px; font-size: clamp(1.25rem, 2.1vw, 1.6rem); font-weight: 600;
-  letter-spacing: -0.03em; line-height: 1.25; color: var(--text-primary);
+/* ── 05 · The copy ─────────────────────────────
+   The shipped lines sit inside small mocks of where they would appear,
+   a store banner and an in-game popup, so the copy reads as the thing
+   a player sees and the reasoning under it reads as a note about it.
+   The mocks are game content, so they wear the event palette. */
+.bb-mock { margin-top: 4px; color: var(--bb-dusk); }
+.bb-mock__line { font-size: clamp(1.1rem, 1.7vw, 1.3rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.3; text-wrap: pretty; }
+
+.bb-mock--banner {
+  position: relative; overflow: hidden; padding: 20px 22px 22px; border-radius: 16px; color: #fff;
+  background: linear-gradient(115deg, var(--bb-amber) 0%, var(--bb-coral) 55%, var(--bb-rose) 100%);
+  box-shadow: 0 14px 30px -18px rgba(255, 111, 97, 0.9);
 }
-.bb-cta {
-  display: inline-block; margin-top: 12px; padding: 6px 14px; border-radius: var(--radius-full);
-  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
-  background: var(--primary-tint); color: var(--primary);
+.bb-mock--banner::after {
+  content: ""; position: absolute; right: -40px; top: -60px; width: 180px; height: 180px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 244, 226, 0.45), rgba(255, 244, 226, 0) 70%);
 }
-.bb-why { margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary); }
+.bb-mock__tag {
+  display: inline-block; margin-bottom: 10px; padding: 3px 9px; border-radius: var(--radius-full);
+  font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.24);
+}
+.bb-mock--banner .bb-mock__line { position: relative; text-shadow: 0 1px 0 rgba(58, 42, 92, 0.18); }
+
+.bb-mock--popup {
+  max-width: 380px; padding: 24px 24px 22px; border-radius: 22px; text-align: center;
+  background: var(--bb-cream); border: 3px solid var(--bb-gold);
+  box-shadow: 0 6px 0 var(--bb-sand), 0 22px 36px -18px rgba(58, 42, 92, 0.45);
+}
+.bb-mock__btn {
+  display: inline-block; margin-top: 16px; padding: 11px 26px; border-radius: 14px;
+  font-size: 0.8rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bb-dusk);
+  background: linear-gradient(180deg, #FFD978 0%, var(--bb-gold) 55%, var(--bb-amber) 100%);
+  box-shadow: 0 4px 0 #D9822E, inset 0 2px 0 rgba(255, 255, 255, 0.6);
+}
+
+.bb-why { margin-top: 18px; font-size: 0.9rem; line-height: 1.55; color: var(--text-secondary); }
+.bb-why .bb-k { display: block; margin-bottom: 4px; }
 .bb-passed { list-style: none; margin: 22px 0 0; padding: 18px 0 0; border-top: 1px dashed var(--hair-hi); display: grid; gap: 14px; }
 .bb-passed li { font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
 .bb-passed q { quotes: none; display: block; color: var(--text-secondary); text-decoration: line-through; text-decoration-color: var(--hair-hi); }
