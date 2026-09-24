@@ -280,7 +280,14 @@
    however tall either mock turns out. The banner stretches to the
    popup's height rather than leaving its notes floating higher. */
 .bb-copyg { row-gap: 0; }
-.bb-copyg > div { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; }
+.bb-copyg > div { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 0; align-content: start; }
+/* Each passed line is a row of its own, so the second alternative in one
+   column lines up with the second in the other even when the first one
+   wraps. The list steps aside and its dashed rule moves to the first item. */
+.bb-copyg .bb-passed { display: contents; }
+.bb-copyg .bb-passed li { align-self: start; }
+.bb-copyg .bb-passed li:first-child { margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--hair-hi); }
+.bb-copyg .bb-passed li + li { margin-top: 14px; }
 .bb-copyg .bb-mock { align-self: stretch; }
 .bb-copyg .bb-mock--banner { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
 .bb-copyg .bb-mock--popup { display: flex; flex-direction: column; justify-content: center; align-items: center; }
