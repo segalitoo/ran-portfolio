@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!-- Hand-written, outside tools/build-project-pages.py on purpose: the
+     hero holds a working tool rather than an image, which the -g
+     template has no slot for. A rebuild of the other pages never
+     touches this file. -->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brief generator &middot; Ran Segal</title>
+  <meta name="description" content="Every asset request becomes a brief, and a lead writes each one from scratch. This turns a two-minute intake into a finished brief that inherits the locked art direction. The lead approves it instead of writing it.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://segalitoo.github.io/ran-portfolio/work/brief-generator.html">
+  <meta property="og:title" content="Brief generator &middot; Ran Segal">
+  <meta property="og:description" content="A two-minute intake becomes a finished creative brief that inherits the locked art direction. The lead approves it instead of writing it.">
+  <meta property="og:image" content="https://segalitoo.github.io/ran-portfolio/images/card/brief-generator-1280.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Brief generator &middot; Ran Segal">
+  <meta name="twitter:image" content="https://segalitoo.github.io/ran-portfolio/images/card/brief-generator-1280.webp">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../brand-system/fonts.css">
+  <link rel="stylesheet" href="../brand-system/tokens.css">
+  <link rel="stylesheet" href="../assets/site.css?v=be4e8e10">
+  <link rel="stylesheet" href="../assets/inner-g.css?v=301b2c1b">
+  <link rel="stylesheet" href="../assets/brief-generator.css?v=2fab2ec2">
+  <script src="../assets/analytics.js?v=0abadbbb" defer></script>
+  <script src="../assets/site.js?v=0f7e54d3" defer></script>
+  <script src="../assets/brief-generator.js?v=4065cce0" defer></script>
+</head>
+
+<body class="pg">
+  <nav class="nav" id="nav">
+    <div class="nav__in">
+      <a class="nav__me" href="../">Ran Segal <span>&middot; Creative Lead</span></a>
+      <div class="nav__links">
+        <a class="nav__a" href="../#ai">AI tools</a>
+        <a class="nav__a" href="../#bay">Creative</a>
+        <a class="nav__a" href="../#work">Work</a>
+      </div>
+      <button class="nav__theme" id="themeBtn" aria-label="Toggle light and dark theme">
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <header class="pg-hero">
+      <div class="pg-wrap pg-hero__in">
+        <div>
+          <a class="pg-back" href="../#bay"><i>&larr;</i> All work</a>
+          <h1 class="pg-h1">Brief generator</h1>
+          <p class="pg-alias">Part of the Bingo Bay take-home &middot; 2026</p>
+          <p class="pg-lede">Every asset request turns into a brief, and a creative lead writes each one from scratch. This turns a two-minute intake into a finished brief that already carries the locked art direction, the prompt, the QA list and the file naming. The lead approves it instead of writing it.</p>
+          <div class="acts"><a class="btn btn--fill" href="#flow">How it runs <i>&darr;</i></a></div>
+        </div>
+        <div class="pg-hero__art">
+          <div class="bg-app" aria-label="Working prototype of the brief generator">
+            <div class="bg-app__bar">
+              <span class="bg-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="bg-app__fn" id="outName">brief.md</span>
+              <span class="bg-app__acts">
+                <button class="bg-btn" id="copyOut" type="button">Copy</button>
+                <button class="bg-btn" id="dlOut" type="button">Download .md</button>
+              </span>
+            </div>
+            <div class="bg-form">
+              <div class="bg-fld">
+                <label for="bType">Asset type</label>
+                <select id="bType">
+                  <option value="pet">Collectible character</option>
+                  <option value="keyart">Key art / promo image</option>
+                  <option value="ui">UI screen background</option>
+                  <option value="music">Music loop</option>
+                  <option value="copy">Marketing copy</option>
+                </select>
+              </div>
+              <div class="bg-fld">
+                <label for="bEvent">Event</label>
+                <input id="bEvent" type="text" value="Summer Festival">
+              </div>
+              <div class="bg-fld bg-fld--wide">
+                <label for="bIntent">What it needs to be</label>
+                <textarea id="bIntent" rows="2">a shy pink axolotl pet with a seashell hat, rare tier</textarea>
+              </div>
+              <div class="bg-fld">
+                <label for="bDue">Deadline</label>
+                <input id="bDue" type="text" value="3 working days">
+              </div>
+              <div class="bg-fld">
+                <label for="bReq">Requester</label>
+                <input id="bReq" type="text" value="LiveOps team">
+              </div>
+            </div>
+            <pre class="bg-out" id="outBody" aria-live="polite"></pre>
+          </div>
+          <p class="bg-app__note">It runs right here. Change anything and the brief rewrites itself.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="pg-wrap">
+      <section class="pg-notes">
+        <div>
+          <h2 class="pg-note__k">What annoyed me</h2>
+          <p class="pg-note__d">A brief eats 45 to 60 minutes of a lead&rsquo;s day and still arrives half complete. The art direction gets retyped from memory, and the prompt drifts a little every time it does.</p>
+        </div>
+        <div>
+          <h2 class="pg-note__k">What I decided</h2>
+          <p class="pg-note__d"><b>A brief is a function of the request and the locked art direction.</b> If it can be computed, no lead should be writing one. They should be approving one.</p>
+        </div>
+        <div>
+          <h2 class="pg-note__k">What I built</h2>
+          <p class="pg-note__d">The assembly step as a working prototype in the page, and the production flow around it: Slack intake, context pulled from the brief library, Claude assembling, the lead approving, Jira and Drive delivering.</p>
+        </div>
+      </section>
+
+      <section class="pg-scope">
+        <h2 class="pg-scope__k">Scope</h2>
+        <div class="pg-scope__g">
+          <p class="pg-scope__i">5 asset types<span>Key art, characters, UI plates, music and copy</span></p>
+          <p class="pg-scope__i">The locks are read-only<span>Only the art director can change a token the brief cites</span></p>
+          <p class="pg-scope__i">Two human gates<span>The lead approves the brief, the art director owns the locks</span></p>
+          <p class="pg-scope__i">Around 7 to 9 hours a week<span>An estimate: 10 briefs at 45 to 60 minutes, against 5 minutes of intake and review</span></p>
+        </div>
+      </section>
+
+      <section class="bg-sec" id="flow">
+        <h2 class="bg-sec__k">How it runs</h2>
+        <p class="bg-sec__t">Nothing runs on a schedule. A request starts it.</p>
+        <p class="bg-sec__d">A new intake, or a Jira ticket labelled needs-brief, sets it off. n8n is the spine. The prototype above is the middle of it: the same template, the same locks, with Slack in front and the approval gate behind.</p>
+        <ol class="bg-flow">
+          <li class="bg-node"><span class="bg-node__k">Trigger</span><span class="bg-node__t">Intake</span><span class="bg-node__d">A Slack form or a Jira ticket: asset type, event, deadline, notes. Two minutes.</span></li>
+          <li class="bg-node bg-node--ai"><span class="bg-node__k">AI step</span><span class="bg-node__t">Context pull</span><span class="bg-node__d">Fetches the event&rsquo;s art direction, palette tokens and voice guide from the brief library.</span></li>
+          <li class="bg-node bg-node--ai"><span class="bg-node__k">AI step</span><span class="bg-node__t">Assembly</span><span class="bg-node__d">Claude writes the objective, spec, prompt, QA list and naming.</span></li>
+          <li class="bg-node bg-node--gate"><span class="bg-node__k">Human gate</span><span class="bg-node__t">Lead approval</span><span class="bg-node__d">Approve, edit, or reject with a reason that gets logged.</span></li>
+          <li class="bg-node"><span class="bg-node__k">Output</span><span class="bg-node__t">Delivered</span><span class="bg-node__d">The brief lands in Jira and Drive, the assignee is told, and a log row is waiting.</span></li>
+        </ol>
+
+        <div class="bg-cols">
+          <div>
+            <h3>In</h3>
+            <ul><li>Asset type and event</li><li>Deadline and requester</li><li>A free-text line of intent</li><li>The brief library: locks, voice guide, past briefs</li></ul>
+          </div>
+          <div>
+            <h3>Out</h3>
+            <ul><li>A structured brief: objective, spec, references</li><li>Prompts ready to paste</li><li>A QA checklist and file naming</li><li>An iteration log entry, already created</li></ul>
+          </div>
+          <div>
+            <h3>On</h3>
+            <ul><li>n8n, self-hosted, as the spine</li><li>The Claude API for assembly</li><li>Slack for intake and approval buttons</li><li>Jira and Google Drive for delivery</li></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-sec" id="log">
+        <h2 class="bg-sec__k">The other half</h2>
+        <div class="bg-log">
+          <div>
+            <p class="bg-sec__t" style="margin-top:0">The brief says what to make. The log says what happened.</p>
+            <p class="bg-sec__d">Every generation gets a verdict (kept, rejected, needs a fix), its prompt and its reason. Most creatives lose exactly that history, and it is the part that sharpens the next prompt and onboards the next hire. The differences between the two feed the next version of the locks.</p>
+            <div class="acts" style="margin-top:26px"><a class="btn btn--line" href="brief-generator/iteration-log.html">Open the iteration log <i>&rarr;</i></a></div>
+            <p class="bg-app__note">55 entries from the Bingo Bay build. Filter, reorder, edit, export. It runs in the browser and saves nothing to a server.</p>
+          </div>
+          <figure class="pg-gal__i">
+            <img src="../images/bingo-bay/iteration-log-1440.webp"
+                 srcset="../images/bingo-bay/iteration-log-720.webp 720w, ../images/bingo-bay/iteration-log-1440.webp 1440w"
+                 sizes="(max-width: 1080px) calc(100vw - 40px), 700px"
+                 alt="The iteration log: a grid of character generations, each with a kept or rejected badge, filters for status and asset above"
+                 width="1440" height="900" loading="lazy" decoding="async">
+          </figure>
+        </div>
+      </section>
+
+      <nav class="pg-next">
+        <a href="payoneer-website-g.html">
+          <span><span class="pg-next__k">Next</span><span class="pg-next__t" style="display:block">Payoneer website redesign</span></span>
+          <i>&rarr;</i>
+        </a>
+      </nav>
+
+      <footer class="pg-foot">
+        <span>Ran Segal &copy; 2026</span>
+        <span class="pg-foot__links">
+          <a href="https://www.linkedin.com/in/ran-segal-d/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:segalitoo@gmail.com">Email</a>
+        </span>
+      </footer>
+    </div>
+  </main>
+</body>
+
+</html>

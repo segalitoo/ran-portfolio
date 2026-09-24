@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<title>Iteration log &middot; Ran Segal</title>
+<meta name="description" content="Every generation from the Bingo Bay build, with its verdict, prompt and reason. Filter, reorder, edit, export.">
+<meta name="robots" content="noindex">
+<script src="../../assets/analytics.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../brand-system/fonts.css">
+<link rel="stylesheet" href="../../brand-system/tokens.css">
+<script>try{var t=localStorage.getItem('v2-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<style>
+  /* Outside the project-page template on purpose: this is a working tool,
+     ported from the take-home with its own layout. Only the palette and the
+     type were swapped, onto the portfolio tokens. */
+  :root{
+    --red:var(--primary);--redshadow:var(--primary-hover);--black:var(--text-primary);--white:var(--surface-2);
+    --on-ink:var(--surface-0);
+    --ink:var(--text-primary);--text:var(--text-primary);--muted:var(--text-secondary);--faint:var(--text-muted);
+    --line:var(--border);--line2:var(--border-strong);--bg:var(--surface-0);--card:var(--surface-2);--panel:var(--surface-1);
+    --red-soft:var(--primary-tint);--green-soft:var(--success-tint);--yellow-soft:var(--warning-tint);
+    --kept:var(--text-success);--kept-bg:var(--success-tint);--kept-line:color-mix(in srgb,var(--success) 40%,transparent);
+    --rej:var(--text-danger);--rej-bg:var(--danger-tint);--rej-line:color-mix(in srgb,var(--danger) 35%,transparent);
+    --fix:var(--text-warning);--fix-bg:var(--warning-tint);--fix-line:color-mix(in srgb,var(--warning) 45%,transparent);
+    --pend:var(--faint);--pend-bg:var(--panel);--pend-line:var(--line2);
+  }
+  /* tokens.css leaves the semantic text colours out of its system-dark
+     block, so without an explicit theme they would stay at their light
+     values on a dark ground. */
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --kept:#7FD9B4;--kept-bg:#11291F;--rej:#F59A9D;--rej-bg:#2E1517;--fix:#F2C46B;--fix-bg:#2E2310;
+    }
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--primary-tint);color:var(--text-primary)}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+  .mono{font-family:var(--font-mono)}
+  b,strong{color:var(--ink);font-weight:700}
+
+  /* top nav */
+  nav{border-bottom:1px solid var(--line);background:var(--white)}
+  nav .nbar{max-width:1120px;margin:0 auto;padding:0 28px;height:56px;display:flex;align-items:center;gap:16px}
+  nav .brand{font-family:var(--font-sans);font-weight:600;font-size:15px;letter-spacing:-.01em;color:var(--ink)}
+  nav .back{margin-left:auto;font-size:13px;font-weight:600;color:var(--on-ink);background:var(--black);text-decoration:none;padding:8px 16px;border-radius:100px;transition:background .15s}
+  nav .back:hover{background:var(--red)}
+
+  /* header */
+  .hero{padding:46px 0 8px;position:relative;overflow:hidden}
+  .hero .wrap{position:relative;z-index:1}
+  .kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);font-weight:600;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .hero h1{font-family:var(--font-sans);font-weight:600;letter-spacing:-.02em;font-size:clamp(32px,5vw,48px);line-height:1;letter-spacing:-.015em;color:var(--ink)}
+  
+  .hint{font-size:14px;color:var(--muted);margin-top:12px;max-width:560px}
+  .hint b{font-weight:700}
+
+  /* stats strip */
+  .stats{display:flex;gap:0;margin-top:26px;border:1px solid var(--line2);border-radius:14px;background:var(--card);overflow:hidden;width:fit-content}
+  .stat{padding:15px 26px 13px 20px;cursor:pointer;border-inline-end:1px solid var(--line2);transition:background .12s;min-width:120px}
+  .stat:last-child{border-inline-end:none}
+  .stat:hover{background:var(--panel)}
+  .stat .n{font-family:var(--font-sans);font-weight:600;font-size:26px;letter-spacing:-.01em;line-height:1;display:flex;align-items:center;gap:8px;color:var(--red)}
+  .stat .l{font-size:11.5px;color:var(--muted);margin-top:5px;font-weight:600}
+  .stat .d{width:8px;height:8px;border-radius:50%;flex:none}
+  .stat.kept .d{background:var(--kept)} .stat.rej .d{background:var(--rej)} .stat.fix .d{background:var(--fix)}
+  .stat.kept .n{color:var(--kept)} .stat.rej .n{color:var(--rej)} .stat.fix .n{color:var(--fix)}
+  .stat.act{background:var(--black)}
+  .stat.act .n,.stat.act .l{color:var(--on-ink)}
+  .stat.act .d{outline:2px solid rgba(255,255,255,.35)}
+  .stat.act:hover{background:var(--black)}
+
+  /* controls */
+  .controls{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--surface-0) 90%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .18s}
+  .controls.stuck{border-bottom-color:var(--line)}
+  .controls .wrap{padding-top:16px;padding-bottom:14px}
+  .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .btn{font-family:var(--font-sans);font-size:13px;font-weight:700;padding:9px 15px;border-radius:100px;cursor:pointer;transition:all .13s;border:1px solid var(--line2);background:var(--card);color:var(--ink)}
+  .btn:hover{border-color:var(--black)}
+  .btn.primary{background:var(--red);border-color:var(--red);color:var(--on-primary);box-shadow:0 6px 18px color-mix(in srgb,var(--primary) 24%,transparent)}
+  .btn.primary:hover{background:var(--redshadow);border-color:var(--redshadow);transform:translateY(-1px)}
+  .btn.quiet{border-color:transparent;background:transparent;color:var(--muted);font-weight:600}
+  .btn.quiet:hover{color:var(--ink);background:var(--panel)}
+  .spacer{flex:1}
+
+  .filterbar{display:flex;gap:8px 22px;flex-wrap:wrap;align-items:center;margin-top:13px}
+  .fgroup{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .fglabel{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-inline-end:4px}
+  .chip{font-family:var(--font-sans);font-size:12.5px;font-weight:600;color:var(--muted);background:var(--white);border:1px solid var(--line2);border-radius:100px;padding:6px 13px;cursor:pointer;transition:all .12s;display:inline-flex;align-items:center;gap:6px}
+  .chip:hover{color:var(--ink);border-color:var(--black)}
+  .chip.on{background:var(--black);color:var(--on-ink);border-color:var(--black)}
+  .chip .ct{opacity:.6;font-size:11px;font-family:var(--font-mono)}
+  .chip .ae{font-size:13px}
+  .showing{font-size:12px;color:var(--faint);margin:18px 0 -6px}
+
+  /* grid */
+  #list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;padding:22px 0 70px}
+  .gcard{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line2);border-radius:14px;overflow:hidden;cursor:pointer;user-select:none;transition:border-color .14s,box-shadow .14s,transform .14s,opacity .15s;outline:none}
+  .gcard:hover,.gcard:focus-visible{border-color:var(--black);transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.1)}
+  .gcard.dragging{opacity:.35;box-shadow:none}
+  .gcard.dbefore{box-shadow:-3px 0 0 var(--red)}
+  .gcard.dafter{box-shadow:3px 0 0 var(--red)}
+  .gthumb{position:relative;width:100%;aspect-ratio:4/3;background:var(--panel);border-bottom:1px solid var(--line)}
+  .gthumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;-webkit-user-drag:none;pointer-events:none}
+  .gthumb.ph{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;color:var(--faint);font-family:var(--font-mono);font-size:11px}
+  .gthumb.ph .big{font-size:22px;color:var(--line2)}
+  .gfoot{padding:12px 14px 13px;display:flex;flex-direction:column;gap:8px}
+  .grow1{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .gleft{display:flex;align-items:center;gap:8px;min-width:0}
+  .ghandle{font-size:11px;line-height:1;color:var(--line2);cursor:grab;transition:color .12s;letter-spacing:-1px}
+  .gcard:hover .ghandle{color:var(--faint)}
+  .gtok{font-family:var(--font-mono);font-size:11px;color:var(--faint);display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
+  .gtok .te{font-size:13px}
+  .gname{font-family:var(--font-sans);font-weight:600;letter-spacing:-.02em;font-size:15px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .gname .gver{font-family:var(--font-mono);font-style:normal;font-size:11px;color:var(--faint);font-weight:500;margin-inline-start:8px;text-transform:none}
+
+  /* status badge */
+  .badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:4px 9px;border-radius:6px;border:1px solid;white-space:nowrap}
+  .badge .bd{width:6px;height:6px;border-radius:50%;flex:none}
+  .badge.kept{color:var(--kept);border-color:var(--kept-line);background:var(--kept-bg)} .badge.kept .bd{background:var(--kept)}
+  .badge.rejected{color:var(--rej);border-color:var(--rej-line);background:var(--rej-bg)} .badge.rejected .bd{background:var(--rej)}
+  .badge.fix{color:var(--fix);border-color:var(--fix-line);background:var(--fix-bg)} .badge.fix .bd{background:var(--fix)}
+  .badge.pending{color:var(--pend);border-color:var(--pend-line);background:var(--pend-bg)} .badge.pending .bd{background:var(--pend)}
+
+  /* popover */
+  .pop{position:fixed;z-index:90;width:330px;max-width:calc(100vw - 24px);background:var(--card);border:1px solid var(--line2);border-radius:12px;padding:16px;box-shadow:0 6px 16px rgba(0,0,0,.1),0 20px 48px rgba(0,0,0,.16);opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .12s,transform .12s;display:none}
+  .pop.on{display:block;opacity:1;transform:translateY(0)}
+  .pop .phead{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:13px}
+  .pop .pttl{font-family:var(--font-sans);font-weight:600;letter-spacing:-.02em;font-size:14px;color:var(--ink)}
+  .pop .prow{margin-bottom:10px}
+  .pop .prow:last-child{margin-bottom:0}
+  .pop .pk{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:3px}
+  .pop .pv{font-size:12.5px;color:var(--ink);line-height:1.5;word-break:break-word;white-space:pre-wrap;max-height:110px;overflow:auto}
+  .pop .pv.mono{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+  .pop .pv.empty{color:var(--faint)}
+
+  /* modal */
+  .modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.45);display:none;align-items:flex-start;justify-content:center;padding:48px 18px;overflow-y:auto}
+  .modal.on{display:flex}
+  .mpanel{position:relative;width:100%;max-width:700px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:0 12px 30px rgba(0,0,0,.14),0 30px 70px rgba(0,0,0,.2)}
+  .mx{position:absolute;top:15px;right:15px;width:32px;height:32px;border-radius:9px;border:none;background:transparent;color:var(--faint);font-size:15px;cursor:pointer;z-index:2;transition:all .12s}
+  .mx:hover{color:var(--ink);background:var(--panel)}
+  .medit{display:flex;gap:20px;align-items:stretch}
+
+  /* editor fields */
+  .thumb{width:230px;min-width:230px;aspect-ratio:3/4;border-radius:12px;border:1.5px dashed var(--line2);background:var(--panel);display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;overflow:hidden;position:relative;transition:border-color .15s,background .15s}
+  .thumb:hover{border-color:var(--red)}
+  .thumb.drag{border-color:var(--red);background:var(--red-soft)}
+  .thumb.has{border-style:solid;border-width:1px;border-color:var(--line);background:var(--panel)}
+  .thumb.has img{width:100%;height:100%;object-fit:contain;display:block}
+  .thumb .ph{padding:12px;color:var(--faint);font-size:11.5px;line-height:1.6;font-family:var(--font-mono)}
+  .thumb .ph .big{font-size:20px;display:block;margin-bottom:6px;color:var(--line2)}
+  .thumb .zoom{position:absolute;inset:0;display:none;align-items:flex-end;justify-content:flex-start;padding:8px;background:linear-gradient(0deg,rgba(0,0,0,.35),transparent 45%)}
+  .thumb.has:hover .zoom{display:flex}
+  .thumb .zoom span{font-family:var(--font-mono);font-size:10px;color:#fff;background:rgba(0,0,0,.5);padding:3px 8px;border-radius:5px}
+  .thumb .rm{position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:6px;border:none;background:rgba(0,0,0,.6);color:#fff;font-size:12px;cursor:pointer;display:none;align-items:center;justify-content:center}
+  .thumb.has:hover .rm{display:flex}
+
+  .fields{flex:1;display:flex;flex-direction:column;gap:14px;min-width:0}
+  .chead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .token{font-family:var(--font-mono);font-size:12px;color:var(--muted);display:inline-flex;gap:6px;align-items:center;padding:8px 11px;border-radius:8px;background:var(--panel);white-space:nowrap}
+  .token .te{font-size:14px}
+  .cap{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:600}
+  .fld{display:flex;flex-direction:column;gap:5px}
+  select,input[type=text],textarea{font-family:var(--font-sans);font-size:13px;color:var(--ink);background:var(--card);border:1px solid var(--line2);border-radius:9px;padding:9px 11px;outline:none;transition:border-color .12s,box-shadow .12s;width:100%}
+  select:focus,input:focus,textarea:focus{border-color:var(--red);box-shadow:var(--ring)}
+  select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238A92A3' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-inline-end:28px;-webkit-appearance:none;appearance:none}
+  .w-asset{width:170px}.w-ver{width:74px}.w-tool{width:175px}
+  input.ver{font-family:var(--font-mono);text-align:center}
+  textarea{resize:vertical;min-height:44px;line-height:1.55}
+  textarea.prompt{font-family:var(--font-mono);font-size:12px;min-height:64px;color:var(--muted)}
+  .decrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .verds{display:flex;gap:0;border:1px solid var(--line2);border-radius:9px;overflow:hidden}
+  .vpill{font-family:var(--font-sans);font-size:12.5px;font-weight:600;padding:8px 14px;cursor:pointer;border:none;border-inline-end:1px solid var(--line2);background:var(--card);color:var(--muted);transition:all .12s}
+  .vpill:last-child{border-inline-end:none}
+  .vpill:hover{color:var(--ink);background:var(--panel)}
+  .vpill.on.v-kept{background:var(--kept-bg);color:var(--kept);font-weight:700}
+  .vpill.on.v-rejected{background:var(--rej-bg);color:var(--rej);font-weight:700}
+  .vpill.on.v-fix{background:var(--fix-bg);color:var(--fix);font-weight:700}
+  .cmeta{display:flex;justify-content:flex-end;margin-top:2px}
+  .del{background:transparent;border:none;color:var(--faint);font-family:var(--font-sans);font-size:12px;font-weight:600;cursor:pointer;padding:6px 9px;border-radius:7px;transition:all .12s}
+  .del:hover{color:var(--rej);background:var(--rej-bg)}
+
+  /* empty */
+  .empty{grid-column:1/-1;border:1.5px dashed var(--line2);border-radius:14px;padding:56px 24px;text-align:center;color:var(--muted)}
+  .empty h3{font-family:var(--font-sans);font-weight:600;letter-spacing:-.02em;font-size:19px;color:var(--ink);margin-bottom:6px}
+  .empty p{font-size:13px;max-width:400px;margin:0 auto 18px;color:var(--muted)}
+
+  /* lightbox */
+  .lb{position:fixed;inset:0;z-index:110;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;padding:32px}
+  .lb.on{display:flex}
+  .lb img{max-width:100%;max-height:100%;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .lb .x{position:absolute;top:20px;right:20px;width:40px;height:40px;border-radius:11px;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:17px;cursor:pointer}
+
+  .toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,10px);z-index:120;background:var(--black);border-radius:100px;padding:11px 20px;font-size:13px;font-weight:600;color:var(--on-ink);box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;transition:all .22s;pointer-events:none}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+
+  @media(max-width:720px){
+    .stats{width:100%;flex-wrap:wrap}
+    .stat{flex:1;min-width:120px}
+    .stat:nth-child(2n){border-inline-end:none}
+    .medit{flex-direction:column}
+    .thumb{width:100%;min-width:0;aspect-ratio:4/3}
+    .hero{padding:32px 0 6px}
+  }
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nbar">
+    <span class="brand">Bingo Bay</span>
+    <a class="back" href="../brief-generator.html">&larr; Brief generator</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Bingo Bay &middot; Production record</div>
+    <h1>Iteration log</h1>
+    <p class="hint">Every generation from the Summer Festival build, with its verdict, prompt and reason. <b>Rejects are kept on purpose</b>, because they are the reasoning. Hover a card for detail, drag to reorder, click to edit.</p>
+
+    <div class="stats" id="stats">
+      <div class="stat" data-f="all"><div class="n" id="s-total">0</div><div class="l">Total</div></div>
+      <div class="stat kept" data-f="kept"><div class="n"><span class="d"></span><span id="s-kept">0</span></div><div class="l">Kept</div></div>
+      <div class="stat rej" data-f="rejected"><div class="n"><span class="d"></span><span id="s-rej">0</span></div><div class="l">Rejected</div></div>
+      <div class="stat fix" data-f="fix"><div class="n"><span class="d"></span><span id="s-fix">0</span></div><div class="l">Manual fix</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="controls" id="controls">
+  <div class="wrap">
+    <div class="bar">
+      <button class="btn primary" id="add">＋ New entry</button>
+      <div class="spacer"></div>
+      <button class="btn quiet" id="export">Export JSON</button>
+      <button class="btn quiet" id="importBtn">Import</button>
+      <button class="btn quiet" id="clear">Clear all</button>
+      <input type="file" id="importFile" accept="application/json" hidden>
+    </div>
+    <div class="filterbar">
+      <div class="fgroup"><span class="fglabel">Status</span><div class="fgroup" id="filters"></div></div>
+      <div class="fgroup"><span class="fglabel">Asset</span><div class="fgroup" id="afilters"></div></div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="showing" id="showing"></p>
+  <div id="list"></div>
+</main>
+
+<div class="pop" id="pop"></div>
+<div class="modal" id="modal"><div class="mpanel"><button class="mx" id="mx" title="Close">✕</button><div id="modalBody"></div></div></div>
+<div class="lb" id="lb"><button class="x" id="lbx">✕</button><img id="lbimg" alt=""></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const ASSETS=[
+  {k:'Mango',e:'🦜'},{k:'Coral',e:'🦀'},{k:'Shelly',e:'🐢'},{k:'Twinkle',e:'⭐'},
+  {k:'Splash',e:'🐬'},{k:'Background',e:'🏝️'},{k:'Key Art',e:'🖼️'},{k:'UI Screen',e:'📱'},{k:'Music',e:'🎵'},{k:'Other',e:'✦'}
+];
+const AMETA={};ASSETS.forEach(a=>AMETA[a.k]=a);
+function aget(k){return AMETA[k]||AMETA['Other'];}
+const TOOLS=['Nano Banana Pro','Suno Pro','Midjourney','DALL·E','Figma','Other'];
+const VERDS=[{v:'kept',t:'Kept'},{v:'rejected',t:'Rejected'},{v:'fix',t:'Manual fix'}];
+const VFILT=[{f:'all',t:'All'},{f:'kept',t:'Kept'},{f:'rejected',t:'Rejected'},{f:'fix',t:'Manual fix'},{f:'pending',t:'Pending'}];
+const VLABEL={kept:'Kept',rejected:'Rejected',fix:'Manual fix',pending:'Pending'};
+const KEY='rs_bb_iteration_log_v1';
+
+/* ---- seeded entries: character/scene selection pass, 2026-07-05 ---- */
+const SEEDKEY='rs_bb_seed_v1';
+const MANGO_PROMPT='Mango the Toucan, the original event host mascot. A rounded friendly toucan with glossy black feathers, a teal-blue sheen, and a warm cream-orange belly. One large smooth SOLID golden-orange beak (#FFC24B, single warm color, NOT multicolor striped, clearly distinct from Toucan Sam). Big happy expressive eyes, a small tropical flower lei around the neck. Energetic welcoming host pose, one wing raised as if presenting. Cheerful, slightly over-excited personality.  STYLE: glossy stylized 3D render, premium high-end casual mobile game character, soft rounded appealing shapes, glossy highlights, subsurface scattering, warm golden-hour lighting with subtle rim light, centered full body, clean neutral soft-gradient background for easy cutout, high detail, no text.';
+const SEED=(()=>{
+  const MAP={mango:'Mango',crab:'Coral',turtle:'Shelly',starfish:'Twinkle',dolphin:'Splash',scene:'Background'};
+  const T0=Date.parse('2026-07-03T15:23:00');
+  const COMMON='Shares the pack style: glossy vinyl-toy 3D render, warm peach-cream gradient bg, soft rim light, brown eyes with large catchlights, grounded happy pose, tropical accessory.';
+  const rows=[
+    ['mango',1,'rejected','Cutout on flat gray-white bg; cooler light, smaller flatter render.'],
+    ['mango',2,'rejected','Perched on a wooden branch, a prop no other character has.'],
+    ['mango',3,'rejected','Good render but calmer pose; less energy than the cast’s happy poses.'],
+    ['mango',4,'rejected','Eyes winking/closed, breaks the open brown-eye consistency.'],
+    ['mango',5,'rejected','Flying pose, eyes closed, feet not grounded.'],
+    ['mango',6,'rejected','Neutral cream bg, closed beak, subdued expression.'],
+    ['mango',7,'rejected','Stiffer pose, beak closed; slightly cooler bg.'],
+    ['mango',8,'rejected','Calm raised-wing pose, less expressive than the chosen iteration.'],
+    ['mango',9,'kept','CHOSEN: open brown eye, happy open beak, grounded pose, warm sunset-peach gradient, multicolor lei. '],
+    ['starfish',1,'rejected','Cool lavender-gray bg, off the warm palette.'],
+    ['starfish',2,'rejected','Lavender-tinted bg, softer/mushier render.'],
+    ['starfish',3,'rejected','Lavender bg, flatter lighting.'],
+    ['starfish',4,'rejected','Leaning side pose weakens the star silhouette.'],
+    ['starfish',5,'rejected','Orange bokeh bg breaks the clean studio look.'],
+    ['starfish',6,'rejected','Elongated blob shape, loses the 5-point star form.'],
+    ['starfish',7,'rejected','Olive-green iris, breaks the brown-eye cast rule.'],
+    ['starfish',8,'rejected','Blurry sunset-bokeh bg, different depth treatment.'],
+    ['starfish',9,'rejected','Real-sky background instead of studio gradient.'],
+    ['starfish',10,'rejected','Strong backlit glow, lighting differs from the set.'],
+    ['starfish',11,'rejected','Purple-pink tint, flat frontal light.'],
+    ['starfish',12,'kept','CHOSEN: brown eyes matching the cast, cleanest 5-point star silhouette, sparkle detail, glossy rim-lit finish. '],
+    ['turtle',1,'rejected','Standing on pedestal prop, cool blue bg.'],
+    ['turtle',2,'rejected','Blue-tinted bg, off the warm peach palette.'],
+    ['turtle',3,'rejected','More ceramic/porcelain material than the set’s vinyl look.'],
+    ['turtle',4,'kept','CHOSEN: rich brown eyes, warm peach bg, glossy shell, multicolor lei that echoes Mango’s. '],
+    ['turtle',5,'rejected','Blue-green bg, waving side pose.'],
+    ['turtle',6,'rejected','Sand pedestal prop, side profile pose.'],
+    ['turtle',7,'rejected','Half-lidded sleepy eyes, expression off.'],
+    ['turtle',8,'rejected','Cooler gray bg, chunkier proportions, gold-outlined shell differs.'],
+    ['crab',1,'rejected','Blue eyes, breaks cast eye consistency.'],
+    ['crab',2,'kept','CHOSEN: grounded pose, hibiscus accessory, warm orange bg, dark warm eyes; correct anatomy (no eyestalks). '],
+    ['crab',3,'rejected','Gray muted bg, flatter light.'],
+    ['crab',4,'rejected','Raised eyestalks, different anatomy from the set.'],
+    ['crab',5,'rejected','Blue eyes, near-white bg.'],
+    ['crab',6,'rejected','Floating mid-air pose, pinkish bg.'],
+    ['crab',7,'rejected','Eyestalks again, anatomy mismatch.'],
+    ['crab',8,'rejected','Blue eyes, cool blue bg.'],
+    ['dolphin',1,'rejected','Orange life-vest prop, cool gray bg.'],
+    ['dolphin',2,'rejected','Cool blue-gray bg, flat shadow floor.'],
+    ['dolphin',3,'rejected','Strong runner-up; bg paler/cooler than the set.'],
+    ['dolphin',4,'rejected','Real sunset-sky photo bg instead of studio gradient.'],
+    ['dolphin',5,'rejected','Over-saturated orange-purple duotone bg.'],
+    ['dolphin',6,'rejected','Cool blue bg, heavier splash.'],
+    ['dolphin',7,'kept','CHOSEN: warm peach-cream backdrop, glowing rim light, sparkly splash matching the starfish treatment. Note: no dolphin iteration had both a brown eye and a warm bg; lighting/material cohesion won. '],
+    ['dolphin',8,'rejected','Brown eye (good) but medal + armband props and mint bg break the set.'],
+    ['scene',1,'rejected','Darker red sky, empty stage area, flatter render.'],
+    ['scene',2,'kept','CHOSEN: only background rendered in the same modeled-3D glossy style as the characters; peach sky, teal water and bunting repeat the exact character palette. '],
+    ['scene',3,'rejected','Too empty and washed-out at center.'],
+    ['scene',4,'rejected','Painterly 2D illustration style vs the characters’ 3D look.'],
+    ['scene',5,'rejected','Lighthouse + bar composition, busier and different.'],
+    ['scene',6,'rejected','Key art with characters baked in, not a reusable background.'],
+    ['scene',7,'rejected','Flatter, more 2D rendering.'],
+    ['scene',8,'rejected','Promo key art with MANGO logo, not a background.'],
+    ['scene',9,'rejected','Soft painterly style, less 3D.'],
+    ['scene',10,'rejected','Painterly wide lagoon, style mismatch with 3D characters.']
+  ];
+  return rows.map((r,i)=>{
+    const nn=String(r[1]).padStart(2,'0');
+    return {id:'seed_'+r[0]+'_'+nn,asset:MAP[r[0]],version:'v'+r[1],tool:'Nano Banana Pro',prompt:(r[0]==='mango'?MANGO_PROMPT:''),
+      verdict:r[2],notes:r[3]+(r[2]==='kept'?COMMON:''),img:'../../images/bingo-bay/sheet/'+r[0]+'_'+nn+'-s.webp',ts:T0+i*60000};
+  });
+})();
+const $=s=>document.querySelector(s);
+let data=[], filter='all', assetFilter='all', editId=null, seqMap={};
+
+function load(){
+  try{data=JSON.parse(localStorage.getItem(KEY))||[]}catch(e){data=[]}
+  data.forEach(it=>{
+    if(it.result){it.notes=[it.result,it.notes].filter(Boolean).join('. ');delete it.result;}
+  });
+  /* one-time seed of the selection pass; won't duplicate or resurrect deleted entries */
+  if(!localStorage.getItem(SEEDKEY)){
+    const have=new Set(data.map(x=>x.id));
+    const add=SEED.filter(s=>!have.has(s.id));
+    if(add.length)data=data.concat(add);
+    try{localStorage.setItem(SEEDKEY,'1');}catch(_){}
+    save();
+  }
+  /* one-time patch: fill Mango prompt on already-seeded entries */
+  if(!localStorage.getItem('rs_bb_patch_mango_prompt_v1')){
+    data.forEach(x=>{if(/^seed_mango_/.test(x.id)&&!x.prompt)x.prompt=MANGO_PROMPT;});
+    try{localStorage.setItem('rs_bb_patch_mango_prompt_v1','1');}catch(_){}
+    save();
+  }
+}
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(data));}
+  catch(e){toast('Browser storage full, export JSON to back up');}
+}
+function uid(){return 'i'+Math.random().toString(36).slice(2,9);}
+
+function compress(blob){
+  return new Promise((res,rej)=>{
+    const img=new Image();
+    img.onload=()=>{
+      const max=680, sc=Math.min(1,max/Math.max(img.width,img.height));
+      const w=Math.round(img.width*sc), h=Math.round(img.height*sc);
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      res(c.toDataURL('image/jpeg',0.78));
+    };
+    img.onerror=rej;
+    img.src=URL.createObjectURL(blob);
+  });
+}
+async function setImg(id,blob){
+  if(!blob||!blob.type||!blob.type.startsWith('image/'))return;
+  try{const url=await compress(blob);const it=data.find(x=>x.id===id);if(!it)return;it.img=url;save();render();if(editId===id)renderModal();toast('Screenshot added');}
+  catch(e){toast('Could not load image');}
+}
+
+function nextVersion(asset){const n=data.filter(x=>x.asset===asset).length;return 'v'+(n+1);}
+function add(){
+  const first=ASSETS[0].k;
+  const it={id:uid(),asset:first,version:nextVersion(first),tool:TOOLS[0],prompt:'',verdict:'pending',notes:'',img:'',ts:Date.now()};
+  data.unshift(it);save();render();openEdit(it.id);
+}
+function update(id,patch){const it=data.find(x=>x.id===id);if(!it)return;Object.assign(it,patch);save();}
+function del(id){data=data.filter(x=>x.id!==id);save();render();}
+
+function vcount(f){return f==='all'?data.length:data.filter(x=>x.verdict===f).length;}
+function stats(){
+  $('#s-total').textContent=data.length;
+  $('#s-kept').textContent=vcount('kept');
+  $('#s-rej').textContent=vcount('rejected');
+  $('#s-fix').textContent=vcount('fix');
+  document.querySelectorAll('.stat').forEach(s=>s.classList.toggle('act',s.dataset.f===filter&&filter!=='all'));
+}
+function renderFilters(){
+  $('#filters').innerHTML=VFILT.map(v=>{
+    const on=filter===v.f;
+    return '<button class="chip'+(on?' on':'')+'" data-f="'+v.f+'">'+v.t+'<span class="ct">'+vcount(v.f)+'</span></button>';
+  }).join('');
+  const counts={};data.forEach(x=>counts[x.asset]=(counts[x.asset]||0)+1);
+  let html='<button class="chip'+(assetFilter==='all'?' on':'')+'" data-a="all">All<span class="ct">'+data.length+'</span></button>';
+  html+=ASSETS.filter(a=>counts[a.k]).map(a=>{
+    const on=assetFilter===a.k;
+    return '<button class="chip'+(on?' on':'')+'" data-a="'+a.k+'"><span class="ae">'+a.e+'</span>'+a.k+'<span class="ct">'+counts[a.k]+'</span></button>';
+  }).join('');
+  $('#afilters').innerHTML=html;
+}
+
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function badge(v){return '<span class="badge '+v+'"><span class="bd"></span>'+VLABEL[v]+'</span>';}
+
+function render(){
+  stats();renderFilters();
+  const list=$('#list'),showing=$('#showing');
+  seqMap={};[...data].sort((a,b)=>a.ts-b.ts).forEach((x,i)=>seqMap[x.id]=i+1);
+  const rows=data.filter(x=>(filter==='all'||x.verdict===filter)&&(assetFilter==='all'||x.asset===assetFilter));
+
+  if(rows.length!==data.length&&data.length){
+    showing.textContent='Showing '+rows.length+' of '+data.length
+      +(assetFilter!=='all'?' · '+assetFilter:'')
+      +(filter!=='all'?' · '+VLABEL[filter]:'');
+  } else showing.textContent='';
+
+  if(!data.length){
+    list.innerHTML='<div class="empty"><h3>No iterations yet</h3><p>Add an entry for each generation, drop in the screenshot, and record the decision.</p><button class="btn primary" onclick="add()">＋ Add the first one</button></div>';
+    return;
+  }
+  if(!rows.length){list.innerHTML='<div class="empty"><h3>Nothing matches this filter</h3><p>Adjust the Status or Asset filter above.</p></div>';return;}
+
+  list.innerHTML=rows.map(it=>{
+    const v=it.verdict||'pending';
+    const a=aget(it.asset);
+    const thumb=it.img?'<div class="gthumb"><img loading="lazy" src="'+it.img+'" alt=""></div>':'<div class="gthumb ph"><span class="big">＋</span>no screenshot</div>';
+    return '<div class="gcard" data-id="'+it.id+'" tabindex="0" draggable="true">'
+      + thumb
+      + '<div class="gfoot">'
+      +   '<div class="grow1"><span class="gleft"><span class="ghandle" aria-hidden="true">⠿</span><span class="gtok"><span class="te">'+a.e+'</span>#'+seqMap[it.id]+'</span></span>'+badge(v)+'</div>'
+      +   '<div class="gname">'+esc(it.asset)+'<span class="gver">'+esc(it.version)+'</span></div>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+/* ---- full editor markup (modal) ---- */
+function editHTML(it){
+  const a=aget(it.asset);
+  const assetOpts=ASSETS.map(x=>'<option value="'+x.k+'"'+(x.k===it.asset?' selected':'')+'>'+x.e+' '+x.k+'</option>').join('');
+  const toolOpts=TOOLS.map(t=>'<option'+(t===it.tool?' selected':'')+'>'+t+'</option>').join('');
+  const verds=VERDS.map(v=>'<button class="vpill v-'+v.v+(it.verdict===v.v?' on':'')+'" data-v="'+v.v+'">'+v.t+'</button>').join('');
+  const thumb=it.img
+    ? '<div class="thumb has" data-drop><img src="'+it.img+'" alt=""><button class="rm" data-rm title="Remove">✕</button><div class="zoom"><span>Enlarge ⤢</span></div></div>'
+    : '<div class="thumb" data-drop><div class="ph"><span class="big">＋</span>paste · drop · click<br>a screenshot</div></div>';
+  return '<div class="medit">'
+    + thumb
+    + '<div class="fields">'
+    +   '<div class="chead"><span class="token"><span class="te">'+a.e+'</span>#'+seqMap[it.id]+'</span>'
+    +     '<select class="w-asset" data-fx="asset" title="Asset">'+assetOpts+'</select>'
+    +     '<input class="ver w-ver" type="text" data-fx="version" title="Version" value="'+esc(it.version)+'">'
+    +     '<select class="w-tool" data-fx="tool" title="Tool">'+toolOpts+'</select>'
+    +   '</div>'
+    +   '<div class="decrow"><span class="cap">Decision</span><div class="verds">'+verds+'</div></div>'
+    +   '<div class="fld"><span class="cap">Prompt</span><textarea class="prompt" data-fx="prompt" placeholder="The prompt used for this generation">'+esc(it.prompt)+'</textarea></div>'
+    +   '<div class="fld"><span class="cap">Notes</span><textarea data-fx="notes" placeholder="What came out, why it was rejected, or what fix was applied">'+esc(it.notes)+'</textarea></div>'
+    +   '<div class="cmeta"><button class="del" data-del>Delete entry</button></div>'
+    + '</div></div>';
+}
+function renderModal(){const it=data.find(x=>x.id===editId);if(!it){closeEdit();return;}$('#modalBody').innerHTML=editHTML(it);}
+function openEdit(id){editId=id;hidePop();renderModal();$('#modal').classList.add('on');}
+function closeEdit(){editId=null;$('#modal').classList.remove('on');render();}
+
+/* ---- hover popover ---- */
+function prow(k,v,mono){const empty=!v;return '<div class="prow"><div class="pk">'+k+'</div><div class="pv'+(mono?' mono':'')+(empty?' empty':'')+'">'+(empty?'none':esc(v))+'</div></div>';}
+function showPop(card){
+  if(editId||dragId)return;
+  const it=data.find(x=>x.id===card.dataset.id);if(!it)return;
+  const pop=$('#pop'),a=aget(it.asset);
+  pop.innerHTML='<div class="phead"><span class="pttl">'+a.e+' '+esc(it.asset)+' '+esc(it.version)+'</span>'+badge(it.verdict||'pending')+'</div>'
+    +prow('Tool',it.tool)+prow('Prompt',it.prompt,true)+prow('Notes',it.notes);
+  pop.classList.add('on');
+  const r=card.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight;
+  let left=r.left;if(left+pw>innerWidth-12)left=innerWidth-12-pw;if(left<12)left=12;
+  let top=r.bottom+8;if(top+ph>innerHeight-12)top=r.top-ph-8;if(top<12)top=12;
+  pop.style.left=left+'px';pop.style.top=top+'px';
+}
+function hidePop(){$('#pop').classList.remove('on');}
+
+/* ---- list interactions ---- */
+const listEl=$('#list');
+listEl.addEventListener('click',e=>{const c=e.target.closest('.gcard');if(c)openEdit(c.dataset.id);});
+listEl.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const c=e.target.closest('.gcard');if(c){e.preventDefault();openEdit(c.dataset.id);}}});
+listEl.addEventListener('mouseover',e=>{const c=e.target.closest('.gcard');if(c)showPop(c);});
+listEl.addEventListener('mouseout',e=>{const c=e.target.closest('.gcard');if(c&&!c.contains(e.relatedTarget))hidePop();});
+window.addEventListener('scroll',hidePop,{passive:true});
+
+/* ---- drag to reorder ---- */
+let dragId=null;
+function clearMarks(){listEl.querySelectorAll('.dbefore,.dafter').forEach(x=>x.classList.remove('dbefore','dafter'));}
+function endDrag(){clearMarks();listEl.querySelectorAll('.dragging').forEach(x=>x.classList.remove('dragging'));dragId=null;}
+listEl.addEventListener('dragstart',e=>{
+  const c=e.target.closest('.gcard');if(!c){e.preventDefault();return;}
+  dragId=c.dataset.id;hidePop();c.classList.add('dragging');
+  e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',dragId);}catch(_){}
+});
+listEl.addEventListener('dragover',e=>{
+  if(!dragId)return;e.preventDefault();e.dataTransfer.dropEffect='move';
+  const c=e.target.closest('.gcard');clearMarks();
+  if(!c||c.dataset.id===dragId)return;
+  const r=c.getBoundingClientRect();c.classList.add(e.clientX>r.left+r.width/2?'dafter':'dbefore');
+});
+listEl.addEventListener('drop',e=>{
+  if(!dragId)return;e.preventDefault();
+  const c=e.target.closest('.gcard');
+  if(c&&c.dataset.id!==dragId){const r=c.getBoundingClientRect();reorder(dragId,c.dataset.id,e.clientX>r.left+r.width/2);}
+  endDrag();
+});
+listEl.addEventListener('dragend',endDrag);
+function reorder(id,targetId,after){
+  const from=data.findIndex(x=>x.id===id);if(from<0)return;
+  const item=data.splice(from,1)[0];
+  let ti=data.findIndex(x=>x.id===targetId);if(ti<0){data.splice(from,0,item);return;}
+  if(after)ti++;
+  data.splice(ti,0,item);save();render();
+}
+
+/* ---- modal editor interactions ---- */
+const mBody=$('#modalBody');
+mBody.addEventListener('click',e=>{
+  const id=editId;if(!id)return;
+  if(e.target.closest('[data-del]')){if(confirm('Delete this entry?')){del(id);closeEdit();}return;}
+  if(e.target.closest('[data-rm]')){update(id,{img:''});renderModal();return;}
+  const vp=e.target.closest('.vpill');
+  if(vp){const it=data.find(x=>x.id===id);const nv=vp.dataset.v;update(id,{verdict:it.verdict===nv?'pending':nv});renderModal();return;}
+  const thumb=e.target.closest('[data-drop]');
+  if(thumb){const it=data.find(x=>x.id===id);if(it&&it.img&&!e.target.closest('[data-rm]'))openLb(it.img);else pickFile(id);}
+});
+mBody.addEventListener('change',e=>{const fx=e.target.dataset.fx;if(!fx||!editId)return;update(editId,{[fx]:e.target.value});if(fx==='asset')renderModal();});
+mBody.addEventListener('input',e=>{const fx=e.target.dataset.fx;if(!fx||e.target.tagName==='SELECT'||!editId)return;update(editId,{[fx]:e.target.value});});
+mBody.addEventListener('dragover',e=>{const t=e.target.closest('[data-drop]');if(t){e.preventDefault();t.classList.add('drag');}});
+mBody.addEventListener('dragleave',e=>{const t=e.target.closest('[data-drop]');if(t)t.classList.remove('drag');});
+mBody.addEventListener('drop',e=>{const t=e.target.closest('[data-drop]');if(!t||!editId)return;e.preventDefault();t.classList.remove('drag');const f=e.dataTransfer.files[0];if(f)setImg(editId,f);});
+$('#mx').addEventListener('click',closeEdit);
+$('#modal').addEventListener('click',e=>{if(e.target===$('#modal'))closeEdit();});
+
+window.addEventListener('paste',e=>{
+  if(!editId)return;
+  const items=e.clipboardData&&e.clipboardData.items;if(!items)return;
+  for(const it of items){if(it.type&&it.type.startsWith('image/')){const b=it.getAsFile();if(b){setImg(editId,b);e.preventDefault();return;}}}
+});
+
+let picking=null;
+const fileInput=document.createElement('input');fileInput.type='file';fileInput.accept='image/*';fileInput.hidden=true;document.body.appendChild(fileInput);
+function pickFile(id){picking=id;fileInput.value='';fileInput.click();}
+fileInput.addEventListener('change',()=>{if(picking&&fileInput.files[0])setImg(picking,fileInput.files[0]);picking=null;});
+
+function openLb(src){$('#lbimg').src=src;$('#lb').classList.add('on');}
+$('#lbx').addEventListener('click',()=>$('#lb').classList.remove('on'));
+$('#lb').addEventListener('click',e=>{if(e.target===$('#lb'))$('#lb').classList.remove('on');});
+window.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if($('#lb').classList.contains('on'))$('#lb').classList.remove('on');else if(editId)closeEdit();});
+
+$('#add').addEventListener('click',add);
+$('#clear').addEventListener('click',()=>{if(data.length&&confirm('Clear the entire log? Export a backup first.')){data=[];save();render();}});
+$('#export').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='iteration-log.json';a.click();toast('Exported');
+});
+$('#importBtn').addEventListener('click',()=>$('#importFile').click());
+$('#importFile').addEventListener('change',e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{try{const arr=JSON.parse(r.result);if(Array.isArray(arr)){data=arr;save();render();toast('Imported');}else toast('Invalid file');}catch(_){toast('Invalid file');}};
+  r.readAsText(f);e.target.value='';
+});
+
+$('#filters').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;filter=c.dataset.f;render();});
+$('#afilters').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;assetFilter=assetFilter===c.dataset.a?'all':c.dataset.a;render();});
+$('#stats').addEventListener('click',e=>{const s=e.target.closest('.stat');if(!s)return;filter=filter===s.dataset.f?'all':s.dataset.f;render();});
+
+const controls=$('#controls');
+function onScroll(){controls.classList.toggle('stuck',window.scrollY>controls.offsetTop-1);}
+window.addEventListener('scroll',onScroll,{passive:true});
+window.addEventListener('resize',onScroll);
+
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),1800);}
+
+load();render();onScroll();
+</script>
+</body>
+</html>
