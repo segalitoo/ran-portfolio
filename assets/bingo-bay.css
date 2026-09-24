@@ -24,6 +24,33 @@
   --bb-cream: #FFF4E2;
 }
 
+/* ── Hero art ──────────────────────────────────────
+   The event's own logo, floated the way the submission floated it: no
+   frame, a soft shadow under the cut-out, a few degrees of tilt and a
+   slow bob. The key art is the first thing in chapter 03, so leading
+   with it here as well would show the same picture twice. */
+.bb-hero { display: grid; place-items: center; }
+.bb-logo {
+  width: min(100%, 460px); height: auto;
+  filter: drop-shadow(0 18px 40px rgba(12, 19, 48, 0.18));
+  transform: rotate(3deg);
+  animation: bb-float 7s ease-in-out infinite;
+}
+@keyframes bb-float {
+  0%, 100% { transform: rotate(3deg) translateY(0); }
+  50% { transform: rotate(2deg) translateY(-10px); }
+}
+[data-theme="dark"] .bb-logo { filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.5)); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .bb-logo { filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.5)); }
+}
+@media (max-width: 900px) {
+  .bb-logo { width: min(72%, 360px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bb-logo { animation: none; }
+}
+
 /* ── Chapter layout ────────────────────────────── */
 .bb {
   display: grid; grid-template-columns: 176px minmax(0, 1fr);

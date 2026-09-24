@@ -104,6 +104,18 @@ def main():
             save(im, out)
             made += 1
 
+    # The event logo for the page hero, trimmed to the artwork so the page
+    # positions the drawing and not a square of empty alpha around it
+    src = os.path.join(SEL, "BINGO_BAY_logo_summer_nobg.png")
+    for w in (1040, 520):
+        out = os.path.join(DST, f"logo-{w}.webp")
+        if fresh(src, out):
+            continue
+        im = Image.open(src).convert("RGBA")
+        im = im.crop(im.getbbox())
+        save(fit(im, w), out)
+        made += 1
+
     # Contact sheet: a small frame for the grid, a large one for the viewer
     for prefix, count in FAMILIES:
         for i in range(1, count + 1):
