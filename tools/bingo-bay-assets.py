@@ -60,7 +60,11 @@ FAMILIES = [("crab", 8), ("turtle", 8), ("starfish", 12), ("dolphin", 8), ("mang
 
 
 def fresh(src, out):
-    return os.path.exists(out) and os.path.getmtime(out) >= os.path.getmtime(src)
+    # An empty file is an interrupted write, never a finished one. Skipping
+    # it on the grounds that it is newer than its source is how a 0-byte
+    # twinkle-720.webp once shipped as a broken image on every 2x screen.
+    return (os.path.exists(out) and os.path.getsize(out) > 0
+            and os.path.getmtime(out) >= os.path.getmtime(src))
 
 
 def save(im, out):

@@ -58,7 +58,12 @@
 .bb-ch__t {
   margin-top: 12px; max-width: 22ch;
   font-size: clamp(1.8rem, 3.3vw, 2.6rem); letter-spacing: -0.04em; line-height: 1.08;
+  text-wrap: pretty;
 }
+/* A phrase that has to travel as one, like the answer in
+   "Three lines per placement. One ships." */
+.bb-nb { white-space: nowrap; }
+.bb-line { text-wrap: pretty; }
 .bb-ch__d { margin-top: 18px; max-width: 60ch; font-size: 1.04rem; line-height: 1.65; color: var(--text-secondary); }
 .bb-ch__d b { font-weight: 500; color: var(--text-primary); }
 .bb-body { margin-top: 40px; }
