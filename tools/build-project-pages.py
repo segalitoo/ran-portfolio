@@ -420,7 +420,7 @@ def page(p):
       <footer class="pg-foot">
         <span>Ran Segal &copy; 2026</span>
         <span class="pg-foot__links">
-          <a href="https://www.linkedin.com/in/ran-segal/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/ran-segal-d/" target="_blank" rel="noopener">LinkedIn</a>
           <a href="mailto:segalitoo@gmail.com">Email</a>
         </span>
       </footer>

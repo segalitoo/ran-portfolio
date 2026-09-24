@@ -144,9 +144,3 @@
   .wf-det { grid-template-columns: minmax(0, 1fr); }
   .wf-two { grid-template-columns: minmax(0, 1fr); }
 }
-
-/* tokens.css leaves the violet tint out of its system-dark block, so a
-   visitor on system dark with no theme picked would get the light lilac. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .wf-ph--b { --wf-t: #241C4A; }
-}

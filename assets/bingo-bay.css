@@ -158,7 +158,7 @@
   font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.75; color: var(--text-secondary);
 }
 .bb-prompt mark {
-  background: var(--primary-tint); color: var(--primary);
+  background: var(--primary-tint); color: var(--text-primary-on-tint);
   padding: 1px 5px; border-radius: 4px;
 }
 .bb-copy {
@@ -248,8 +248,11 @@
 .bb-mock__line { font-size: clamp(1.1rem, 1.7vw, 1.3rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.3; text-wrap: pretty; }
 
 .bb-mock--banner {
-  position: relative; overflow: hidden; padding: 20px 22px 22px; border-radius: 16px; color: #fff;
-  background: linear-gradient(115deg, var(--bb-amber) 0%, var(--bb-coral) 55%, var(--bb-rose) 100%);
+  /* Dark purple on gold through coral, not white on coral through rose:
+     white managed about 2:1, this is 4.6:1 at its weakest corner, which
+     clears the 4.5:1 body text needs, let alone large bold text. */
+  position: relative; overflow: hidden; padding: 20px 22px 22px; border-radius: 16px; color: var(--bb-dusk);
+  background: linear-gradient(115deg, var(--bb-gold) 0%, var(--bb-amber) 50%, var(--bb-coral) 100%);
   box-shadow: 0 14px 30px -18px rgba(255, 111, 97, 0.9);
 }
 .bb-mock--banner::after {
@@ -259,9 +262,9 @@
 .bb-mock__tag {
   display: inline-block; margin-bottom: 10px; padding: 3px 9px; border-radius: var(--radius-full);
   font-size: 0.64rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 244, 226, 0.55);
 }
-.bb-mock--banner .bb-mock__line { position: relative; text-shadow: 0 1px 0 rgba(58, 42, 92, 0.18); }
+.bb-mock--banner .bb-mock__line { position: relative; font-size: clamp(1.2rem, 1.7vw, 1.3rem); }
 
 .bb-mock--popup {
   max-width: 380px; padding: 24px 24px 22px; border-radius: 22px; text-align: center;
@@ -327,7 +330,7 @@
 }
 .bb-slot code {
   font-family: var(--font-mono); font-size: 0.76rem;
-  padding: 3px 8px; border-radius: 4px; background: var(--primary-tint); color: var(--primary);
+  padding: 3px 8px; border-radius: 4px; background: var(--primary-tint); color: var(--text-primary-on-tint);
 }
 .bb-slot button { font-size: 0.8rem; font-weight: 500; color: var(--primary); }
 .bb-slot button:hover { text-decoration: underline; text-underline-offset: 3px; }

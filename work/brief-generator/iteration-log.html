@@ -28,14 +28,6 @@
     --fix:var(--text-warning);--fix-bg:var(--warning-tint);--fix-line:color-mix(in srgb,var(--warning) 45%,transparent);
     --pend:var(--faint);--pend-bg:var(--panel);--pend-line:var(--line2);
   }
-  /* tokens.css leaves the semantic text colours out of its system-dark
-     block, so without an explicit theme they would stay at their light
-     values on a dark ground. */
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --kept:#7FD9B4;--kept-bg:#11291F;--rej:#F59A9D;--rej-bg:#2E1517;--fix:#F2C46B;--fix-bg:#2E2310;
-    }
-  }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}

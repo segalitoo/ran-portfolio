@@ -127,7 +127,7 @@ def main():
     # Homepage card: the event logo on the event's own cream-to-sand
     # ground, at the 16:15 every card in the row shares
     src = os.path.join(SEL, "BINGO_BAY_logo_summer_nobg.png")
-    if not all(fresh(src, os.path.join(CARD, f"bingo-bay-sq-{w}.webp")) for w in (1280, 640, 320)):
+    if not all(fresh(src, os.path.join(CARD, f"bingo-bay-sq-{w}.webp")) for w in (640, 320)):
         W, H = 1280, 1200
         c1, c2 = (0xFF, 0xF4, 0xE2), (0xF3, 0xD9, 0xA4)
         card = Image.new("RGBA", (W, H))
@@ -146,7 +146,7 @@ def main():
         card.alpha_composite(layer.filter(ImageFilter.GaussianBlur(30)))
         card.alpha_composite(logo, (x, y))
         card = card.convert("RGB")
-        for w in (1280, 640, 320):
+        for w in (640, 320):
             save(card.resize((w, round(w * H / W)), Image.LANCZOS), os.path.join(CARD, f"bingo-bay-sq-{w}.webp"))
             made += 1
 

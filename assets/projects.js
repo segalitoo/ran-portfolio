@@ -100,7 +100,7 @@ window.PROFILE = {
   lede: '14 years managing design and marketing at Payoneer and Taptica. Brand systems, global websites and design operations by day. AI production tools, browser extensions and apps by night.',
   spec: ['Creative Lead / Head of Design', 'Tel Aviv, hybrid or remote', 'Open to full-time and consulting'],
   email: 'segalitoo@gmail.com',
-  linkedin: 'https://www.linkedin.com/in/ran-segal/',
+  linkedin: 'https://www.linkedin.com/in/ran-segal-d/',
   cv: '',
   history: [
     { org: 'Payoneer', years: '2020 to 2025', what: 'Design Manager' },

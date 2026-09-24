@@ -91,7 +91,7 @@
 .bg-node__t { font-size: 1.02rem; font-weight: 600; letter-spacing: -0.02em; }
 .bg-node__d { font-size: 0.84rem; line-height: 1.5; color: var(--text-secondary); }
 .bg-node--ai { background: var(--primary-tint); border-color: transparent; }
-.bg-node--ai .bg-node__k { color: var(--primary); }
+.bg-node--ai .bg-node__k { color: var(--text-primary-on-tint); }
 .bg-node--gate { background: var(--accent-tint); border-color: transparent; }
 .bg-node--gate .bg-node__k { color: var(--text-accent); }
 

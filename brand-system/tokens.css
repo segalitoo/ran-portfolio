@@ -164,25 +164,59 @@
   --ring: 0 0 0 3px rgba(77, 134, 240, 0.45);
 }
 
-/* System dark mode when no explicit theme is set */
+/* System dark mode when no explicit theme is set.
+   The body below is the [data-theme="dark"] block above, copied whole.
+   It used to carry only a subset, so a visitor on system dark who never
+   pressed the toggle got light values for everything left out: the
+   on-tint text, the semantic colours, the violet tint, the shadows and
+   the focus ring. Change one block and change the other. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
     --surface-0: #0C1020;
     --surface-1: #141A2E;
     --surface-2: #161D33;
     --surface-sunken: #0E1426;
+
     --text-primary: #EAEDF5;
     --text-secondary: #A8B0C2;
     --text-muted: #717A8E;
+    --text-on-fill: #FFFFFF;
+
     --border: #26304A;
     --border-strong: #36425F;
+
     --primary: #4D86F0;
     --primary-hover: #6699F4;
+    --primary-active: #7AADF7;
     --primary-tint: #18233F;
     --on-primary: #08122B;
+    --text-primary-on-tint: #9CC0F8;
+
     --accent: #FF7A70;
+    --accent-hover: #FF9087;
+    --accent-active: #FFA39B;
     --accent-tint: #3A1F1C;
+    --on-accent: #2A0D0A;
     --text-accent: #FFB4AD;
+
+    --violet: #9277FF;
+    --violet-tint: #241C4A;
+    --text-violet: #C2B3FF;
+
+    --success: #34B883;
+    --success-tint: #11291F;
+    --text-success: #7FD9B4;
+    --warning: #F0B544;
+    --warning-tint: #2E2310;
+    --text-warning: #F2C97A;
+    --danger: #F26669;
+    --danger-tint: #2E1517;
+    --text-danger: #F59B9D;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
+    --ring: 0 0 0 3px rgba(77, 134, 240, 0.45);
   }
 }
 
