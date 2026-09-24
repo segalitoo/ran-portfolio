@@ -138,7 +138,7 @@ P = [
  # The artwork itself, with the part of it that the project was about
  # put in motion. Built in motion/, rendered by npm run art.
  "video":("payoneer-website","640 / 600","The Payoneer homepage, the brand gradient travelling round its arc"),
- "lede":"After the rebrand, the site no longer matched the company. I led the redesign that turned "
+ "lede":"After the rebrand, the site no longer matched the company. I led the redesign process that turned "
         "the new identity into a working web experience, and built it as a modular system so "
         "regional teams could adapt pages to their market without redrawing them.",
  "notes":[("What I inherited","A legacy interface that predated the rebrand, with page templates that "
@@ -372,6 +372,7 @@ def page(p):
       <a class="nav__me" href="../">Ran Segal <span>&middot; Creative Lead</span></a>
       <div class="nav__links">
         <a class="nav__a" href="../#ai">AI tools</a>
+        <a class="nav__a" href="../#bay">Creative</a>
         <a class="nav__a" href="../#work">Work</a>
       </div>
       <button class="nav__theme" id="themeBtn" aria-label="Toggle light and dark theme">
