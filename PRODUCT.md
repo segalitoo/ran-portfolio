@@ -99,7 +99,8 @@ Real and verifiable:
   "the category leader" if at all). Real: 55 logged generations with the
   rejection reason for each, 6 keepers, the locked palette and prompt template,
   the finished key art and two UI screens, an 81-second Suno loop mastered by
-  hand, a Bria re-pose and a Meshy mesh of the host character. Sources are
+  hand. (The take-home's tool picks, Bria, Rive and Meshy, were cut from the
+  page as the least essential part.) Sources are
   pulled in by `tools/bingo-bay-assets.py`.
 - AI production workflow (`work/ai-workflow.html`): part 1 of the same
   take-home. It is a design, not a system anyone adopted; what keeps it honest

@@ -42,9 +42,6 @@ PIECES = [
     (os.path.join(SEL, "UI_1.jpeg"), "lobby", (1440, 720)),
     (os.path.join(SEL, "UI_2.jpeg"), "progression", (1440, 720)),
     (os.path.join(SEL, "scene_02.jpeg"), "plate", (1376, 720)),
-    (os.path.join(SEL, "mango_09.jpeg"), "mango-2d", (720,)),
-    (os.path.join(SUB, "mango_repose.png"), "mango-repose", (720,)),
-    (os.path.join(SUB, "mango_mesh.png"), "mango-mesh", (720,)),
 ]
 
 # The cast, trimmed to the figure so every cutout sits on the same baseline
