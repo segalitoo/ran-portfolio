@@ -11,7 +11,10 @@
 (function () {
   'use strict';
 
-  var MEASUREMENT_ID = '';           // e.g. 'G-XXXXXXXXXX'
+  /* Recovered from fc18cf1. The rewrite in fd8afab swapped the inline
+     gtag snippet for this file and left the id blank, so the commit
+     that said it shipped analytics is the one that switched them off. */
+  var MEASUREMENT_ID = 'G-7BQQ79P7QM';
 
   /* Honour an explicit opt-out. A portfolio is not worth
      overriding someone's stated preference for. */
