@@ -275,6 +275,20 @@
   box-shadow: 0 4px 0 #D9822E, inset 0 2px 0 rgba(255, 255, 255, 0.6);
 }
 
+/* The two placements share their rows, so the label, the mock, the
+   why and the passed lines start at the same height in both columns
+   however tall either mock turns out. The banner stretches to the
+   popup's height rather than leaving its notes floating higher. */
+.bb-copyg { row-gap: 0; }
+.bb-copyg > div { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; }
+.bb-copyg .bb-mock { align-self: stretch; }
+.bb-copyg .bb-mock--banner { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+.bb-copyg .bb-mock--popup { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+@media (max-width: 760px) {
+  .bb-copyg > div + div > .bb-k { margin-top: 44px; }
+  .bb-copyg .bb-mock--banner { justify-content: flex-start; }
+}
+
 .bb-why { margin-top: 18px; font-size: 0.9rem; line-height: 1.55; color: var(--text-secondary); }
 .bb-why .bb-k { display: block; margin-bottom: 4px; }
 .bb-passed { list-style: none; margin: 22px 0 0; padding: 18px 0 0; border-top: 1px dashed var(--hair-hi); display: grid; gap: 14px; }
