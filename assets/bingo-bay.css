@@ -118,22 +118,29 @@
   .bb-link:hover i { transform: translateX(3px); }
 }
 
-/* ── 01 · The lock ─────────────────────────────── */
-.bb-sw { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 12px; }
+/* ── 01 · The lock ─────────────────────────────
+   The palette comes after the file on purpose. The chapter argues for
+   tokens over a moodboard, and a row of big squares at the top of it
+   read as exactly the moodboard it argues against. Here it is the
+   PALETTE line made visible: a slim strip, reference rather than hero. */
+.bb-pal { margin-top: 44px; }
+.bb-pal .bb-k { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--hair); }
+.bb-pal .bb-k span { letter-spacing: 0.08em; text-transform: none; font-family: var(--font-sans); font-size: 0.74rem; color: var(--text-muted); }
+.bb-sw { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; }
 .bb-sw__i {
-  display: flex; flex-direction: column; gap: 10px; padding: 0; text-align: left;
-  border-radius: var(--radius-md);
+  display: flex; flex-direction: column; gap: 9px; padding: 0; text-align: left;
+  border-radius: var(--radius-sm);
 }
 .bb-sw__c {
-  display: block; width: 100%; aspect-ratio: 1; border-radius: var(--radius-md);
+  display: block; width: 100%; height: 52px; border-radius: var(--radius-sm);
   box-shadow: inset 0 0 0 1px var(--hair);
   transition: transform 200ms var(--ez);
 }
-.bb-sw__n { font-size: 0.78rem; font-weight: 500; line-height: 1.25; }
-.bb-sw__h { display: block; margin-top: 2px; font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); }
+.bb-sw__n { font-size: 0.74rem; font-weight: 500; line-height: 1.25; }
+.bb-sw__h { display: block; margin-top: 2px; font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-muted); }
 .bb-sw__i.is-copied .bb-sw__h { color: var(--text-success); }
 @media (hover: hover) and (pointer: fine) {
-  .bb-sw__i:hover .bb-sw__c { transform: translateY(-3px); }
+  .bb-sw__i:hover .bb-sw__c { transform: translateY(-2px); }
 }
 
 .bb-code {
