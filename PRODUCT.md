@@ -42,10 +42,11 @@ them can.
   link-preview cards and per-project deep links are functional requirements, not
   polish. A single project is often the thing worth sending, not the whole site.
 - Read on desktop first, phone second.
-- Content is split in three: four tools Ran built solo; a creative-direction
+- Content is split in four: four tools Ran built solo; a creative-direction
   trio from a hiring take-home (the AI production workflow, Bingo Bay run
-  through it, and the brief generator that automates one step); and the brand
-  systems he led at Payoneer as Design Manager. The trio's order is the
+  through it, and the brief generator that automates one step); the spec ads
+  run through his own ad pipeline, as one wide card under the trio; and the
+  brand systems he led at Payoneer as Design Manager. The trio's order is the
   argument (system, proof, tool), so keep it.
 
 ## Capabilities and Constraints
@@ -113,6 +114,18 @@ Real and verifiable:
   figure is an estimate from stated assumptions and is labelled as one; keep it
   that way. The Iteration Log (`work/brief-generator/iteration-log.html`) is a
   working in-browser tool with the 55 entries seeded.
+
+- Spec ads (`work/ad-studio.html`): unsolicited spec work for two real brands,
+  Byoma and Lucy & Yak, named on the page and marked as spec, not affiliated and
+  never run. Real: 12 ads (34 static files), motion loops for both, 13 signed gate
+  decisions saved on review pages, 62 logged generations with verdicts, about
+  30 paid credits, the 0 to 30 flag count (old checks against new checks on the
+  same 30 v1 files, re-rendered from git history), and the public toolchain at
+  github.com/segalitoo/video-ad-art-direction-. The toolchain was built with
+  Claude Code as the engineer; the page says so. Images come from
+  `tools/ad-studio-assets.py`. The brand claims in the ads (price,
+  fragrance-free, vegan, the 3-1-1 ratio) are unverified with the brand, and
+  the page says that too.
 
 Absent, and not to be fabricated by future work:
 

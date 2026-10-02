@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<!-- Hand-written like bingo-bay.html: the chapter layout reuses
+     assets/bingo-bay.css, and assets/ad-studio.css adds what this page
+     needs (the ad grids, before and after pairs, the loops). Images come
+     from tools/ad-studio-assets.py. -->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spec ads through a pipeline I built &middot; Ran Segal</title>
+  <meta name="description" content="Unsolicited spec work for Byoma and Lucy &amp; Yak, made through a static-ad pipeline I directed and built with an AI coding agent: a person signs every stage, and the tools check the finished file.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://segalitoo.github.io/ran-portfolio/work/ad-studio.html">
+  <meta property="og:title" content="Spec ads through a pipeline I built &middot; Ran Segal">
+  <meta property="og:description" content="12 spec ads for two real brands, 13 signed decisions, 62 logged generations. My own checks passed the first set; my eye did not, so I rebuilt the checks.">
+  <meta property="og:image" content="https://segalitoo.github.io/ran-portfolio/images/og/ad-studio.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Spec ads through a pipeline I built &middot; Ran Segal">
+  <meta name="twitter:image" content="https://segalitoo.github.io/ran-portfolio/images/og/ad-studio.jpg">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="../brand-system/fonts.css">
+  <link rel="stylesheet" href="../brand-system/tokens.css">
+  <link rel="stylesheet" href="../assets/site.css?v=be4e8e10">
+  <link rel="stylesheet" href="../assets/inner-g.css?v=301b2c1b">
+  <link rel="stylesheet" href="../assets/bingo-bay.css?v=dbe6f915">
+  <link rel="stylesheet" href="../assets/ad-studio.css?v=9036c457">
+  <script src="../assets/analytics.js?v=c4045984" defer></script>
+  <script src="../assets/site.js?v=0f7e54d3" defer></script>
+  <script src="../assets/ad-studio.js?v=769ee1d6" defer></script>
+</head>
+
+<body class="pg bb-scope as-scope">
+  <nav class="nav" id="nav">
+    <div class="nav__in">
+      <a class="nav__me" href="../">Ran Segal <span>&middot; Creative Lead</span></a>
+      <div class="nav__links">
+        <a class="nav__a" href="../#ai">AI tools</a>
+        <a class="nav__a" href="../#bay">Creative</a>
+        <a class="nav__a" href="../#work">Work</a>
+      </div>
+      <button class="nav__theme" id="themeBtn" aria-label="Toggle light and dark theme">
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <header class="pg-hero">
+      <div class="pg-wrap pg-hero__in">
+        <div>
+          <a class="pg-back" href="../#ads"><i>&larr;</i> All work</a>
+          <h1 class="pg-h1">Spec ads through a pipeline I&nbsp;built</h1>
+          <p class="pg-alias">Byoma and Lucy &amp; Yak &middot; unsolicited spec work &middot; 2026</p>
+          <p class="pg-lede">I wanted to know if one person with AI tools can take a real brand from research to a tested ad set without the craft slipping. So I directed an AI coding agent to build the pipeline with me, put a human decision at every stage, and ran two brands through it. <b>The tools passed my first set. My own eye did not</b>, and fixing that gap is most of what this page is about.</p>
+          <p class="as-spec"><b>Spec work.</b> Not commissioned by, affiliated with or approved by Byoma or Lucy &amp; Yak. Generic packs, no real labels. None of these ads has run.</p>
+          <div class="acts"><a class="btn btn--fill" href="#checks">See what the checks missed <i>&darr;</i></a></div>
+        </div>
+        <div class="pg-hero__art as-hero">
+          <img width="1056" height="1316" src="../images/ad-studio/hero-1056.webp"
+               srcset="../images/ad-studio/hero-528.webp 528w, ../images/ad-studio/hero-1056.webp 1056w"
+               sizes="(max-width: 900px) 88vw, 520px"
+               alt="Four of the spec ads: a pink jar on a pink wall, a woman in printed dungarees in a beige room, three pink skincare packs on yellow, and a mother and daughter sharing a jar"
+               decoding="async" fetchpriority="high">
+        </div>
+      </div>
+    </header>
+
+    <div class="pg-wrap">
+      <section class="pg-notes">
+        <div>
+          <h2 class="pg-note__k">What I set out to test</h2>
+          <p class="pg-note__d">Whether AI can do the volume of an ad set (research, drafts, layouts in every size, motion) while a person still owns every creative decision, and whether the finished files hold up to a designer&rsquo;s eye.</p>
+        </div>
+        <div>
+          <h2 class="pg-note__k">What I decided</h2>
+          <p class="pg-note__d"><b>Put the checks in the tools, not in my attention.</b> The look lives in a locked file. Every stage stops on a review page where I sign it off. The renderer measures the finished file, not the plan for it.</p>
+        </div>
+        <div>
+          <h2 class="pg-note__k">What I made</h2>
+          <p class="pg-note__d">A Python toolchain for static ads, built with Claude Code as the engineer and me as the art director, and two campaigns run through it: 10 Byoma ads in 3 sizes with 3 motion loops, and 2 Lucy &amp; Yak ads with loops.</p>
+        </div>
+      </section>
+
+      <section class="pg-scope">
+        <h2 class="pg-scope__k">Scope</h2>
+        <div class="pg-scope__g">
+          <p class="pg-scope__i">12 ads, 34 static files<span>Feed 4:5, square 1:1 and Stories 9:16, all passing the Meta specs</span></p>
+          <p class="pg-scope__i">13 signed decisions<span>Each one saved on a review page and read back before the next stage</span></p>
+          <p class="pg-scope__i">62 generations, all logged<span>Every one with its verdict and the reason, rejects included</span></p>
+          <p class="pg-scope__i">About 30 paid credits<span>The agent asked before every paid run; the drafts ran free</span></p>
+        </div>
+      </section>
+
+      <div class="bb">
+        <nav class="bb-rail" id="bbRail" aria-label="Chapters">
+          <p class="bb-rail__k">Chapters</p>
+          <ol>
+            <li><a href="#pipeline"><span>01</span>The pipeline</a></li>
+            <li><a href="#lock"><span>02</span>The lock</a></li>
+            <li><a href="#angles"><span>03</span>The angles</a></li>
+            <li><a href="#look"><span>04</span>The look</a></li>
+            <li><a href="#set"><span>05</span>The set</a></li>
+            <li><a href="#checks"><span>06</span>The checks</a></li>
+            <li><a href="#loops"><span>07</span>The loops</a></li>
+            <li><a href="#first"><span>08</span>The first run</a></li>
+            <li><a href="#learned"><span>09</span>What I learned</a></li>
+            <li><a href="#limits"><span>10</span>What it can&rsquo;t prove</a></li>
+          </ol>
+        </nav>
+
+        <div>
+          <!-- 01 ──────────────────────────────────── -->
+          <section class="bb-ch" id="pipeline">
+            <p class="bb-ch__n">01 &middot; The pipeline</p>
+            <h2 class="bb-ch__t">Every stage is a page, and nothing moves until I&nbsp;sign&nbsp;it.</h2>
+            <p class="bb-ch__d">Research, brief, look, lock, layouts, the set, QA and motion. At the end of each stage the agent publishes a review page with the work and the decisions it needs: approve, fix or drop each ad, sign the lock, add a note. <b>I save it, and the agent reads the saved answers back</b> before it starts the next stage.</p>
+            <div class="bb-body bb-stack">
+              <figure class="bb-fig">
+                <div class="bb-fig__f">
+                  <img width="720" height="664" src="../images/ad-studio/board-720.webp" data-full="../images/ad-studio/board-1440.webp"
+                       srcset="../images/ad-studio/board-720.webp 720w, ../images/ad-studio/board-1440.webp 1440w" sizes="(max-width: 1080px) calc(100vw - 40px), 900px"
+                       alt="The review page for the second version of the Byoma set: a stage tracker at the top, then each ad in three sizes with Approve, Fix and Drop buttons"
+                       loading="lazy" decoding="async">
+                </div>
+                <figcaption>
+                  <span class="bb-fig__t">The set gate, second round <small>Byoma &middot; stage 03</small></span>
+                  <span class="bb-fig__d">Each card shows one ad in all three sizes, what changed since the last round, and three buttons. The first round of this page is where I sent the set back.</span>
+                </figcaption>
+              </figure>
+              <div class="bb-two">
+                <div>
+                  <p class="bb-k">Why a page, not a chat</p>
+                  <p class="bb-p">A chat answer is a wall of text, and most of it is not the decision. A page shows the work at the size it will be seen, puts the decision next to it, and keeps a record. When I came back to a stage a day later, the saved answers were still there.</p>
+                </div>
+                <div>
+                  <p class="bb-k">What a gate holds</p>
+                  <p class="bb-p">13 gates across the two brands. The Byoma set gate held a verdict for each of the 10 ads, a choice on 3 swapped headlines, the lock signature and one note. <b>That note is the reason chapter 06 exists.</b></p>
+                  <p class="bb-p">Spend has its own rule: the agent quotes the model, the count and the credits, and waits for a yes. Every run, reruns included.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 02 ──────────────────────────────────── -->
+          <section class="bb-ch" id="lock">
+            <p class="bb-ch__n">02 &middot; The lock</p>
+            <h2 class="bb-ch__t">The brand, written as a file the tools have to&nbsp;obey.</h2>
+            <p class="bb-ch__d">Prompt tokens, palette roles, the copy rules, the words that are banned and the proof the ads are allowed to show. Every image records the lock version it was made with. <b>Change a token, and the version goes up.</b></p>
+            <div class="bb-body">
+              <div class="bb-two">
+                <div>
+                  <p class="bb-k">From the lock</p>
+                  <pre class="bb-code"><span class="c"># byoma.dna.yml &middot; v1.1 &middot; signed</span>
+<span class="k">WORLD</span>    products on a flat butter-yellow set;
+         people in a real, sunny bathroom
+<span class="k">FORM</span>     plain unbranded hot-pink packs,
+         white caps, never a real label
+<span class="k">palette</span>  C71077 hero &middot; E7168F accent
+         FFEF8F ground &middot; 1A1A1A ink
+<span class="k">proof</span>    none supplied, so the proof
+         formats refuse to build
+<span class="k">never</span>    clinically proven, derm approved,
+         overnight, competitor names,
+         anyone under 16 on screen</pre>
+                </div>
+                <div>
+                  <p class="bb-k">Why the brand pink got a partner</p>
+                  <p class="bb-p">Byoma&rsquo;s hot pink on its own yellow measures 3.7:1. That passes for big headlines and fails for a button label or a small ingredient name, which need 4.5:1.</p>
+                  <p class="bb-p">So the lock gained a deeper pink for buttons, chat bubbles and small type: white on it reads at 5.6:1, and it reads at 4.8:1 on the yellow. <b>The brand pink stays for anything big.</b></p>
+                </div>
+              </div>
+              <div class="as-sw" aria-label="The locked palette">
+                <div class="as-sw__i"><span class="as-sw__c" style="background:#C71077"></span><span class="as-sw__n">Deep pink<span>#C71077 &middot; buttons, small type</span></span></div>
+                <div class="as-sw__i"><span class="as-sw__c" style="background:#E7168F"></span><span class="as-sw__n">Brand pink<span>#E7168F &middot; 48px and up</span></span></div>
+                <div class="as-sw__i"><span class="as-sw__c" style="background:#FFEF8F"></span><span class="as-sw__n">Yellow<span>#FFEF8F &middot; the set</span></span></div>
+                <div class="as-sw__i"><span class="as-sw__c" style="background:#1A1A1A"></span><span class="as-sw__n">Ink<span>#1A1A1A &middot; 14.9:1 on yellow</span></span></div>
+                <div class="as-sw__i"><span class="as-sw__c" style="background:#FFFFFF"></span><span class="as-sw__n">White<span>#FFFFFF &middot; caps, chat</span></span></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 03 ──────────────────────────────────── -->
+          <section class="bb-ch" id="angles">
+            <p class="bb-ch__n">03 &middot; The angles</p>
+            <h2 class="bb-ch__t">Seven angles, scored, and the three that&nbsp;won.</h2>
+            <p class="bb-ch__d">Each angle was scored on three things out of five: how open the space is among competitors, how sharp the pain is, and how much proof the brand has. The score is the product. <b>No proof was supplied, so the dermatologist angle scored 9 and never got made.</b></p>
+            <div class="bb-body">
+              <div class="as-table" role="table" aria-label="The top angles">
+                <div class="as-tr as-th" role="row"><span role="columnheader">Angle</span><span role="columnheader">Gap</span><span role="columnheader">Pain</span><span role="columnheader">Proof</span><span role="columnheader">Score</span><span role="columnheader">Buyer</span></div>
+                <div class="as-tr" role="row"><span role="cell"><b>Barrier first, actives second</b>Overdid the acids? Rebuild, then go again.</span><span role="cell">3</span><span role="cell">5</span><span role="cell">3</span><span role="cell" class="as-score">45</span><span role="cell">Maya, 21</span></div>
+                <div class="as-tr" role="row"><span role="cell"><b>One shelf, two generations</b>None of the six competitors I found sells the shared shelf.</span><span role="cell">5</span><span role="cell">4</span><span role="cell">2</span><span role="cell" class="as-score">40</span><span role="cell">Karen, 46</span></div>
+                <div class="as-tr" role="row"><span role="cell"><b>Barrier care under $20</b>Price as reassurance, not as a discount.</span><span role="cell">2</span><span role="cell">4</span><span role="cell">4</span><span role="cell" class="as-score">32</span><span role="cell">Both</span></div>
+                <div class="as-tr as-tr--out" role="row"><span role="cell"><b>Dermatologist-approved</b>Locked: nothing to show for it.</span><span role="cell">3</span><span role="cell">3</span><span role="cell">1</span><span role="cell" class="as-score">9</span><span role="cell">&ndash;</span></div>
+              </div>
+              <div class="bb-two" style="margin-top:44px">
+                <div>
+                  <p class="bb-k">Two buyers, one per ad</p>
+                  <p class="bb-p">Maya broke her skin barrier with acids and wants to rebuild. Karen buys for herself and her teenage daughter. The research named two segments, so every ad speaks to one of them, never both at once.</p>
+                  <p class="bb-p">One casting rule came from the brief, not the model: <b>nobody under 16 on screen, and no serums or acids anywhere near the teen.</b></p>
+                </div>
+                <div>
+                  <p class="bb-k">Ten hooks, checked as a set</p>
+                  <p class="bb-p">Every headline is checked by a script: seven words at most, 40 characters at most, no banned word, no number that reads as proof. Then the set is checked as a whole.</p>
+                  <p class="bb-p">Reusing my six favourites made three pairs of ads open on the same word, which reads as one ad in a feed. I swapped in three lines from the drafts and showed the swap at the gate. I kept it.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 04 ──────────────────────────────────── -->
+          <section class="bb-ch" id="look">
+            <p class="bb-ch__n">04 &middot; The look</p>
+            <h2 class="bb-ch__t">Eight drafts, eight fake headlines, one word to&nbsp;blame.</h2>
+            <p class="bb-ch__d">I ran the first drafts myself in the Higgsfield web app, where they are free. Every one of the eight UGC drafts came back with invented text or empty boxes on the wall. The prompt had asked for <b>&ldquo;space for a headline&rdquo;</b>, and the model drew one.</p>
+            <div class="bb-body bb-stack">
+              <figure class="bb-fig">
+                <div class="bb-fig__f">
+                  <img width="720" height="117" src="../images/ad-studio/look/maya-drafts-720.webp" data-full="../images/ad-studio/look/maya-drafts-1440.webp"
+                       srcset="../images/ad-studio/look/maya-drafts-720.webp 720w, ../images/ad-studio/look/maya-drafts-1440.webp 1440w" sizes="(max-width: 1080px) calc(100vw - 40px), 900px"
+                       alt="Eight draft photos of a young woman in a bathroom, each with fake lettering, white boxes or a fake table drawn on the wall behind her"
+                       loading="lazy" decoding="async">
+                </div>
+                <figcaption>
+                  <span class="bb-fig__t">Round 1, the UGC frame <small>8 of 8 rejected or sent to fix</small></span>
+                  <span class="bb-fig__d">Scored out of 40 against the brief. The best one, 27 of 40, had the right skin story and a fake headline across the shelves.</span>
+                </figcaption>
+              </figure>
+              <div class="as-ba">
+                <figure class="bb-fig">
+                  <div class="bb-fig__f"><img width="360" height="480" src="../images/ad-studio/look/maya-04-360.webp" data-full="../images/ad-studio/look/maya-04-720.webp" srcset="../images/ad-studio/look/maya-04-360.webp 1x, ../images/ad-studio/look/maya-04-720.webp 2x" alt="The chosen draft, with fake words floating over the shelves" loading="lazy" decoding="async"></div>
+                  <figcaption><span class="bb-fig__t">Draft 04 <small>Before</small></span></figcaption>
+                </figure>
+                <figure class="bb-fig">
+                  <div class="bb-fig__f"><img width="360" height="482" src="../images/ad-studio/look/maya-edit-360.webp" data-full="../images/ad-studio/look/maya-edit-720.webp" srcset="../images/ad-studio/look/maya-edit-360.webp 1x, ../images/ad-studio/look/maya-edit-720.webp 2x" alt="The same frame after one edit: the shelves are clean" loading="lazy" decoding="async"></div>
+                  <figcaption><span class="bb-fig__t">One paid edit <small>After &middot; 2 credits</small></span></figcaption>
+                </figure>
+                <figure class="bb-fig">
+                  <div class="bb-fig__f"><img width="360" height="482" src="../images/ad-studio/look/trio-a-360.webp" data-full="../images/ad-studio/look/trio-a-720.webp" srcset="../images/ad-studio/look/trio-a-360.webp 1x, ../images/ad-studio/look/trio-a-720.webp 2x" alt="Three plain hot-pink packs with white caps on a butter-yellow set" loading="lazy" decoding="async"></div>
+                  <figcaption><span class="bb-fig__t">The hero packs <small>Generic on purpose</small></span></figcaption>
+                </figure>
+              </div>
+              <p class="bb-p as-note">The rule that came out of it is now in the lock&rsquo;s negative list and the lessons file: <b>never write &ldquo;headline&rdquo;, &ldquo;copy space&rdquo; or &ldquo;for text&rdquo; in an image prompt.</b> Ask for the space in picture terms instead: &ldquo;the upper third is plain tiled wall&rdquo;.</p>
+            </div>
+          </section>
+
+          <!-- 05 ──────────────────────────────────── -->
+          <section class="bb-ch" id="set">
+            <p class="bb-ch__n">05 &middot; The set</p>
+            <h2 class="bb-ch__t">Ten ads, eight formats, three sizes&nbsp;each.</h2>
+            <p class="bb-ch__d">A test set, not a hero ad: at least three formats, two background treatments, no two headlines starting on the same word. The type is set by the renderer, never generated, so it stays sharp. <b>The approved set, as it was signed off.</b></p>
+            <div class="bb-body">
+              <div class="as-set">
+                <figure><img width="360" height="450" src="../images/ad-studio/set/b01-360.webp" data-full="../images/ad-studio/set/b01-720.webp" srcset="../images/ad-studio/set/b01-360.webp 1x, ../images/ad-studio/set/b01-720.webp 2x" alt="B01: a young woman by a bathroom shelf, a white caption sticker reading Overdid the acids? Rebuild first." loading="lazy" decoding="async"><figcaption>B01<span>UGC frame</span></figcaption></figure>
+                <figure><img width="360" height="450" src="../images/ad-studio/set/b02-360.webp" data-full="../images/ad-studio/set/b02-720.webp" srcset="../images/ad-studio/set/b02-360.webp 1x, ../images/ad-studio/set/b02-720.webp 2x" alt="B02: Your barrier called. It wants a break. A grey ten-step column against a pink Byoma column" loading="lazy" decoding="async"><figcaption>B02<span>Us vs them</span></figcaption></figure>
+                <figure><img width="360" height="450" src="../images/ad-studio/set/b03-360.webp" data-full="../images/ad-studio/set/b03-720.webp" srcset="../images/ad-studio/set/b03-360.webp 1x, ../images/ad-studio/set/b03-720.webp 2x" alt="B03: Before the next active, the barrier. Three pink packs on yellow" loading="lazy" decoding="async"><figcaption>B03<span>Hero headline</span></figcaption></figure>
+                <figure><img width="360" height="450" src="../images/ad-studio/set/b04-360.webp" data-full="../images/ad-studio/set/b04-720.webp" srcset="../images/ad-studio/set/b04-360.webp 1x, ../images/ad-studio/set/b04-720.webp 2x" alt="B04: a chat between a daughter and her mother about a moisturizer, ending with a photo of the packs" loading="lazy" decoding="async"><figcaption>B04<span>Text thread</span></figcaption></figure>
+                <figure><img width="360" height="450" src="../images/ad-studio/set/b05-360.webp" data-full="../images/ad-studio/set/b05-720.webp" srcset="../images/ad-studio/set/b05-360.webp 1x, ../images/ad-studio/set/b05-720.webp 2x" alt="B05: One shelf. Two generations. Same jar. A mother and daughter laughing over a pink jar" loading="lazy" decoding="async"><figcaption>B05<span>Lifestyle</span></figcaption></figure>
+                <figure><img width="360" height="450" src="../images/ad-studio/set/b06-360.webp" data-full="../images/ad-studio/set/b06-720.webp" srcset="../images/ad-studio/set/b06-360.webp 1x, ../images/ad-studio/set/b06-720.webp 2x" alt="B06: Mom stole my moisturizer again. A pink jar on a pink wall and a yellow table" loading="lazy" decoding="async"><figcaption>B06<span>Lifestyle</span></figcaption></figure>
+                <figure><img width="360" height="450" src="../images/ad-studio/set/b07-360.webp" data-full="../images/ad-studio/set/b07-720.webp" srcset="../images/ad-studio/set/b07-360.webp 1x, ../images/ad-studio/set/b07-720.webp 2x" alt="B07: Barrier care under $20. The three packs on yellow" loading="lazy" decoding="async"><figcaption>B07<span>Hero headline</span></figcaption></figure>
+                <figure><img width="360" height="450" src="../images/ad-studio/set/b08-360.webp" data-full="../images/ad-studio/set/b08-720.webp" srcset="../images/ad-studio/set/b08-360.webp 1x, ../images/ad-studio/set/b08-720.webp 2x" alt="B08: Science you can read on the jar. A ticked list of four claims above the packs" loading="lazy" decoding="async"><figcaption>B08<span>Benefits</span></figcaption></figure>
+                <figure><img width="360" height="450" src="../images/ad-studio/set/b09-360.webp" data-full="../images/ad-studio/set/b09-720.webp" srcset="../images/ad-studio/set/b09-360.webp 1x, ../images/ad-studio/set/b09-720.webp 2x" alt="B09: 3-1-1: the ratio your barrier uses. Four labelled callouts pointing at the packs" loading="lazy" decoding="async"><figcaption>B09<span>Ingredients</span></figcaption></figure>
+                <figure><img width="360" height="450" src="../images/ad-studio/set/b10-360.webp" data-full="../images/ad-studio/set/b10-720.webp" srcset="../images/ad-studio/set/b10-360.webp 1x, ../images/ad-studio/set/b10-720.webp 2x" alt="B10: Finally, a routine we can share. The packs alone, a text-only Shop now" loading="lazy" decoding="async"><figcaption>B10<span>Premium</span></figcaption></figure>
+              </div>
+              <figure class="bb-fig" style="margin-top:56px">
+                <div class="bb-fig__f as-fig--plain">
+                  <img width="720" height="297" src="../images/ad-studio/set/sizes-b07-720.webp" data-full="../images/ad-studio/set/sizes-b07-1440.webp"
+                       srcset="../images/ad-studio/set/sizes-b07-720.webp 720w, ../images/ad-studio/set/sizes-b07-1440.webp 1440w" sizes="(max-width: 1080px) calc(100vw - 40px), 900px"
+                       alt="B07 in three sizes side by side: feed 4:5, square 1:1 and Stories 9:16" loading="lazy" decoding="async">
+                </div>
+                <figcaption>
+                  <span class="bb-fig__t">One ad, three frames <small>B07</small></span>
+                  <span class="bb-fig__d">Stories gets its own rules: all type between 16% and 60% of the height, clear of the app&rsquo;s profile row and reply bar, and no drawn button, because the platform draws its own.</span>
+                </figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <!-- 06 ──────────────────────────────────── -->
+          <section class="bb-ch" id="checks">
+            <p class="bb-ch__n">06 &middot; The checks</p>
+            <h2 class="bb-ch__t">My checks passed it. My eye didn&rsquo;t.</h2>
+            <p class="bb-ch__d">The first set went to the gate with every automated check green. I approved eight ads, sent two back, and left one note: <q class="as-q">Text should be placed well, and too much white space harms the look of the ad. Put extra attention to line breaks.</q> <b>The note was right, and the checks had no way to see it</b>, because they checked the plan for each ad, not the file it became.</p>
+            <div class="bb-body bb-stack">
+              <div class="bb-stats">
+                <p class="bb-stat"><b>0</b><span>flags, old checks</span></p>
+                <p class="bb-stat"><b>30</b><span>flags, new checks, same files</span></p>
+                <p class="bb-stat"><b>13</b><span>empty bands</span></p>
+                <p class="bb-stat"><b>13</b><span>low contrast</span></p>
+                <p class="bb-stat"><b>4</b><span>collisions</span></p>
+              </div>
+
+              <div class="as-ba as-ba--3">
+                <figure class="as-pair">
+                  <div class="as-pair__f">
+                    <div><div class="bb-fig__f"><img width="360" height="360" src="../images/ad-studio/fix/b03-1080x1080-v1-360.webp" data-full="../images/ad-studio/fix/b03-1080x1080-v1-720.webp" srcset="../images/ad-studio/fix/b03-1080x1080-v1-360.webp 1x, ../images/ad-studio/fix/b03-1080x1080-v1-720.webp 2x" alt="B03 square, version 1: the third line of the headline runs into the subhead and the product" loading="lazy" decoding="async"></div><span class="as-v">v1</span></div>
+                    <div><div class="bb-fig__f"><img width="360" height="360" src="../images/ad-studio/fix/b03-1080x1080-v2-360.webp" data-full="../images/ad-studio/fix/b03-1080x1080-v2-720.webp" srcset="../images/ad-studio/fix/b03-1080x1080-v2-360.webp 1x, ../images/ad-studio/fix/b03-1080x1080-v2-720.webp 2x" alt="B03 square, version 2: two clean headline lines, the subhead below, the product clear of both" loading="lazy" decoding="async"></div><span class="as-v as-v--2">v2</span></div>
+                  </div>
+                  <figcaption><span class="bb-fig__t">B03 square <small>v1 &rarr; v2</small></span><span class="bb-fig__d">The positions were shares of the frame, so the square squeezed the headline into the product. Now the type is measured first and the product gets what is left.</span></figcaption>
+                </figure>
+                <figure class="as-pair">
+                  <div class="as-pair__f">
+                    <div><div class="bb-fig__f"><img width="360" height="450" src="../images/ad-studio/fix/b06-1080x1350-v1-360.webp" data-full="../images/ad-studio/fix/b06-1080x1350-v1-720.webp" srcset="../images/ad-studio/fix/b06-1080x1350-v1-360.webp 1x, ../images/ad-studio/fix/b06-1080x1350-v1-720.webp 2x" alt="B06 feed, version 1: a dark fade over the jar and the headline sitting on it" loading="lazy" decoding="async"></div><span class="as-v">v1</span></div>
+                    <div><div class="bb-fig__f"><img width="360" height="450" src="../images/ad-studio/fix/b06-1080x1350-v2-360.webp" data-full="../images/ad-studio/fix/b06-1080x1350-v2-720.webp" srcset="../images/ad-studio/fix/b06-1080x1350-v2-360.webp 1x, ../images/ad-studio/fix/b06-1080x1350-v2-720.webp 2x" alt="B06 feed, version 2: the headline in white on the pink wall and the jar bigger and clean" loading="lazy" decoding="async"></div><span class="as-v as-v--2">v2</span></div>
+                  </div>
+                  <figcaption><span class="bb-fig__t">B06 feed <small>Sent back &middot; v1 &rarr; v2</small></span><span class="bb-fig__d">The default dark fade hid the product. The fix moved the headline onto the empty pink wall and cropped the photo 25% tighter onto the jar.</span></figcaption>
+                </figure>
+                <figure class="as-pair">
+                  <div class="as-pair__f">
+                    <div><div class="bb-fig__f"><img width="300" height="533" src="../images/ad-studio/fix/b09-1080x1920-v1-300.webp" data-full="../images/ad-studio/fix/b09-1080x1920-v1-600.webp" srcset="../images/ad-studio/fix/b09-1080x1920-v1-300.webp 1x, ../images/ad-studio/fix/b09-1080x1920-v1-600.webp 2x" alt="B09 Stories, version 1: small callouts in light pink around a small product, the lower half empty" loading="lazy" decoding="async"></div><span class="as-v">v1</span></div>
+                    <div><div class="bb-fig__f"><img width="300" height="533" src="../images/ad-studio/fix/b09-1080x1920-v2-300.webp" data-full="../images/ad-studio/fix/b09-1080x1920-v2-600.webp" srcset="../images/ad-studio/fix/b09-1080x1920-v2-300.webp 1x, ../images/ad-studio/fix/b09-1080x1920-v2-600.webp 2x" alt="B09 Stories, version 2: a two-by-two ingredient grid in deep pink under the headline, a large product below" loading="lazy" decoding="async"></div><span class="as-v as-v--2">v2</span></div>
+                  </div>
+                  <figcaption><span class="bb-fig__t">B09 Stories <small>v1 &rarr; v2</small></span><span class="bb-fig__d">The ingredient names were 3.7:1. In the tall frame the leader lines would have crossed the text, so they became a clean grid.</span></figcaption>
+                </figure>
+              </div>
+
+              <div class="bb-two">
+                <div>
+                  <p class="bb-k">Line breaks, before and after</p>
+                  <ul class="as-lb">
+                    <li><s>Your barrier called. It wants<br>a break.</s><span>Your barrier called.<br>It wants a break.</span></li>
+                    <li><s>Before the next<br>active, the<br>barrier.</s><span>Before the next active,<br>the barrier.</span></li>
+                    <li><s>Science you can read on<br>the jar.</s><span>Science you can<br>read on the jar.</span></li>
+                    <li><s>One shelf. Two<br>generations. Same jar.</s><span>One shelf.<br>Two generations.<br>Same jar.</span></li>
+                  </ul>
+                </div>
+                <div>
+                  <p class="bb-k">What the tools do now</p>
+                  <p class="bb-p"><b>Break lines like a designer.</b> The fewest lines that fit, or one more if that lets each line end on a full stop or a comma. Never a single word left alone, never a line ending on &ldquo;the&rdquo; or &ldquo;my&rdquo;, never a sentence split across a break. The size is chosen to give a clean break, not just the biggest fit.</p>
+                  <p class="bb-p"><b>Check the file, not the plan.</b> Every frame is rendered, then checked for type touching type or the product, a callout line through text, type outside the margins, contrast on the real pixels behind the type, and any empty band deeper than 15% of the height.</p>
+                  <p class="bb-p">All 30 files of set v2: 0 flags. The checks now run in the repo&rsquo;s self-test, so the same miss cannot come back quietly.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 07 ──────────────────────────────────── -->
+          <section class="bb-ch" id="loops">
+            <p class="bb-ch__n">07 &middot; The loops</p>
+            <h2 class="bb-ch__t">Only the photo moves. The type never goes through the&nbsp;model.</h2>
+            <p class="bb-ch__d">Video models warp letters. So each ad is split into a plate with no type and a transparent type layer. Only the plate is animated, then the type is laid back on top, pixel for pixel. <b>Every clip is checked frame by frame against its first frame</b> before it becomes a loop.</p>
+            <div class="bb-body bb-stack">
+              <div class="as-loops">
+                <figure>
+                  <video src="../assets/media/ad-studio/b06-kling.mp4" poster="../images/ad-studio/loops/b06-kling-poster-540.webp" autoplay muted loop playsinline preload="metadata" aria-label="B06 loop: a slow push in toward the pink jar"></video>
+                  <figcaption>B06 &middot; Kling 3.0<span>A steady push. 6.25 credits.</span></figcaption>
+                </figure>
+                <figure>
+                  <video src="../assets/media/ad-studio/b05-wan.mp4" poster="../images/ad-studio/loops/b05-wan-poster-540.webp" autoplay muted loop playsinline preload="metadata" aria-label="B05 loop: the mother and daughter laughing, small natural movements"></video>
+                  <figcaption>B05 &middot; Wan 2.2<span>Small human moves. Free in the web app.</span></figcaption>
+                </figure>
+                <figure>
+                  <video src="../assets/media/ad-studio/ly-ad2-kling.mp4" poster="../images/ad-studio/loops/ly-ad2-kling-poster-540.webp" autoplay muted loop playsinline preload="metadata" aria-label="Lucy and Yak loop: a woman on a sofa in a beige room, breathing slowly"></video>
+                  <figcaption>Lucy &amp; Yak &middot; Kling 3.0<span>A breath and a smile.</span></figcaption>
+                </figure>
+              </div>
+              <div class="bb-two">
+                <div>
+                  <p class="bb-k">Two free B06 clips, both rejected</p>
+                  <figure class="bb-fig"><div class="bb-fig__f"><img width="870" height="512" src="../images/ad-studio/loops/b06-wan-1-870.webp" alt="Three frames of the first rejected clip: the pink wall washes out with blind shadows, then turns dark crimson" loading="lazy" decoding="async"></div></figure>
+                  <p class="bb-p" style="margin-top:14px">The web app&rsquo;s &ldquo;enhance prompt&rdquo; rewrote my light line into blinds and a colour shift. The white type fell to 1.7:1. On the rerun, the list of things to avoid was pasted into the prompt itself, and the model drew exactly that list.</p>
+                </div>
+                <div>
+                  <p class="bb-k">What changed in the tools</p>
+                  <p class="bb-p">The free clips were made from the original 3:4 photos, not the cropped plate. A centre crop would have lost the approved zoom and the dark fade. <b>The loop tool now renders every clip frame through the ad&rsquo;s own layout</b>, so the loop matches the signed static exactly.</p>
+                  <p class="bb-p">Making the start frames also exposed a bug: on frames with a fade, the headline was leaking into the plate the model animates. Fixed, with a test that fails on the old code.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 08 ──────────────────────────────────── -->
+          <section class="bb-ch" id="first">
+            <p class="bb-ch__n">08 &middot; The first run</p>
+            <h2 class="bb-ch__t">Lucy &amp; Yak: colour, in a world that sells&nbsp;beige.</h2>
+            <p class="bb-ch__d">The first brand through the pipeline, and a smaller job: two awareness ads for an independent UK clothing brand. The idea was one person in loud printed dungarees as the only colour in an all-beige room. <b>Most of what broke here became a rule for the Byoma run.</b></p>
+            <div class="bb-body">
+              <div class="as-ly">
+                <figure><img width="360" height="450" src="../images/ad-studio/ly/ad1-feed-1080x1350-360.webp" data-full="../images/ad-studio/ly/ad1-feed-1080x1350-720.webp" srcset="../images/ad-studio/ly/ad1-feed-1080x1350-360.webp 1x, ../images/ad-studio/ly/ad1-feed-1080x1350-720.webp 2x" alt="Made with care. Not in beige. A woman in pink dungarees with plum flowers in a beige room" loading="lazy" decoding="async"></figure>
+                <figure><img width="360" height="450" src="../images/ad-studio/ly/ad2-feed-1080x1350-360.webp" data-full="../images/ad-studio/ly/ad2-feed-1080x1350-720.webp" srcset="../images/ad-studio/ly/ad2-feed-1080x1350-360.webp 1x, ../images/ad-studio/ly/ad2-feed-1080x1350-720.webp 2x" alt="Dressed for a party. Feels like pyjamas. The same woman curled up on a beige sofa" loading="lazy" decoding="async"></figure>
+                <figure><img width="300" height="533" src="../images/ad-studio/ly/ad1-story-1080x1920-300.webp" data-full="../images/ad-studio/ly/ad1-story-1080x1920-600.webp" srcset="../images/ad-studio/ly/ad1-story-1080x1920-300.webp 1x, ../images/ad-studio/ly/ad1-story-1080x1920-600.webp 2x" alt="The first ad in the Stories frame" loading="lazy" decoding="async"></figure>
+                <figure><img width="300" height="533" src="../images/ad-studio/ly/ad2-story-1080x1920-300.webp" data-full="../images/ad-studio/ly/ad2-story-1080x1920-600.webp" srcset="../images/ad-studio/ly/ad2-story-1080x1920-300.webp 1x, ../images/ad-studio/ly/ad2-story-1080x1920-600.webp 2x" alt="The second ad in the Stories frame" loading="lazy" decoding="async"></figure>
+              </div>
+              <ol class="bb-rules">
+                <li><b>Contrast on the real wall</b>The brand purple read 5.2:1 on a light sample of the wall and 3.4:1 where the headline actually sat. A deeper plum reached 4.8:1, signed as lock v1.1.</li>
+                <li><b>Extend a wall, never mirror it</b>Mirroring copied her head upside down into the top of the frame. Tiling clean wall only, with a colour-matched seam, gave the Stories frame its room.</li>
+                <li><b>Fake labels come back</b>The model kept sewing brand-like labels onto the dungarees. One edit removed them, and the lock now bans them.</li>
+                <li><b>Ask about the free option first</b>I spent credits on a loop before checking the plan&rsquo;s free video model. On Byoma the free route went first, and the paid one only where it failed.</li>
+              </ol>
+            </div>
+          </section>
+
+          <!-- 09 ──────────────────────────────────── -->
+          <section class="bb-ch" id="learned">
+            <p class="bb-ch__n">09 &middot; What I learned</p>
+            <h2 class="bb-ch__t">19 lessons, each with its evidence, each enforced&nbsp;somewhere.</h2>
+            <p class="bb-ch__d">A lesson only counts if it changes a tool, a template or the lock. The repo keeps a lessons file where every entry names what happened and where the rule now lives. <b>These are the ones I would hand to another art director first.</b></p>
+            <div class="bb-body">
+              <ol class="bb-rules as-rules">
+                <li><b>Gates are pages</b>A decision next to the work, saved, and read back. Not a reply buried in a chat.</li>
+                <li><b>Measure the type first</b>A layout made of fixed shares breaks when the size changes. Type first, product in what is left.</li>
+                <li><b>Check the rendered file</b>Plans pass. Pixels fail. Every check that matters runs after rendering.</li>
+                <li><b>Contrast on real pixels</b>A swatch is not a wall. Measure what is actually behind the type.</li>
+                <li><b>Never say &ldquo;headline&rdquo; to an image model</b>It will draw one. Describe the empty space as part of the picture.</li>
+                <li><b>Turn enhancers off for loops</b>And never put the words you don&rsquo;t want into the prompt box.</li>
+                <li><b>Ask before every paid run</b>Model, count, credits, and a yes. Reruns too.</li>
+                <li><b>The set is the unit</b>Ten good ads can still read as one ad. Check openers, formats and backgrounds across the set.</li>
+              </ol>
+              <a class="bb-link" href="https://github.com/segalitoo/video-ad-art-direction-" target="_blank" rel="noopener">The toolchain and the lessons file, on GitHub <i>&rarr;</i></a>
+            </div>
+          </section>
+
+          <!-- 10 ──────────────────────────────────── -->
+          <section class="bb-ch" id="limits">
+            <p class="bb-ch__n">10 &middot; What it can&rsquo;t prove</p>
+            <h2 class="bb-ch__t">No results. Spec work proves the process, not the&nbsp;ads.</h2>
+            <p class="bb-ch__d">None of these ads has run, so there is no click rate, no cost per sale and no winner. The pipeline has a scoring step for live results, and it has nothing to score yet. <b>What the work does show is checkable: the files, the decisions and the logs.</b></p>
+            <div class="bb-body">
+              <ul class="as-open">
+                <li><b>Claims not verified with the brand</b>&ldquo;Under $20&rdquo;, fragrance-free, oil-free, vegan and the 3-1-1 ratio came from public sources and product pages, not from Byoma.</li>
+                <li><b>Stand-in font</b>Byoma uses its own typeface. The ads use Outfit until the real file exists.</li>
+                <li><b>AI people</b>The Maya and family photos are generated. Running them would need the platform&rsquo;s AI label.</li>
+                <li><b>Not affiliated</b>Neither brand asked for this, saw it or approved it. Packs are generic and no real label was faked.</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <nav class="pg-next">
+        <a href="ai-workflow.html">
+          <span><span class="pg-next__k">Next</span><span class="pg-next__t" style="display:block">AI production workflow</span></span>
+          <i>&rarr;</i>
+        </a>
+      </nav>
+
+      <footer class="pg-foot">
+        <span>Ran Segal &copy; 2026</span>
+        <span class="pg-foot__links">
+          <a href="https://www.linkedin.com/in/ran-segal-d/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:segalitoo@gmail.com">Email</a>
+        </span>
+      </footer>
+    </div>
+  </main>
+
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button class="lb__x" aria-label="Close image viewer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <img id="lbImg" alt="">
+    <div class="lb__cap" id="lbCap"></div>
+  </div>
+</body>
+
+</html>

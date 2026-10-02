@@ -1,0 +1,127 @@
+/* ══════════════════════════════════════════════════════════
+   Spec ads through a pipeline · the case study page
+   The chapter frame is bingo-bay.css (rail, chapters, figures, rules).
+   This file adds what an ad set needs: grids of portrait ads, before
+   and after pairs, the angle table and the loops.
+
+   The ads keep their own colours in dark mode, the way a photograph
+   does. Only the chrome around them follows the theme.
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Hero ──────────────────────────────────────── */
+.as-hero { display: grid; place-items: center; }
+.as-hero img {
+  width: min(100%, 460px); height: auto;
+  filter: drop-shadow(0 22px 44px rgba(12, 19, 48, 0.18));
+}
+@media (max-width: 900px) { .as-hero img { width: min(80%, 380px); } }
+.as-spec {
+  margin-top: 18px; max-width: 52ch; padding: 12px 14px;
+  font-size: 0.84rem; line-height: 1.55; color: var(--text-secondary);
+  border: 1px solid var(--hair); border-radius: var(--radius-md); background: var(--tint);
+}
+.as-spec b { font-weight: 600; color: var(--text-primary); }
+
+/* ── 02 · The palette, static ──────────────────── */
+.as-sw { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-top: 44px; }
+.as-sw__i { display: grid; gap: 9px; }
+.as-sw__c { display: block; height: 52px; border-radius: var(--radius-sm); box-shadow: inset 0 0 0 1px var(--hair); }
+.as-sw__n { font-size: 0.78rem; font-weight: 500; line-height: 1.3; }
+.as-sw__n span { display: block; margin-top: 2px; font-family: var(--font-mono); font-size: 0.66rem; font-weight: 400; color: var(--text-muted); }
+
+/* ── 03 · The angle table ──────────────────────── */
+.as-table { border-top: 1px solid var(--hair); }
+.as-tr {
+  display: grid; grid-template-columns: minmax(0, 1fr) repeat(3, 56px) 64px 92px;
+  gap: 12px; align-items: baseline; padding: 16px 0; border-bottom: 1px solid var(--hair);
+  font-size: 0.92rem; color: var(--text-secondary);
+}
+.as-tr b { display: block; margin-bottom: 3px; font-weight: 600; color: var(--text-primary); }
+.as-th { padding: 12px 0; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.as-score { font-family: var(--font-mono); font-size: 1rem; font-weight: 600; color: var(--primary); }
+.as-tr--out { opacity: 0.62; }
+.as-tr--out .as-score { color: var(--text-muted); }
+
+/* ── Figures: pairs and triples of portrait frames ─ */
+.as-ba { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.as-ba .bb-fig figcaption { margin-top: 12px; }
+.as-note { max-width: 64ch; }
+.as-q { quotes: "\201C" "\201D"; font-style: italic; color: var(--text-primary); }
+
+.as-ba--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.as-pair { margin: 0; }
+.as-pair__f { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: start; }
+.as-pair__f .bb-fig__f { position: relative; border-radius: var(--radius-md); }
+.as-pair__f .bb-fig__f + .as-v { display: block; margin-top: 8px; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+.as-v--2 { color: var(--primary) !important; }
+.as-pair figcaption { margin-top: 14px; }
+
+/* ── 05 · The set ──────────────────────────────── */
+.as-set { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px 16px; }
+.as-set figure, .as-ly figure { margin: 0; }
+.as-set img, .as-ly img {
+  display: block; width: 100%; height: auto; border-radius: var(--radius-md);
+  box-shadow: 0 0 0 1px var(--hair), var(--shadow-md); cursor: zoom-in;
+  transition: transform 260ms var(--ez), box-shadow 320ms var(--ez);
+}
+.as-set figcaption { margin-top: 10px; font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-primary); }
+.as-set figcaption span { display: block; margin-top: 2px; font-family: var(--font-sans); font-size: 0.78rem; color: var(--text-secondary); }
+@media (hover: hover) and (pointer: fine) {
+  .as-set img:hover, .as-ly img:hover { transform: translateY(-3px); box-shadow: 0 0 0 1px var(--hair), var(--shadow-lg); }
+}
+.as-fig--plain { background: #fff; }
+
+/* ── 06 · Line breaks ──────────────────────────── */
+.as-lb { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.as-lb li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; padding-bottom: 18px; border-bottom: 1px dashed var(--hair-hi); }
+.as-lb li:last-child { border-bottom: 0; padding-bottom: 0; }
+.as-lb s, .as-lb span { font-size: 0.94rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; white-space: nowrap; }
+.as-lb s { color: var(--text-muted); text-decoration-color: var(--text-danger); text-decoration-thickness: 1px; }
+.as-lb span { color: var(--text-primary); }
+
+/* ── 07 · Loops ────────────────────────────────── */
+.as-loops { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; max-width: 760px; }
+.as-loops figure { margin: 0; }
+.as-loops video {
+  display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: var(--radius-lg);
+  background: var(--surface-sunken); box-shadow: 0 0 0 1px var(--hair), var(--shadow-md);
+}
+.as-loops figcaption { margin-top: 12px; font-size: 0.9rem; font-weight: 600; letter-spacing: -0.01em; }
+.as-loops figcaption span { display: block; margin-top: 2px; font-size: 0.8rem; font-weight: 400; color: var(--text-secondary); }
+
+/* ── 08 · Lucy & Yak ───────────────────────────── */
+/* Columns in proportion to each frame's width at one height, so the
+   feed and Stories frames share a top and a bottom edge. */
+.as-ly { display: grid; grid-template-columns: 0.8fr 0.8fr 0.5625fr 0.5625fr; gap: 14px; align-items: start; margin-bottom: 8px; }
+
+/* ── 09 · Eight rules ──────────────────────────── */
+.as-rules { margin-top: 0; }
+
+/* ── 10 · Open items ───────────────────────────── */
+.as-open { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 40px; }
+.as-open li { padding-top: 14px; border-top: 1px solid var(--hair); font-size: 0.92rem; line-height: 1.55; color: var(--text-secondary); }
+.as-open b { display: block; margin-bottom: 4px; font-weight: 600; color: var(--text-primary); }
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 1080px) {
+  .as-set { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .as-ba--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .as-set { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .as-ba, .as-ba--3 { grid-template-columns: minmax(0, 1fr); }
+  .as-ba:not(.as-ba--3) { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .as-ly { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .as-sw { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .as-open { grid-template-columns: minmax(0, 1fr); }
+  .as-tr { grid-template-columns: minmax(0, 1fr) repeat(3, 34px) 44px; }
+  .as-tr > :last-child { display: none; }
+}
+@media (max-width: 480px) {
+  .as-loops { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .as-loops figcaption { font-size: 0.78rem; }
+  .as-loops figcaption span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .as-set img:hover, .as-ly img:hover { transform: none; }
+}

@@ -397,3 +397,24 @@
 
 /* The contact block sits directly on the footer rule otherwise. */
 .o-foot { padding-bottom: 88px; }
+
+/* ── A wide card ──────────────────────────────────
+   The spec-ads project sits alone in its band, so its card spans the
+   grid: the frame on the left, the words beside it, centred on it.
+   Under 860px it falls back to the ordinary stacked card. */
+.f-card--wide {
+  grid-column: 1 / -1; display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  grid-template-rows: 1fr auto auto auto 1fr;
+  column-gap: clamp(28px, 4.5vw, 72px);
+}
+.f-card--wide .f-frame { grid-column: 1; grid-row: 1 / -1; aspect-ratio: 16 / 9; }
+.f-card--wide picture { display: contents; }
+.f-card--wide .f-card__t { grid-column: 2; grid-row: 2; margin-top: 0; }
+.f-card--wide .f-card__d { grid-column: 2; grid-row: 3; max-width: 46ch; }
+.f-card--wide .f-card__acts { grid-column: 2; grid-row: 4; }
+@media (max-width: 860px) {
+  .f-card--wide { display: flex; }
+  .f-card--wide .f-frame { aspect-ratio: 16 / 15; }
+  .f-card--wide .f-card__t { margin-top: 26px; }
+}
