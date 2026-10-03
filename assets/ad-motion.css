@@ -1,0 +1,39 @@
+/* ══════════════════════════════════════════════════════════
+   Motion from a static · the case study page
+   The chapter frame is bingo-bay.css, the ad pieces ad-studio.css.
+   This file adds the four-up video grid, the hero video and the
+   curve figure. The videos keep their own colours in dark mode.
+   ══════════════════════════════════════════════════════════ */
+
+.am-hero { display: grid; place-items: center; }
+.am-hero video {
+  display: block; width: min(100%, 340px); aspect-ratio: 9 / 16; object-fit: cover;
+  border-radius: var(--radius-lg); background: var(--surface-sunken);
+  box-shadow: 0 0 0 1px var(--hair), 0 22px 44px rgba(12, 19, 48, 0.18);
+}
+
+.am-four { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.am-four figure { margin: 0; }
+.am-four video {
+  display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: var(--radius-lg);
+  background: var(--surface-sunken); box-shadow: 0 0 0 1px var(--hair), var(--shadow-md);
+}
+.am-four figcaption { margin-top: 12px; font-size: 0.9rem; font-weight: 600; letter-spacing: -0.01em; }
+.am-four figcaption span { display: block; margin-top: 4px; font-size: 0.8rem; font-weight: 400; line-height: 1.5; color: var(--text-secondary); }
+
+.am-curves svg { display: block; width: 100%; height: auto; color: var(--text-primary); }
+.am-curves .bb-fig__f { padding: 20px; }
+
+.am-bugs li { font-size: 0.9rem; }
+
+@media (max-width: 1080px) {
+  .am-four { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
+}
+@media (max-width: 640px) {
+  .am-curves .bb-fig__f { overflow-x: auto; }
+  .am-curves svg { min-width: 620px; }                 /* labels stay readable; the figure scrolls sideways */
+}
+@media (max-width: 480px) {
+  .am-four figcaption span { font-size: 0.76rem; }
+  .am-hero video { width: min(72%, 300px); }
+}
