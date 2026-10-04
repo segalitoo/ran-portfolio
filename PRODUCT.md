@@ -78,6 +78,13 @@ them can.
   December 2025, which is the 14 years the home page claims. The Taptica
   entry in `history` is a past job title and stays Creative Manager.
 - **No em dashes** in any generated copy. Standing instruction.
+- The "Ad production with AI" section is parked, not deleted. It lives on
+  the `parked/ads-section` branch at `_parked/ads-section.html`, which
+  carries a note on where it came from and how to put it back. It is kept
+  off `main` because everything on `main` is published: an underscore
+  directory is NOT skipped here, so a copy left in the deployed tree was
+  fetchable at its own URL. To get it back:
+  `git show parked/ads-section:_parked/ads-section.html`
 - Project copy is written in the first person about decisions made, not
   deliverables produced.
 
