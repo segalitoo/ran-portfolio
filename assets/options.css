@@ -344,7 +344,7 @@
    address and the number can be copied without opening a mail client. */
 .o-contact { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 14px 56px; }
 .o-contact__row { display: flex; flex-direction: column; gap: 6px; }
-.o-contact__k { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-muted); }
+.o-contact__k { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--text-muted); }
 .o-contact__v { margin: 0; font-size: 1.125rem; font-weight: 500; letter-spacing: -0.01em; }
 .o-contact__v a { color: var(--text-primary); text-decoration: none; border-bottom: 1px solid var(--hair-hi); padding-bottom: 2px; transition: color 200ms var(--e-out), border-color 200ms var(--e-out); }
 .o-contact__v a:hover { color: var(--primary); border-bottom-color: var(--primary); }
@@ -417,4 +417,81 @@
   .f-card--wide { display: flex; }
   .f-card--wide .f-frame { aspect-ratio: 16 / 15; }
   .f-card--wide .f-card__t { margin-top: 26px; }
+}
+
+/* ── Hero: the claim and its proof in one glance ──────────
+   The first viewport used to hold a sentence and a drifting dot field,
+   so the work began a screen below the thing claiming it. The product
+   now runs beside the claim. The dot canvas is gone rather than moved:
+   it carried no meaning and cost a requestAnimationFrame loop. */
+.o-hero__in {
+  display: grid; grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(32px, 5vw, 72px); align-items: center;
+}
+.o-hero__copy, .o-hero__art { min-width: 0; }
+.o-hero__fig {
+  margin: 0; border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: 0 30px 60px -28px rgba(12, 19, 48, 0.34);
+}
+.o-hero__v { display: block; width: 100%; height: auto; }
+
+@media (max-width: 900px) {
+  /* On a phone the proof goes first: it survives a glance, the
+     paragraph does not. */
+  .o-hero__in { grid-template-columns: 1fr; }
+  .o-hero__art { order: -1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .o-hero__fig { box-shadow: none; }
+}
+
+/* ── The close ────────────────────────────────────────────
+   This is the last thing read and the only conversion on the site, and
+   it was three plain rows under a heading. Coral earns its keep here:
+   it is declared in the brand and rendered nowhere else, so spending it
+   on the single moment that matters keeps it meaningful rather than
+   decorative. */
+.o-close {
+  display: grid; grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(32px, 5vw, 72px); align-items: start;
+}
+.o-close__say { min-width: 0; }
+.o-close__d {
+  margin-top: 16px; max-width: 54ch; font-size: 1.0625rem;
+  line-height: 1.6; color: var(--text-secondary);
+}
+.o-close__cta {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 26px;
+  padding: 13px 22px; border-radius: 999px; background: var(--accent);
+  color: var(--text-on-fill); font-size: 0.9375rem; font-weight: 600; text-decoration: none;
+  transition: transform 160ms var(--e-out), box-shadow 220ms var(--e-out),
+              background-color 180ms var(--e-out);
+}
+.o-close__cta i { font-style: normal; transition: transform 180ms var(--e-out); }
+.o-close__cta:active { transform: scale(0.97); }
+.o-close .o-contact { margin-top: 34px; }
+
+.o-close__art {
+  display: block; text-decoration: none; color: inherit;
+  border-radius: var(--radius-lg); overflow: hidden;
+}
+.o-close__art img { display: block; width: 100%; height: auto; }
+.o-close__cap {
+  display: block; padding-top: 14px; font-size: 0.875rem;
+  line-height: 1.5; color: var(--text-secondary);
+}
+.o-close__cap i { font-style: normal; transition: transform 180ms var(--e-out); display: inline-block; }
+
+@media (hover: hover) and (pointer: fine) {
+  .o-close__cta:hover { background: var(--accent-hover); box-shadow: 0 14px 28px -12px color-mix(in srgb, var(--accent) 55%, transparent); }
+  .o-close__cta:hover i { transform: translateX(3px); }
+  .o-close__art:hover .o-close__cap { color: var(--text-primary); }
+  .o-close__art:hover .o-close__cap i { transform: translateX(3px); }
+}
+@media (max-width: 900px) {
+  .o-close { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .o-close__cta, .o-close__cta i, .o-close__cap i { transition: none; }
+  .o-close__cta:active { transform: none; }
 }

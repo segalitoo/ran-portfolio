@@ -13,3 +13,4 @@ mov/*.mov
 # but not deployed: GitHub Pages serves whatever is committed.
 _archive/
 .DS_Store
+_preview/
