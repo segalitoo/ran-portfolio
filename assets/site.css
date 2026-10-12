@@ -330,10 +330,18 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .lb {
   position: fixed; inset: 0; z-index: 200; display: grid; place-items: center;
   padding: 4vmin; background: color-mix(in srgb, #05070D 92%, transparent);
-  opacity: 0; visibility: hidden; transition: opacity 0.3s var(--ez), visibility 0.3s;
+  opacity: 0; visibility: hidden;
+  /* Visibility is stepped, not eased. Transitioning it over 0.3s left the
+     dialog unfocusable for the whole fade, so moving focus to Close on
+     open was a race against the clock. Opening flips it at once; closing
+     holds it until the fade finishes so the exit is still seen. */
+  transition: opacity 0.3s var(--ez), visibility 0s linear 0.3s;
 }
 
-.lb.is-open { opacity: 1; visibility: visible; }
+.lb.is-open {
+  opacity: 1; visibility: visible;
+  transition: opacity 0.3s var(--ez), visibility 0s linear 0s;
+}
 .lb img { max-width: 96vw; max-height: 92vh; width: auto; height: auto; border-radius: 8px; }
 
 .lb__x {

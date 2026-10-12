@@ -21,9 +21,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="../brand-system/fonts.css?v=058ea652">
   <link rel="stylesheet" href="../brand-system/tokens.css?v=67f3779e">
-  <link rel="stylesheet" href="../assets/site.css?v=be4e8e10">
+  <link rel="stylesheet" href="../assets/site.css?v=803b214d">
   <link rel="stylesheet" href="../assets/live.css?v=7a13fa7d">
-  <link rel="stylesheet" href="../assets/inner-g.css?v=301b2c1b">
+  <link rel="stylesheet" href="../assets/inner-g.css?v=cd78e9c2">
   <script src="../assets/analytics.js?v=c4045984" defer></script>
   <script src="../assets/site.js?v=0f7e54d3" defer></script>
   <script src="../assets/live.js?v=5d4dbb24" defer></script>
@@ -95,22 +95,28 @@
       <section class="pg-ev" aria-label="Screens from the project">
         <div class="pg-gal">
           <figure class="pg-gal__i">
-            <img src="../images/opt/email_template_2-1440.webp"
-                 srcset="../images/opt/email_template_2-720.webp 720w, ../images/opt/email_template_2-1440.webp 1440w"
-                 sizes="(max-width: 900px) calc(100vw - 40px), 1168px"
-                 alt="The builder beside the mailer it produces, controls on one side and output on the other" width="1440" height="761" loading="lazy" decoding="async">
+            <button class="pg-gal__b" type="button" aria-label="View larger: The builder beside the mailer it produces, controls on one side and output on the other">
+              <img src="../images/opt/email_template_2-1440.webp"
+                   srcset="../images/opt/email_template_2-720.webp 720w, ../images/opt/email_template_2-1440.webp 1440w"
+                   sizes="(max-width: 900px) calc(100vw - 40px), 1168px"
+                   alt="The builder beside the mailer it produces, controls on one side and output on the other" width="1440" height="761" loading="lazy" decoding="async">
+            </button>
           </figure>
           <figure class="pg-gal__i">
-            <img src="../images/opt/email_template_3-1440.webp"
-                 srcset="../images/opt/email_template_3-720.webp 720w, ../images/opt/email_template_3-1440.webp 1440w"
-                 sizes="(max-width: 900px) calc(100vw - 40px), 1168px"
-                 alt="A template assembled from approved blocks" width="1440" height="761" loading="lazy" decoding="async">
+            <button class="pg-gal__b" type="button" aria-label="View larger: A template assembled from approved blocks">
+              <img src="../images/opt/email_template_3-1440.webp"
+                   srcset="../images/opt/email_template_3-720.webp 720w, ../images/opt/email_template_3-1440.webp 1440w"
+                   sizes="(max-width: 900px) calc(100vw - 40px), 1168px"
+                   alt="A template assembled from approved blocks" width="1440" height="761" loading="lazy" decoding="async">
+            </button>
           </figure>
           <figure class="pg-gal__i">
-            <img src="../images/opt/email_template_4-1440.webp"
-                 srcset="../images/opt/email_template_4-720.webp 720w, ../images/opt/email_template_4-1440.webp 1440w"
-                 sizes="(max-width: 900px) calc(100vw - 40px), 1168px"
-                 alt="The same system rendering a different campaign" width="1440" height="761" loading="lazy" decoding="async">
+            <button class="pg-gal__b" type="button" aria-label="View larger: The same system rendering a different campaign">
+              <img src="../images/opt/email_template_4-1440.webp"
+                   srcset="../images/opt/email_template_4-720.webp 720w, ../images/opt/email_template_4-1440.webp 1440w"
+                   sizes="(max-width: 900px) calc(100vw - 40px), 1168px"
+                   alt="The same system rendering a different campaign" width="1440" height="761" loading="lazy" decoding="async">
+            </button>
           </figure>
         </div>
       </section>
@@ -141,16 +147,48 @@
 
   <script>
     /* site.js wires the viewer to its own frame classes. The gallery
-       uses neither, so it hands its own figures over. */
-    document.addEventListener('click', function (e) {
-      var img = e.target.closest('.pg-gal__i img');
-      if (!img) return;
+       uses neither, so it hands its own figures over.
+
+       The gallery is the evidence on this page, so the viewer has to be
+       reachable without a mouse: each figure is a real button, opening
+       moves focus to Close, Tab is held inside the dialog while it is
+       open, and closing hands focus back to the button that opened it.
+       Escape is already handled in site.js. */
+    (function () {
       var lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg');
-      lbImg.src = img.currentSrc || img.src;
-      lbImg.alt = img.alt || '';
-      lb.classList.add('is-open');
-      document.body.classList.add('is-locked');
-    });
+      var closeBtn = lb && lb.querySelector('.lb__x');
+      var opener = null;
+
+      document.addEventListener('click', function (e) {
+        var btn = e.target.closest('.pg-gal__b');
+        if (!btn || !lb) return;
+        var img = btn.querySelector('img');
+        lbImg.src = img.currentSrc || img.src;
+        lbImg.alt = img.alt || '';
+        lb.classList.add('is-open');
+        document.body.classList.add('is-locked');
+        opener = btn;
+        /* The overlay is visibility:hidden until the class lands, and a
+           hidden element cannot take focus, so this waits a frame. */
+        if (closeBtn) requestAnimationFrame(function () { closeBtn.focus(); });
+      });
+
+      /* Without this the tab order walks the page behind the overlay,
+         which is worse than no dialog at all: the reader is moving
+         through things they cannot see. */
+      document.addEventListener('keydown', function (e) {
+        if (!lb || !lb.classList.contains('is-open')) return;
+        if (e.key === 'Tab' && closeBtn) { e.preventDefault(); closeBtn.focus(); }
+      });
+
+      /* site.js owns closing; it only toggles the class, so watch for that
+         and return focus rather than duplicating its close paths. */
+      if (lb && window.MutationObserver) {
+        new MutationObserver(function () {
+          if (!lb.classList.contains('is-open') && opener) { opener.focus(); opener = null; }
+        }).observe(lb, { attributes: true, attributeFilter: ['class'] });
+      }
+    })();
   </script>
 </body>
 

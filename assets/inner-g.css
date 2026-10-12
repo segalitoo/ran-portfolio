@@ -338,3 +338,12 @@
 @media (max-width: 1080px) {
   .pg-hero__art--flush { justify-self: center; max-width: 384px; }
 }
+
+/* The gallery figure is a button now, because a keyboard could not open
+   the viewer at all and on these pages the gallery is the evidence. It
+   must look exactly as it did: no button chrome, just the image. */
+.pg-gal__b {
+  display: block; width: 100%; padding: 0; border: 0; background: none;
+  cursor: zoom-in; border-radius: inherit; color: inherit; font: inherit;
+}
+.pg-gal__b img { display: block; width: 100%; height: auto; }
