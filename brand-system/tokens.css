@@ -12,7 +12,7 @@
   /* Text */
   --text-primary: #0C1330;     /* near-navy ink */
   --text-secondary: #5A6377;
-  --text-muted: #8A92A3;
+  --text-muted: #666E81;   /* 4.51:1 on the worst light surface, was 2.76:1 */
   --text-on-fill: #FFFFFF;     /* text on primary/accent fills */
 
   /* Borders */
@@ -124,7 +124,7 @@
 
   --text-primary: #EAEDF5;
   --text-secondary: #A8B0C2;
-  --text-muted: #717A8E;
+  --text-muted: #7D8597;   /* 4.51:1 on the worst dark surface, was 3.88:1 */
   --text-on-fill: #FFFFFF;
 
   --border: #26304A;
@@ -179,7 +179,7 @@
 
     --text-primary: #EAEDF5;
     --text-secondary: #A8B0C2;
-    --text-muted: #717A8E;
+    --text-muted: #7D8597;   /* 4.51:1 on the worst dark surface, was 3.88:1 */
     --text-on-fill: #FFFFFF;
 
     --border: #26304A;

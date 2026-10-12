@@ -144,3 +144,10 @@
   .wf-det { grid-template-columns: minmax(0, 1fr); }
   .wf-two { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* The only shipped stylesheet that animated without an opt-out. Movement
+   goes, state change stays: colour and opacity still carry the feedback. */
+@media (prefers-reduced-motion: reduce) {
+  .wf-ph, .wf-row, .wf-map__foot, .wf-proof { transition: none; animation: none; }
+  .wf-ph { transform: none; }
+}

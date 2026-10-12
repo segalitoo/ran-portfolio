@@ -343,6 +343,8 @@ def page(p):
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0C1020" media="(prefers-color-scheme: dark)">
   <title>{p['h1']} &middot; Ran Segal</title>
   <meta name="description" content="{p['lede'][:155]}">
   <meta property="og:type" content="article">
@@ -356,8 +358,8 @@ def page(p):
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="../brand-system/fonts.css">
-  <link rel="stylesheet" href="../brand-system/tokens.css">
+  <link rel="stylesheet" href="../brand-system/fonts.css?v={ver('brand-system/fonts.css')}">
+  <link rel="stylesheet" href="../brand-system/tokens.css?v={ver('brand-system/tokens.css')}">
   <link rel="stylesheet" href="../assets/site.css?v={ver('assets/site.css')}">
   <link rel="stylesheet" href="../assets/live.css?v={ver('assets/live.css')}">
   <link rel="stylesheet" href="../assets/inner-g.css?v={ver('assets/inner-g.css')}">
