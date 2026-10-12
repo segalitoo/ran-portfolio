@@ -33,7 +33,10 @@
 }
 
 .pg-back {
+  /* Padding, not a bigger font: the link looked the same at 22px tall
+     and was half the tap floor. */
   display: inline-flex; align-items: center; gap: 9px;
+  padding-block: 12px; margin-block: -12px;
   font-size: 0.84rem; color: var(--text-secondary); text-decoration: none;
   transition: color 200ms var(--ez);
 }

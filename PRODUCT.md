@@ -59,13 +59,16 @@ them can.
 - **Present but not marked binding:** light and dark themes (persisted to
   `localStorage` under `v2-theme`), and Hebrew/RTL support. Both exist in the
   wider workspace; neither was confirmed as a requirement for this site.
-- Seven projects. It was nine: "Icon packages" and "Customer image library" were
-  cut as production tasks that diluted the rest.
+- Both "Icon packages" and "Customer image library" are live again: the first
+  in the Payoneer grid, the second behind the "One more project" disclosure.
+  The earlier note that they were cut no longer describes the site.
 - Every one of the 36 screenshots in `images/` is 2120x1120, a single 1.893:1
   landscape ratio. No portrait, square or detail-crop exports exist yet. Varied
   re-exports are outstanding; `ASSET-SPEC.md` records what is needed.
-- Video slots exist for all four tools at `videos/<tool>.mp4` and fall back to a
-  poster still. No recordings exist yet; `videos/README.md` records the spec.
+- Hero loops are live for the four tools and the five Payoneer projects, in
+  `assets/media/` as paired `.webm` (VP9 with alpha) and `.mp4` (HEVC with
+  alpha), each with a `.webp` poster. The earlier note that no recordings
+  existed was left behind by the rewrite.
 
 ## Brand Commitments
 

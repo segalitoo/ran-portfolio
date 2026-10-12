@@ -77,8 +77,18 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .nav__a:hover, .nav__a.is-current { color: var(--text-primary); background: var(--tint); }
 .lbl-s { display: none; }
 
+.nav__theme::before {
+  content: ""; position: absolute; inset: 5px; border-radius: var(--radius-full);
+  background: inherit; z-index: -1;
+}
+
 .nav__theme {
-  display: grid; place-items: center; width: 34px; height: 34px;
+  /* 44x44 is the tap-target floor. The visible disc stays 34px via the
+     ::before below, so only the hit area grows. An icon button has no
+     text to widen it, which makes it the one strict failure here;
+     inline text links are judged differently. */
+  display: grid; place-items: center; width: 44px; height: 44px;
+  position: relative; background: none;
   border-radius: var(--radius-full); color: var(--text-secondary); flex-shrink: 0;
   transition: color 0.2s var(--ez), background 0.2s var(--ez), transform 0.14s var(--ez);
 }
