@@ -353,14 +353,18 @@ def page(p):
   <meta property="og:url" content="{SITE}/work/{p['slug']}-g.html">
   <meta property="og:title" content="{p['h1']} &middot; Ran Segal">
   <meta property="og:description" content="{p['lede'][:155]}">
-  <meta property="og:image" content="{SITE}/images/opt/{p['og']}-1440.webp">
+  <!-- JPEG at the canonical 1200x630, not the WebP export. LinkedIn and X
+       do not reliably render WebP previews, and this site is circulated
+       as a bare link, so the card is a functional requirement. Built by
+       tools/make-og.py from the same source image. -->
+  <meta property="og:image" content="{SITE}/images/og/{p['slug']}.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{p['h1']} &middot; Ran Segal">
   <meta name="twitter:image" content="{SITE}/images/opt/{p['og']}-1440.webp">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=DM+Serif+Display:ital@0;1&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
   <link rel="stylesheet" href="../brand-system/fonts.css?v={ver('brand-system/fonts.css')}">
   <link rel="stylesheet" href="../brand-system/tokens.css?v={ver('brand-system/tokens.css')}">
   <link rel="stylesheet" href="../assets/site.css?v={ver('assets/site.css')}">

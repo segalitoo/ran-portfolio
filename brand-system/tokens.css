@@ -53,7 +53,10 @@
 
   /* Typography — families */
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  /* --font-display is gone. DM Serif Display was declared here and
+     rendered zero glyphs sitewide; the hero direction chosen is the
+     quiet one, so nothing will use it. Re-add it with a real use, not
+     ahead of one. */
   --font-hebrew: 'Heebo', system-ui, sans-serif;
   --font-hebrew-display: 'Frank Ruhl Libre', Georgia, serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
