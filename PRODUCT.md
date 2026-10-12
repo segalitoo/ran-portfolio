@@ -95,6 +95,12 @@ them can.
   `git show 8144fb4:assets/opt-g.css` brings any of them back.
   `review.css`/`review.js` in particular carried a header saying they were
   not part of the shipped site.
+- The source images (49 MB, 433 files: the full-size PNGs that
+  `tools/optimize-images.py` reads to build `images/opt/`) are on the
+  `sources/images` branch, not on `main`. No page referenced them and
+  everything on `main` is published. Restore with
+  `git checkout sources/images -- images/` before re-running the
+  optimiser, and do not commit them back.
 - Project copy is written in the first person about decisions made, not
   deliverables produced.
 

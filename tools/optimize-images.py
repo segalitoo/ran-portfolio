@@ -1,6 +1,15 @@
 #!/usr/bin/env python3
 """Write WebP variants of images/*.png into images/opt/.
 
+   The source PNGs are no longer on main. Everything on main is published,
+   and 49 MB of source material no page references was being served to
+   anyone who asked for it. They are kept on the `sources/images` branch.
+
+   To run this, restore them first:
+       git checkout sources/images -- images/
+   then re-run, then `git checkout main -- images/` or just delete what
+   you restored. Do not commit the sources back to main.
+
 Originals are never touched. Every landing page reads the WebP; the PNGs stay
 as the masters and as the lightbox source. Reruns skip anything already newer
 than its input, so this is cheap to call again.
