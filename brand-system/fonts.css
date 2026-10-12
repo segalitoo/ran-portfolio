@@ -1,6 +1,12 @@
 /* Studio Design System — fonts
-   Loaded from Google Fonts. Latin + Hebrew coverage.
-   Inter (UI/body) · DM Serif Display (editorial headlines) ·
-   Heebo (Hebrew UI) · Frank Ruhl Libre (Hebrew editorial) · JetBrains Mono. */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Heebo:wght@400;500;700&family=Frank+Ruhl+Libre:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+   The families are requested by a direct <link> in each page head, not by
+   an @import here. An @import inside a linked stylesheet serialises the
+   chain (HTML -> fonts.css -> Google CSS -> font files), so every page
+   paid a round trip it did not need.
+
+   Heebo and Frank Ruhl Libre were dropped: --font-hebrew and --font-serif
+   are referenced nowhere in the site. Inter and JetBrains Mono are both
+   genuinely rendered (--font-mono is used by six shipped stylesheets).
+   DM Serif Display is still requested while the display-type direction is
+   being decided; if the quiet direction wins it comes out too. */

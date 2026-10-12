@@ -85,6 +85,13 @@ them can.
   directory is NOT skipped here, so a copy left in the deployed tree was
   fetchable at its own URL. To get it back:
   `git show parked/ads-section:_parked/ads-section.html`
+- 16 unreferenced stylesheets and scripts (128.5 KB: the inner-v3..v7 and
+  opt-g/h/i iterations, cards-opt, dbar, inner-demo, projects.js, review.*,
+  components.css) were removed from `main`. Nothing linked them and every
+  file on `main` is published. They are in history at 8144fb4, so
+  `git show 8144fb4:assets/opt-g.css` brings any of them back.
+  `review.css`/`review.js` in particular carried a header saying they were
+  not part of the shipped site.
 - Project copy is written in the first person about decisions made, not
   deliverables produced.
 

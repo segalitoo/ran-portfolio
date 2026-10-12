@@ -360,6 +360,7 @@ def page(p):
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=DM+Serif+Display:ital@0;1&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
   <link rel="stylesheet" href="../brand-system/fonts.css?v={ver('brand-system/fonts.css')}">
   <link rel="stylesheet" href="../brand-system/tokens.css?v={ver('brand-system/tokens.css')}">
   <link rel="stylesheet" href="../assets/site.css?v={ver('assets/site.css')}">
