@@ -1,0 +1,50 @@
+/* ══════════════════════════════════════════════════════════
+   Hero field · ambient glow + interactive dot grid
+   Drop-in: put data-hero-field on the hero element and link
+   hero-field.js. The markup is injected, so nothing else changes.
+   ══════════════════════════════════════════════════════════ */
+
+[data-hero-field] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Whatever the hero already contained keeps sitting above the field. */
+[data-hero-field] > *:not(.hfield) {
+  position: relative;
+  z-index: 1;
+}
+
+.hfield {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hfield__c {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hfield__glow {
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 130%;
+  background: radial-gradient(58% 52% at 32% 34%,
+      color-mix(in srgb, var(--primary) 16%, transparent) 0%, transparent 66%);
+  animation: hfDrift 26s ease-in-out infinite;
+}
+
+@keyframes hfDrift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(3%, 2%, 0) scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hfield__glow { animation: none; }
+}

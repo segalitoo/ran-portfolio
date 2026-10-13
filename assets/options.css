@@ -419,32 +419,6 @@
   .f-card--wide .f-card__t { margin-top: 26px; }
 }
 
-/* ── Hero: the claim and its proof in one glance ──────────
-   The first viewport used to hold a sentence and a drifting dot field,
-   so the work began a screen below the thing claiming it. The product
-   now runs beside the claim. The dot canvas is gone rather than moved:
-   it carried no meaning and cost a requestAnimationFrame loop. */
-.o-hero__in {
-  display: grid; grid-template-columns: 1.05fr 0.95fr;
-  gap: clamp(32px, 5vw, 72px); align-items: center;
-}
-.o-hero__copy, .o-hero__art { min-width: 0; }
-.o-hero__fig {
-  margin: 0; border-radius: var(--radius-lg); overflow: hidden;
-  box-shadow: 0 30px 60px -28px rgba(12, 19, 48, 0.34);
-}
-.o-hero__v { display: block; width: 100%; height: auto; }
-
-@media (max-width: 900px) {
-  /* On a phone the proof goes first: it survives a glance, the
-     paragraph does not. */
-  .o-hero__in { grid-template-columns: 1fr; }
-  .o-hero__art { order: -1; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .o-hero__fig { box-shadow: none; }
-}
-
 /* ── The close ────────────────────────────────────────────
    This is the last thing read and the only conversion on the site, and
    it was three plain rows under a heading. Coral earns its keep here:
