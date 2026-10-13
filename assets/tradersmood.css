@@ -5,7 +5,7 @@
 .tm-hero { display: grid; place-items: center; }
 .tm-phone {
   position: relative; width: min(300px, 70vw); aspect-ratio: 9 / 16; border-radius: 36px; overflow: hidden;
-  background: #16120E; box-shadow: 0 0 0 9px #16120E, 0 0 0 10px rgba(12, 19, 48, .14), 0 40px 70px -30px rgba(12, 19, 48, .45);
+  background: #16120E; box-shadow: 0 0 0 9px #16120E, 0 30px 50px -28px rgba(0, 0, 0, .5);
 }
 .tm-phone video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .tm-pp {
@@ -16,13 +16,13 @@
 .tm-pp::before { left: 16px; } .tm-pp::after { left: 24px; }
 .tm-pp.is-paused::before { left: 17px; width: 0; height: 0; border-radius: 0; background: none; border-style: solid; border-width: 7px 0 7px 12px; border-color: transparent transparent transparent #F3EBDD; }
 .tm-pp.is-paused::after { display: none; }
-.tm-pp:focus-visible { outline: 2px solid var(--accent, #2563EB); outline-offset: 3px; }
+.tm-pp:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 
 /* 02: the episode in four steps */
 .tm-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-.tm-steps div { padding: 18px; border-radius: 14px; background: var(--surface-1, #F4F5F8); font-size: 15px; line-height: 1.45; color: var(--muted, #5B6475); }
-.tm-steps span { display: block; font: 500 12px/1 var(--font-mono, 'JetBrains Mono', monospace); color: var(--muted, #5B6475); margin-bottom: 14px; }
-.tm-steps b { display: block; color: var(--ink, #0C1330); font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+.tm-steps div { padding: 18px; border-radius: 14px; background: var(--surface-1); font-size: 15px; line-height: 1.45; color: var(--text-secondary); }
+.tm-steps span { display: block; font: 500 12px/1 var(--font-mono, 'JetBrains Mono', monospace); color: var(--text-muted); margin-bottom: 14px; }
+.tm-steps b { display: block; color: var(--text-primary); font-weight: 600; font-size: 16px; margin-bottom: 4px; }
 .tm-rule { margin-top: 18px; }
 
 /* 03: the wordmark on its two grounds */
