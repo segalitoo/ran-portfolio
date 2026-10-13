@@ -150,6 +150,19 @@ Real and verifiable:
   fragrance-free, vegan, the 3-1-1 ratio) are unverified with the brand, and
   the page says that too.
 
+- TradersMood (`work/tradersmood.html`): a take-home for an Art Director role at
+  a trading firm: a brand for a new video podcast. Its own "Brand direction"
+  section on the home page, one wide card after the creative-direction trio.
+  Real: the logo, four moods, 17 cover templates in Figma, a 12-second vertical
+  video, and the 19-screen presentation live at tradersmood.vercel.app. The
+  guests are AI placeholders, and the feed test (6th of 6, then 1st) was a check
+  with AI models, not viewers; the page says both. Images come from
+  `tools/tradersmood-assets.py`. Copy is plain language for readers who never saw
+  the process: no internal terms (ink, ground, swipe, renderer) on the page.
+- Link-preview images live in `images/og/` and are referenced only from `<meta>`
+  tags, so a check for "images a page shows" misses them. They were removed with
+  the source images once and restored; keep them on main.
+
 Absent, and not to be fabricated by future work:
 
 - **No performance, conversion, adoption or revenue metrics of any kind.** The
