@@ -13,7 +13,13 @@ import glob, hashlib, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGES = ["index.html"] + sorted(glob.glob(os.path.join(ROOT, "work", "*.html")))
-REF = re.compile(r'((?:\.\./)?(?:assets|brand-system)/[A-Za-z0-9_.-]+\.(?:css|js))(\?v=[0-9a-f]+)?')
+# Images too, not just code. The TradersMood card was swapped for a new
+# cover and the markup carried no stamp, so every returning visitor would
+# have kept the old thumbnail from cache.
+REF = re.compile(
+    r'((?:\.\./)?(?:assets|brand-system)/[A-Za-z0-9_.-]+\.(?:css|js)'
+    r'|(?:\.\./)?images/[A-Za-z0-9_./-]+\.(?:webp|png|jpg|jpeg|svg))'
+    r'(\?v=[0-9a-f]+)?')
 
 def sha(path):
     with open(path, "rb") as f:
