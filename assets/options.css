@@ -425,10 +425,6 @@
    it is declared in the brand and rendered nowhere else, so spending it
    on the single moment that matters keeps it meaningful rather than
    decorative. */
-.o-close {
-  display: grid; grid-template-columns: 1.15fr 0.85fr;
-  gap: clamp(32px, 5vw, 72px); align-items: start;
-}
 .o-close__say { min-width: 0; }
 .o-close__d {
   margin-top: 16px; max-width: 54ch; font-size: 1.0625rem;
@@ -445,27 +441,11 @@
 .o-close__cta:active { transform: scale(0.97); }
 .o-close .o-contact { margin-top: 34px; }
 
-.o-close__art {
-  display: block; text-decoration: none; color: inherit;
-  border-radius: var(--radius-lg); overflow: hidden;
-}
-.o-close__art img { display: block; width: 100%; height: auto; }
-.o-close__cap {
-  display: block; padding-top: 14px; font-size: 0.875rem;
-  line-height: 1.5; color: var(--text-secondary);
-}
-.o-close__cap i { font-style: normal; transition: transform 180ms var(--e-out); display: inline-block; }
-
 @media (hover: hover) and (pointer: fine) {
   .o-close__cta:hover { background: var(--accent-hover); box-shadow: 0 14px 28px -12px color-mix(in srgb, var(--accent) 55%, transparent); }
   .o-close__cta:hover i { transform: translateX(3px); }
-  .o-close__art:hover .o-close__cap { color: var(--text-primary); }
-  .o-close__art:hover .o-close__cap i { transform: translateX(3px); }
-}
-@media (max-width: 900px) {
-  .o-close { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .o-close__cta, .o-close__cta i, .o-close__cap i { transition: none; }
+  .o-close__cta, .o-close__cta i { transition: none; }
   .o-close__cta:active { transform: none; }
 }
