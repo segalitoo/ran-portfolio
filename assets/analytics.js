@@ -4,9 +4,14 @@
    people read. Town and country come from the provider's own
    IP lookup, so there is nothing to collect for them here.
 
-   Set MEASUREMENT_ID below to switch it on. Empty means every
-   call in this file is a no-op, so the page ships safely with
-   analytics dormant rather than half-wired.
+   Two providers, one gate. GA4 answers how many and from where.
+   Clarity answers what they actually did: session replays, click
+   heatmaps, rage clicks and dead clicks. Either id can be empty
+   and the other still works; both empty makes every call here a
+   no-op, so the page ships safely rather than half-wired.
+
+   One opt-out covers both, because a recording of my own visits
+   is worse than a pageview of them.
    ══════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -15,6 +20,11 @@
      gtag snippet for this file and left the id blank, so the commit
      that said it shipped analytics is the one that switched them off. */
   var MEASUREMENT_ID = 'G-7BQQ79P7QM';
+
+  /* From clarity.microsoft.com: Settings, Overview, the project id.
+     Ten characters, lowercase. Empty means Clarity stays off and GA4
+     carries on alone. */
+  var CLARITY_ID = 'yzjj8g6e8n';
 
   var KEY = 'ran-no-analytics';
 
@@ -54,7 +64,7 @@
      to be writable from a dev server too, where local() is already true. */
   var excluded = self();
 
-  if (!MEASUREMENT_ID || optedOut || local() || excluded) {
+  if (optedOut || local() || excluded || (!MEASUREMENT_ID && !CLARITY_ID)) {
     /* Belt and braces: if anything else on the page loads gtag, this
        tells GA to drop the hits for this property anyway. */
     window['ga-disable-' + MEASUREMENT_ID] = true;
@@ -62,24 +72,47 @@
     return;
   }
 
-  /* ── Loader ────────────────────────────────────── */
+  function load(src) {
+    var tag = document.createElement('script');
+    tag.async = true;
+    tag.src = src;
+    document.head.appendChild(tag);
+  }
+
+  /* ── GA4 ───────────────────────────────────────── */
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
   window.gtag = gtag;
 
-  var tag = document.createElement('script');
-  tag.async = true;
-  tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + MEASUREMENT_ID;
-  document.head.appendChild(tag);
+  if (MEASUREMENT_ID) {
+    load('https://www.googletagmanager.com/gtag/js?id=' + MEASUREMENT_ID);
+    gtag('js', new Date());
+    gtag('config', MEASUREMENT_ID, {
+      page_title: document.title,
+      page_path: location.pathname + location.search
+    });
+  }
 
-  gtag('js', new Date());
-  gtag('config', MEASUREMENT_ID, {
-    page_title: document.title,
-    page_path: location.pathname + location.search
-  });
+  /* ── Clarity ───────────────────────────────────── */
+  if (CLARITY_ID) {
+    window.clarity = window.clarity || function () {
+      (window.clarity.q = window.clarity.q || []).push(arguments);
+    };
+    load('https://www.clarity.ms/tag/' + CLARITY_ID);
+    /* Replays are only worth watching if you can find the right ones,
+       so every session is tagged with the page it started on. */
+    window.clarity('set', 'entry_page', location.pathname.split('/').pop() || 'index.html');
+  }
 
+  /* One call, both providers. Clarity takes a bare name, so the params
+     that GA4 gets are flattened into a single readable tag value. */
   function track(name, params) {
-    gtag('event', name, params || {});
+    params = params || {};
+    if (MEASUREMENT_ID) gtag('event', name, params);
+    if (CLARITY_ID && window.clarity) {
+      window.clarity('event', name);
+      if (params.label) window.clarity('set', name, String(params.label).slice(0, 100));
+    }
   }
   window.track = track;
 
