@@ -16,13 +16,48 @@
      that said it shipped analytics is the one that switched them off. */
   var MEASUREMENT_ID = 'G-7BQQ79P7QM';
 
+  var KEY = 'ran-no-analytics';
+
+  /* My own visits would otherwise be a meaningful share of a portfolio's
+     traffic. Loading any page with ?analytics=off writes a flag that
+     stays in that browser until ?analytics=on clears it, so each browser
+     and device I use has to be told once. */
+  function self() {
+    try {
+      if (/[?&]analytics=off(&|$)/.test(location.search)) {
+        localStorage.setItem(KEY, '1');
+        console.log('Analytics off in this browser. Visit ?analytics=on to undo.');
+      } else if (/[?&]analytics=on(&|$)/.test(location.search)) {
+        localStorage.removeItem(KEY);
+        console.log('Analytics on in this browser.');
+      }
+      return localStorage.getItem(KEY) === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /* A dev server is me by definition, so it never counts. */
+  function local() {
+    var h = location.hostname;
+    return h === 'localhost' || h === '127.0.0.1' || h === '::1' ||
+           h === '' || /\.local$/.test(h);
+  }
+
   /* Honour an explicit opt-out. A portfolio is not worth
      overriding someone's stated preference for. */
   var optedOut = navigator.doNotTrack === '1' ||
                  window.doNotTrack === '1' ||
                  navigator.msDoNotTrack === '1';
 
-  if (!MEASUREMENT_ID || optedOut) {
+  /* Called before the test, not inside it: || is lazy, and the flag has
+     to be writable from a dev server too, where local() is already true. */
+  var excluded = self();
+
+  if (!MEASUREMENT_ID || optedOut || local() || excluded) {
+    /* Belt and braces: if anything else on the page loads gtag, this
+       tells GA to drop the hits for this property anyway. */
+    window['ga-disable-' + MEASUREMENT_ID] = true;
     window.track = function () {};
     return;
   }

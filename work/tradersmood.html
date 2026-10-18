@@ -26,8 +26,8 @@
   <link rel="stylesheet" href="../assets/site.css?v=c5156de4">
   <link rel="stylesheet" href="../assets/inner-g.css?v=35db77cb">
   <link rel="stylesheet" href="../assets/bingo-bay.css?v=dbe6f915">
-  <link rel="stylesheet" href="../assets/tradersmood.css?v=98ce01d1">
-  <script src="../assets/analytics.js?v=c4045984" defer></script>
+  <link rel="stylesheet" href="../assets/tradersmood.css?v=810d65d1">
+  <script src="../assets/analytics.js?v=843b66bd" defer></script>
   <script src="../assets/site.js?v=0f7e54d3" defer></script>
   <script src="../assets/bingo-bay.js?v=82fccbc8" defer></script>
 </head>
@@ -55,7 +55,16 @@
           <div class="tm-phone">
             <video src="../assets/media/tradersmood/short.mp4" poster="../assets/media/tradersmood/short-poster.webp" muted loop playsinline autoplay preload="metadata"
                    aria-label="A 12-second vertical video for episode 9: the guest in the studio says his sentence, with captions word by word"></video>
-            <button class="tm-pp" type="button" aria-label="Pause video" aria-pressed="false"></button>
+            <div class="tm-ctl">
+              <button class="tm-snd" type="button" aria-label="Turn sound on" aria-pressed="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path class="tm-snd__spk" d="M4 9.4h3.3L12 5.5v13L7.3 14.6H4z"/>
+                  <g class="tm-snd__on"><path d="M15.4 9.4a3.7 3.7 0 0 1 0 5.2"/><path d="M17.9 6.9a7.2 7.2 0 0 1 0 10.2"/></g>
+                  <g class="tm-snd__off"><path d="M15.6 9.6l4.8 4.8"/><path d="M20.4 9.6l-4.8 4.8"/></g>
+                </svg>
+              </button>
+              <button class="tm-pp" type="button" aria-label="Pause video" aria-pressed="false"></button>
+            </div>
           </div>
         </div>
       </div>
@@ -256,6 +265,24 @@
       function set() { var p = v.paused; b.setAttribute('aria-label', p ? 'Play video' : 'Pause video'); b.setAttribute('aria-pressed', String(p)); b.classList.toggle('is-paused', p); }
       b.addEventListener('click', function () { if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); });
       v.addEventListener('play', set); v.addEventListener('pause', set); set();
+      // The clip carries the guest's line, so the hero autoplays muted (browsers
+      // require it) and this button is how sound is turned on. Unmuting a paused
+      // clip would be a dead press, so it starts playback too.
+      var s = document.querySelector('.tm-snd');
+      if (s) {
+        var setS = function () {
+          var on = !v.muted;
+          s.classList.toggle('is-on', on);
+          s.setAttribute('aria-pressed', String(on));
+          s.setAttribute('aria-label', on ? 'Turn sound off' : 'Turn sound on');
+        };
+        s.addEventListener('click', function () {
+          v.muted = !v.muted;
+          if (!v.muted && v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+          setS();
+        });
+        v.addEventListener('volumechange', setS); setS();
+      }
       var a = document.querySelector('.tm-vid video');
       if (a && !reduce && 'IntersectionObserver' in window) new IntersectionObserver(function (es) {
         es.forEach(function (e) { if (e.isIntersecting) { var p = a.play(); if (p && p.catch) p.catch(function () {}); } else a.pause(); });

@@ -8,10 +8,17 @@
   background: #16120E; box-shadow: 0 0 0 9px #16120E, 0 30px 50px -28px rgba(0, 0, 0, .5);
 }
 .tm-phone video { display: block; width: 100%; height: 100%; object-fit: cover; }
-.tm-pp {
-  position: absolute; right: 12px; bottom: 12px; width: 44px; height: 44px; border: 0; border-radius: 50%;
+.tm-ctl { position: absolute; right: 12px; bottom: 12px; display: flex; gap: 8px; }
+.tm-pp, .tm-snd {
+  position: relative; width: 44px; height: 44px; border: 0; border-radius: 50%;
   background: rgba(22, 18, 14, .72); cursor: pointer;
 }
+.tm-snd svg { position: absolute; inset: 10px; fill: none; stroke: #F3EBDD; stroke-width: 1.8; stroke-linecap: round; }
+.tm-snd .tm-snd__spk { fill: #F3EBDD; stroke: none; }
+.tm-snd .tm-snd__on { display: none; }
+.tm-snd.is-on .tm-snd__on { display: block; }
+.tm-snd.is-on .tm-snd__off { display: none; }
+.tm-snd:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .tm-pp::before, .tm-pp::after { content: ""; position: absolute; top: 15px; width: 4px; height: 14px; border-radius: 1px; background: #F3EBDD; }
 .tm-pp::before { left: 16px; } .tm-pp::after { left: 24px; }
 .tm-pp.is-paused::before { left: 17px; width: 0; height: 0; border-radius: 0; background: none; border-style: solid; border-width: 7px 0 7px 12px; border-color: transparent transparent transparent #F3EBDD; }
@@ -51,4 +58,4 @@
   .tm-lines { grid-template-columns: 1fr 1fr; }
   .tm-grid--four { grid-template-columns: 1fr 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { .tm-pp { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .tm-pp, .tm-snd { transition: none; } }
