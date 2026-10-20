@@ -360,7 +360,7 @@ def page(p):
   <meta property="og:image" content="{SITE}/images/og/{p['slug']}.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{p['h1']} &middot; Ran Segal">
-  <meta name="twitter:image" content="{SITE}/images/opt/{p['og']}-1440.webp">
+  <meta name="twitter:image" content="{SITE}/images/og/{p['slug']}.jpg">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
