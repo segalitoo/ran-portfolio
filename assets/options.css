@@ -173,8 +173,15 @@
   color: var(--text-primary);
 }
 .f-card__t a { color: inherit; text-decoration: none; }
-/* The title's link covers the card, so the frame needs no anchor of its own. */
-.f-card__t a::after { content: ""; position: absolute; inset: 0; }
+
+/* The whole-card hit target. This used to be `.f-card__t a::after`, which
+   elementFromPoint happily reported as the anchor while the browser sent
+   the actual click to the article, so only the title text was clickable.
+   A real empty anchor is a real box and receives the click. */
+.f-card__hit {
+  position: absolute; inset: 0; z-index: 1;
+  border-radius: 12px;
+}
 
 /* pretty asks the browser to avoid leaving a lone word on the last
    line, which is cheaper than binding every short word by hand. */
