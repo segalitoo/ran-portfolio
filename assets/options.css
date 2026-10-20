@@ -208,10 +208,11 @@
    thumbnail to be the loudest thing in the card; as text it sits under
    the copy as text, and the card has one visual centre again.
 
-   z-index keeps it above the title's whole-card overlay, which is the
-   only reason it is still clickable. */
+   It is a span, not a link: the title's anchor already stretches over
+   the whole card. So it must stay UNDER that overlay, not above it.
+   A z-index here lifted it clear and made the one line that looks most
+   like a link the only dead spot on the card. */
 .f-btn {
-  position: relative; z-index: 1;
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 0.875rem; font-weight: 500; text-decoration: none; white-space: nowrap;
   color: var(--primary);
@@ -224,8 +225,9 @@
 }
 .f-btn i { font-style: normal; transition: transform 240ms var(--e-out); }
 /* A text link does not scale under the finger. Pressing dims it, which
-   is what a link has always done. */
-.f-btn:active { opacity: 0.6; }
+   is what a link has always done. The press lands on the card's overlay,
+   so the card is what carries the state. */
+.f-card:active .f-btn { opacity: 0.6; }
 
 /* .rv reveals by translating, which is the same property the card uses
    to lift and press. Two classes on one element both declaring
@@ -249,8 +251,10 @@
   }
   .f-card:hover .f-frame img { transform: scale(1.035); }
   .f-card:hover .f-card__t { color: var(--primary); }
-  .f-btn:hover { color: var(--primary-hover); text-decoration: underline; }
-  .f-btn:hover i { transform: translateX(3px); }
+  /* Keyed off the card, not the span: the overlay sits on top, so the
+     span never receives a hover of its own. */
+  .f-card:hover .f-btn { color: var(--primary-hover); text-decoration: underline; }
+  .f-card:hover .f-btn i { transform: translateX(3px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -330,8 +334,7 @@
 @media (prefers-reduced-motion: reduce) {
   .f-card:hover, .f-card:active { transform: none; }
   .f-card:hover .f-frame img { transform: none; }
-  .f-btn:active { transform: none; }
-  .f-btn:hover i { transform: none; }
+  .f-card:hover .f-btn i { transform: none; }
   .f-more__panel { transition: opacity 1ms linear; }
   .f-more__btn svg { transition: none; }
 }
